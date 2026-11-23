@@ -10,7 +10,7 @@
 python -m http.server 8080 --bind 127.0.0.1 --directory docs
 ```
 
-브라우저에서 `http://127.0.0.1:8080/`을 엽니다. 브라우저에서 실시간 NASA 검색과 샘플 기반 워크플로를 실행할 수 있습니다. CPU LLM과 MCP 예제는 각자의 PC에서 명령을 실행하는 실습입니다.
+브라우저에서 `http://127.0.0.1:8080/`을 엽니다. [실습실](docs/workbench.html)은 브라우저에서, [로컬 실습](docs/local.html)과 [CPU 모델](docs/models.html)은 각자의 PC에서 진행합니다.
 
 ## GitHub Pages
 

@@ -113,6 +113,15 @@ th{background:var(--paper);font-size:.92rem}
 .diagram b{border:1px solid #ccd7eb;background:var(--paper);padding:5px 9px;border-radius:5px;font-size:.94rem}
 .diagram span{color:var(--muted)}
 .checklist{padding-left:1.3em}
+.reading{max-width:76ch}
+.lesson-steps{padding-left:1.6em;margin:14px 0 20px}
+.lesson-steps li{padding-left:.25em;margin:0 0 13px}
+.lesson-steps li::marker{color:var(--accent-dark);font-weight:800}
+.lesson-steps li>p{margin-top:3px}
+.lesson-steps pre{margin-block:8px}
+.section-guide{margin-top:16px}
+.result-check{background:var(--mint);border-left:3px solid var(--brand-green);padding:10px 14px;margin:16px 0}
+.result-check strong{color:var(--green)}
 details{padding:12px 0;border-bottom:1px solid var(--rule)}
 summary{cursor:pointer;font-weight:750}
 details p{margin-top:7px}
@@ -137,9 +146,9 @@ details p{margin-top:7px}
   body{font-size:16px}
   .wrap{width:calc(100% - 30px)}
   .top .wrap{padding-block:12px 7px;align-items:flex-start;flex-direction:column;gap:5px}
-  .top nav{gap:3px}
+  .top nav{gap:2px}
   .brand img{width:158px}
-  .top nav a{padding:5px 8px}
+  .top nav a{font-size:.83rem;padding:6px 4px}
   .hero-stage,.split,.columns,.lesson-links{grid-template-columns:minmax(0,1fr)}
   .hero-stage{gap:13px;padding-bottom:20px}
   .hero-copy{padding:27px 0 0}

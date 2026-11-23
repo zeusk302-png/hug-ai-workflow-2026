@@ -9,7 +9,7 @@
 </head>
 <body>
   <a class="skip" href="#main">본문으로</a>
-  <header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a><nav aria-label="수업 메뉴"><a href="index.html" aria-current="page">수업 안내</a><a href="workbench.html">실습실</a><a href="models.html">모델 다운로드</a><a href="theory.html">전공 노트</a></nav></div></header>
+  <header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a><nav aria-label="수업 메뉴"><a href="index.html" aria-current="page">수업 안내</a><a href="workbench.html">실습실</a><a href="local.html">로컬 실습</a><a href="models.html">모델 받기</a><a href="theory.html">전공 노트</a></nav></div></header>
   <main id="main">
     <section class="hero" aria-labelledby="lesson-title">
       <div class="wrap hero-stage">
@@ -37,7 +37,7 @@
     </section>
     <nav class="wrap lesson-links" aria-label="실습 바로가기">
       <a href="workbench.html"><span class="lesson-link-mark">브라우저</span><strong>워크플로 만들기</strong><span class="lesson-link-detail">NASA API · 노드 · 실행 기록</span></a>
-      <a href="#connections"><span class="lesson-link-mark">PC 실습</span><strong>MCP 도구 연결하기</strong><span class="lesson-link-detail">Python · Claude Code</span></a>
+      <a href="local.html"><span class="lesson-link-mark">PC 실습</span><strong>MCP 도구 연결하기</strong><span class="lesson-link-detail">Python · Claude Code</span></a>
       <a href="models.html"><span class="lesson-link-mark">PC 실습</span><strong>내 PC에서 AI 실행하기</strong><span class="lesson-link-detail">Hugging Face · CPU 모델</span></a>
     </nav>
     <section class="wrap section" id="workflow">
@@ -49,6 +49,7 @@
         </div>
         <figure class="screenshot featured-shot"><a href="assets/captures/workflow.png"><img src="assets/captures/workflow.png" alt="실시간 NASA 검색에 성공한 워크플로와 카드 결과" loading="lazy"></a><figcaption>실습실 실제 화면 · NASA 공개 API 검색과 결과 카드</figcaption></figure>
       </div>
+      <div class="note section-guide"><p><strong>3회차와 이어지는 부분</strong> · 지난 시간에는 AI가 근거를 찾아 답하게 했습니다. 이번에는 <strong>언제 자료를 가져오고, 어떤 조건에서 AI를 쓰고, 어디에 결과를 저장할지</strong>를 내가 정합니다. 검색·분기·저장은 프로그램이 처리하고, 설명 쓰기처럼 필요한 단계에 AI를 붙입니다.</p></div>
     </section>
     <div class="paper"><section class="wrap section" id="class">
       <div class="split schedule">
@@ -63,46 +64,12 @@
       </div>
     </section></div>
     <section class="wrap section" id="connections">
-      <p class="kicker">로컬 실습</p><h2>직접 만든 MCP 도구를 호출합니다</h2>
-      <div class="split">
-        <div>
-          <p>MCP 서버는 앱에 기능을 내어주는 프로그램입니다. 제공한 예제에서는 <code>get_card_style</code>이 <code>children</code> 또는 <code>exhibit</code>를 받아 작성 규칙을 돌려줍니다. 클라이언트는 첫 연결에서 쓸 수 있는 도구 목록을 읽고, 이어서 선택한 도구를 호출합니다.</p>
-          <div class="actions"><a class="btn primary" href="downloads/hug4-mcp.zip" download>MCP 실습 파일 받기</a></div>
-          <p class="footnote">PowerShell에서 ZIP을 풀고 폴더를 연 뒤 실행합니다. Python 3.11 이상 권장.</p>
-          <pre><code>py -3 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe call_style.py children
-.\.venv\Scripts\python.exe call_style.py exhibit</code></pre>
-          <p><strong>예상 결과</strong> · <code>tools/list</code>에서 <code>get_card_style</code>을 확인한 뒤 <code>tools/call</code>에서 선택한 대상의 작성 규칙을 받습니다. <code>style_server.py</code>의 문장 하나를 바꾸고 같은 호출을 다시 실행하세요.</p>
-          <p class="source"><a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 아키텍처</a> · <a href="https://github.com/modelcontextprotocol/python-sdk">MCP Python SDK</a></p>
-        </div>
-        <figure class="screenshot"><a href="assets/captures/mcp.png"><img src="assets/captures/mcp.png" alt="MCP 클라이언트가 도구 목록을 읽고 get_card_style을 호출한 로그" loading="lazy"></a><figcaption>Windows에서 실제 stdio 서버를 구동한 결과 · 도구 이름, 입력 스키마, 호출 응답</figcaption></figure>
-      </div>
-      <h3 id="claude">Claude Code · 계정 연결과 응답 확인</h3>
-      <div class="split">
-        <div>
-          <p>CLI는 터미널에서 프로그램에 명령을 주는 방식입니다. Claude Code를 설치한 다음 팀에서 부여받은 본인 좌석으로 공식 CLI 로그인 절차를 진행합니다.</p>
-          <pre><code>claude --version
-claude auth status --text
-claude auth login
-claude -p "Reply with the word READY."
-claude auth logout</code></pre>
-          <p class="footnote">로그인 뒤 상태를 다시 확인한 다음 응답 테스트를 합니다. 로그아웃은 현재 CLI 세션에서 나갈 때 실행합니다.</p>
-          <p>이 실습에서 로그인과 모델 호출은 <strong>각자의 PC에서 공식 CLI로</strong> 진행합니다. 공개 수업 사이트는 설치 명령과 화면 예시를 제공합니다. Team 계정의 실제 수업 환경 호출은 강의 전에 확인하며, 배포 앱에서 Claude를 연동할 때는 Anthropic이 안내하는 Console API 인증을 사용합니다.</p>
-          <p class="source"><a href="https://code.claude.com/docs/en/quickstart">Claude Code 설치 안내</a> · <a href="https://code.claude.com/docs/en/cli-reference">CLI 명령</a> · <a href="https://code.claude.com/docs/en/legal-and-compliance">인증 정책</a></p>
-        </div>
-        <div>
-          <figure class="screenshot"><a href="assets/captures/claude.png"><img src="assets/captures/claude.png" alt="격리된 환경에서 실행한 Claude Code 버전과 미로그인 상태" loading="lazy"></a><figcaption>실제 Claude Code 명령 출력 · 분리된 설정에서 설치와 미로그인 상태를 확인</figcaption></figure>
-          <figure class="screenshot"><a href="assets/captures/claude-team.png"><img src="assets/captures/claude-team.png" alt="Anthropic 도움말의 Team 계정으로 Claude Code를 연결하는 안내" loading="lazy"></a><figcaption>Anthropic 공식 도움말 실제 화면 · 팀 계정으로 연결하기</figcaption></figure>
-        </div>
-      </div>
-      <h3 id="local-flow">로컬 워크플로 한 번에 실행하기</h3>
-      <div class="split">
-        <div><p>CPU 모델 서버를 <a href="models.html#start">모델 실행 안내</a>대로 켠 다음, MCP 실습 폴더에서 아래 명령을 실행합니다. NASA 사진 조회 → MCP 작성 규칙 → 로컬 모델 응답 → JSON 저장을 한 번에 확인할 수 있습니다.</p>
-          <pre><code>.\.venv\Scripts\python.exe local_workflow.py moon --audience children</code></pre>
-          <p>완료되면 <code>outputs/photo-card.json</code>을 엽니다. 원래 제목과 출처, 모델이 쓴 초안이 각각 어떻게 저장되는지 확인합니다. 캡처 속 초안에는 원문이 뒷받침하지 않는 문장이 들어갔습니다. 실행이 완료됐는지와 초안에 근거가 있는지를 각각 확인해보세요.</p>
-        </div>
-        <figure class="screenshot"><a href="assets/captures/local-flow.png"><img src="assets/captures/local-flow.png" alt="NASA 조회에서 MCP와 로컬 모델을 거쳐 사진 카드 JSON을 저장한 실제 실행 결과" loading="lazy"></a><figcaption>실제 로컬 워크플로 실행 기록 · 공개 API, MCP, CPU 모델 연결</figcaption></figure>
+      <p class="kicker">로컬 실습</p><h2>내 PC에서 도구와 AI를 연결합니다</h2>
+      <p class="lede">브라우저 실습에서 확인한 작업을 PC에서 직접 연결합니다. 공개 사진 검색에 작성 규칙을 찾아주는 MCP 도구를 붙이고, 모델에게 받은 초안을 파일로 저장합니다.</p>
+      <div class="columns section-guide">
+        <article class="panel"><h3>MCP 도구 만들기</h3><p>예제 파일에서 규칙 하나를 바꿔 실행합니다. 도구 목록과 호출 결과를 비교해 내가 수정한 문장이 돌아오는지 확인합니다.</p><a href="local.html#mcp">MCP 설치와 호출 순서</a></article>
+        <article class="panel" id="claude"><h3>Claude Code 연결하기</h3><p>Team 계정으로 로그인하고 간단한 응답을 받아봅니다. 같은 MCP 도구를 Claude Code에 연결하는 방법도 다룹니다.</p><a href="local.html#claude">Claude Code 따라하기</a></article>
+        <article class="panel" id="local-flow"><h3>한 흐름으로 실행하기</h3><p>NASA 검색, MCP 작성 규칙, CPU 모델 응답이 어떤 순서로 이어지고 어떤 결과 파일을 남기는지 확인합니다.</p><a href="local.html#local-flow">로컬 워크플로 따라하기</a></article>
       </div>
     </section>
     <div class="paper"><section class="wrap section" id="next">
@@ -113,7 +80,13 @@ claude auth logout</code></pre>
     </section></div>
     <section class="wrap section" id="finish">
       <h2>오늘 가져갈 결과물</h2>
-      <ol class="checklist"><li>내가 고른 문제를 다루는 워크플로 JSON을 내보냅니다.</li><li>새 입력으로 실행하고, 중간 결과와 최종 출력을 확인합니다.</li><li>실패를 한 번 재현하고 멈춘 상자를 찾습니다. 5회차에 붙일 실제 자료와 검증 기준을 적습니다.</li></ol>
+      <p class="reading">먼저 브라우저에서 검색 예제를 실행합니다. PC 설치가 끝났다면 MCP와 CPU 모델까지 이어서 실습하고, 설치가 어려우면 실행 화면을 보면서 브라우저 실습과 자기 워크플로를 먼저 완성합니다.</p>
+      <ol class="lesson-steps reading">
+        <li><strong>반복하던 일 하나를 고릅니다.</strong> 예를 들어 파일 두 개의 바뀐 줄 찾기, 관심 키워드가 들어간 항목 모으기처럼 입력과 결과를 정합니다.</li>
+        <li><strong>새 입력으로 한 번 더 실행합니다.</strong> 앞 단계에서 어떤 값을 받았는지 열어보고, 결과가 예상대로 바뀌었는지 확인합니다.</li>
+        <li><strong>실행이 멈추는 상황 하나를 검사합니다.</strong> 실패한 상자와 이유를 적고, 설정이나 입력 한 곳을 바꿔 다시 실행합니다.</li>
+        <li><strong>워크플로 JSON을 저장합니다.</strong> 5회차에는 이 파일과 함께 어떤 실제 자료를 쓸지, 결과 합격 기준이 무엇인지 가져옵니다. 입력과 결과 화면이 필요하면 따로 기록합니다.</li>
+      </ol>
     </section>
   </main>
   <footer class="bottom"><div class="wrap"><span>HUG 4회차 · AI 워크플로</span><a href="#main">맨 위로</a></div></footer>
