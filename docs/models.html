@@ -32,10 +32,18 @@
     <div class="paper"><section class="wrap section" id="download">
       <h2>수업 전에 파일 두 개를 받습니다</h2>
       <ol class="lesson-steps reading">
-        <li><strong>모델 파일을 받습니다.</strong> Hugging Face 파일 페이지에서 Download를 누릅니다. 파일명은 <code>qwen2.5-0.5b-instruct-q4_k_m.gguf</code>입니다.
-          <div class="actions"><a class="btn primary" href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/blob/main/qwen2.5-0.5b-instruct-q4_k_m.gguf">Qwen2.5 모델 파일 받기</a></div></li>
+        <li><strong>Hugging Face에서 실습용 GGUF를 찾습니다.</strong> Qwen 공식 저장소의 <strong>Files and versions</strong>에서 <code>qwen2.5-0.5b-instruct-q4_k_m.gguf</code>를 엽니다. 같은 모델에도 FP16, Q4_0, Q4_K_M 등 가중치를 담는 방식에 따라 여러 파일이 있습니다. 저장소 전체 용량과 선택한 파일 한 개의 용량을 구분합니다.
+          <figure class="screenshot"><a href="assets/captures/hugging-face-qwen25-files.png"><img src="assets/captures/hugging-face-qwen25-files.png" alt="Qwen 공식 저장소 파일 목록에서 fp16 및 여러 양자화 방식의 GGUF와 491 MB인 q4_k_m 파일을 볼 수 있습니다." loading="lazy"></a><figcaption>Qwen 공식 저장소의 실제 파일 목록입니다. 실습에 쓰는 줄은 <strong>q4_k_m.gguf · 491 MB</strong>입니다. 이미지를 누르면 확대됩니다.</figcaption></figure>
+          <div class="actions"><a class="btn" href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/tree/main">Hugging Face에서 목록 열기</a></div>
+        </li>
+        <li><strong>선택한 파일을 받습니다.</strong> 파일 상세 화면에서 <strong>Download → Download file</strong>을 누릅니다. 다운로드가 끝난 뒤 확장자가 <code>.gguf</code>인지 확인합니다.
+          <figure class="screenshot"><a href="assets/captures/hugging-face-qwen25-download.png"><img src="assets/captures/hugging-face-qwen25-download.png" alt="공식 Qwen 저장소의 GGUF 파일 화면에서 Download 메뉴가 열려 있고, Download file 옆에 491 MB가 표시됩니다." loading="lazy"></a><figcaption>실제 파일 상세 화면입니다. 위쪽 경로에서 파일명을 보고, 메뉴에서 <strong>Download file · 491 MB</strong>를 선택합니다.</figcaption></figure>
+          <div class="actions"><a class="btn primary" href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/blob/main/qwen2.5-0.5b-instruct-q4_k_m.gguf">Hugging Face에서 파일 열기</a></div>
+        </li>
         <li><strong>Windows용 llama.cpp CPU ZIP을 받습니다.</strong> Windows의 <strong>설정 → 시스템 → 정보</strong>에서 시스템 종류를 확인하고 해당 실행기를 받습니다.
-          <div class="actions"><a class="btn" href="https://github.com/ggml-org/llama.cpp/releases/download/b12387/llama-b12387-bin-win-cpu-x64.zip">Intel·AMD x64 CPU ZIP</a><a class="btn" href="https://github.com/ggml-org/llama.cpp/releases/download/b12387/llama-b12387-bin-win-cpu-arm64.zip">Windows ARM64 CPU ZIP</a></div></li>
+          <div class="actions"><a class="btn" href="https://github.com/ggml-org/llama.cpp/releases/download/b12387/llama-b12387-bin-win-cpu-x64.zip">Intel·AMD x64 CPU ZIP</a><a class="btn" href="https://github.com/ggml-org/llama.cpp/releases/download/b12387/llama-b12387-bin-win-cpu-arm64.zip">Windows ARM64 CPU ZIP</a></div>
+          <figure class="screenshot"><a href="assets/captures/llama-b12387-windows.png"><img src="assets/captures/llama-b12387-windows.png" alt="llama.cpp 공식 릴리스의 Windows 목록에서 x64 CPU와 arm64 CPU 항목이 위에 표시됩니다." loading="lazy"></a><figcaption>llama.cpp b12387 릴리스의 실제 Windows 목록입니다. PC 시스템 종류에 맞게 <strong>Windows x64 (CPU)</strong> 또는 <strong>Windows arm64 (CPU)</strong>를 받습니다.</figcaption></figure>
+        </li>
         <li>실행기 ZIP을 풀고 <code>llama-server.exe</code>가 있는 폴더에 모델 파일을 넣습니다.</li>
       </ol>
     </section></div>
@@ -69,7 +77,7 @@ Test-Path .\qwen2.5-0.5b-instruct-q4_k_m.gguf
         <li>8766번 포트 연결 오류는 API 서버를 확인합니다. 8081번 포트 오류나 HTTP 503은 CPU 서버 창에서 모델 로딩과 주소를 확인합니다.</li>
       </ol>
       <p class="reading">준비된 가중치로 응답을 계산하는 과정은 <strong>추론</strong>입니다. 입력이나 지시를 고치면 모델이 참고하는 문맥이 달라집니다. <strong>추가 학습</strong>에서는 예시 데이터로 가중치나 어댑터를 업데이트합니다.</p>
-      <div class="actions"><a class="btn" href="local.html#local-flow">세 연결 결과 확인하기</a><a class="btn" href="index.html">수업으로 돌아가기</a></div>
+      <div class="actions"><a class="btn primary" href="index.html#integrate">내 프로그램에 연결하기</a><a class="btn" href="index.html#connection-check">참조 프로그램의 전후 결과 확인하기</a></div>
     </section>
     <div class="wrap">
       <details class="sources-drawer">

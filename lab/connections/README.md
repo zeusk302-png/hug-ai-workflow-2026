@@ -1,12 +1,12 @@
 # 내 입력 연결하기
 
-직접 작성한 `input.txt`를 API와 MCP로 읽고, API에서 받은 텍스트로 내 PC의 CPU 모델을 호출합니다. 세 단계에 같은 입력 파일을 사용합니다.
+각 연결의 반환값을 먼저 확인합니다. 그 뒤 예제 프로그램에서 입력 API, 검토 기준 MCP, CPU 추론을 한 번에 호출하고, 앞에서 만든 내 프로그램에도 같은 위치에 붙입니다.
 
 ## 시작 전 준비
 
 1. Windows PowerShell에서 `py -3 --version`을 실행합니다. 실습 코드는 Python 3.10 이상에서 동작하도록 작성했습니다.
 2. ZIP 압축을 풀고 `README.md`와 `input.txt`가 보이는 `hug4-connections` 폴더를 엽니다. 탐색기 주소 표시줄에 `powershell`을 입력하면 해당 폴더에서 PowerShell이 열립니다.
-3. `input.txt`에 자신이 만들 도구의 테스트용 내용을 400자 이내로 쓰고 UTF-8로 저장합니다. 문서 정리, 분류, 요약 등 만들 결과도 한 문장으로 정해 둡니다. 수업에서는 실습용으로 작성한 텍스트를 사용합니다.
+3. 앞에서 만든 내 도구의 검증 입력을 400자 이내로 `input.txt`에 넣고 UTF-8로 저장합니다. 처음 실행과 같은 자료를 연결 전후 비교에 사용합니다.
 4. 50분 안에 세 단계를 실행할 수 있도록 MCP 라이브러리와 모델을 수업 전에 준비합니다. 파일은 별도로 받습니다.
 
 ```powershell
@@ -57,6 +57,7 @@ py -3 inspect_api.py
 1. `tools/list`에서 `read_input`과 도구에 넘길 인수의 형식을 확인합니다. 파일 이름은 프로그램에 지정되어 있어 인수는 비어 있습니다.
 2. `tools/call read_input {}` 바로 아래의 `status`와 `text`를 API 결과와 비교합니다. 같은 파일을 읽었으므로 값이 같습니다.
 3. `inspect_mcp.py`는 `mcp_server.py`를 하위 프로세스로 시작합니다. 두 프로그램이 표준 입력과 출력으로 MCP 메시지를 주고받으므로 별도의 서버 창이나 포트가 필요하지 않습니다.
+4. 같은 화면에서 `tools/call read_review_rules {}` 다음의 `text`도 확인합니다. 이 도구는 같은 폴더의 `review_rules.txt`를 읽습니다. 이어지는 통합 실습에서 프로그램이 이 호출을 실행합니다.
 
 ## 3. API 응답을 CPU 모델에 전달하기 · 18분
 
@@ -78,12 +79,41 @@ py -3 run_cpu.py
 
 `127.0.0.1`은 내 PC에만 연결하는 주소입니다. 실습의 두 HTTP 서비스는 각각 8766번과 8081번 포트를 사용합니다. llama.cpp는 `-ngl 0`을 적용해 모델을 GPU에 올리지 않습니다. 가중치에 있는 지식을 바꾸는 학습 과정 없이 새 입력을 받아 텍스트를 생성합니다.
 
-## 4. 연결 전체 확인 · 5분
+## 4. 한 프로그램으로 연결하고 전후를 대조합니다 · 16:20–16:25
 
-1. API와 MCP를 각각 실행해 같은 `text`를 출력하는지 확인합니다.
-2. 모델 호출을 한 번 실행하고 출력이 내 요청과 원문에 맞는지 확인합니다.
-3. 원본을 저장해 두고 `input.txt`를 비운 뒤 API와 모델 호출을 다시 시도합니다. API는 `empty`를 반환하고 모델 호출은 `POST` 전에 멈춥니다. 확인한 뒤 입력을 복구합니다.
-4. 첫 번째와 세 번째 PowerShell에서 각각 `Ctrl+C`를 눌러 실행한 서버를 종료합니다.
+PowerShell 1의 입력 API와 PowerShell 3의 CPU 모델 서버를 계속 켜 둡니다. PowerShell 2에서 같은 `input.txt`로 아래를 차례대로 실행합니다.
+
+```powershell
+py -3.12 my_program.py
+.\.venv\Scripts\python.exe my_program.py --connected
+Get-Content -LiteralPath .\output\before.json, .\output\connected.json -Encoding UTF8
+```
+
+- 기본 실행은 `input.txt`를 읽고 `prepare_rows()`에서 빈 줄과 중복을 제거한 결과를 `output/before.json`에 저장합니다.
+- 연결 실행은 같은 입력을 API로 가져와 동일한 `prepare_rows()`를 적용합니다. 이어 MCP의 `read_review_rules`를 호출해 `review_rules.txt`를 읽고, 정리 결과와 검토 기준으로 CPU에서 초안을 생성합니다. `output/connected.json`에서 `rows`는 기준 실행과 같아야 합니다. 생성된 문장은 `draft`에 있고 `requires_review`는 `true`입니다.
+- `review_rules.txt`가 비거나 모델이 응답하지 않으면 어느 단계에서 멈췄는지 표시하고 이번 결과를 저장하지 않습니다. 기존 결과 파일이 있으면 그 파일의 수정 시간과 실행기의 저장 메시지를 함께 확인합니다.
+
+## 5. 앞서 만든 내 프로그램에 옮깁니다 · 16:35부터
+
+1. 앞서 성공했던 실행 명령을 다시 쓰고 기존 결과를 저장합니다. 에디터의 파일 트리에서 **실행하는 파일 → 입력을 읽는 코드 → 규칙을 처리하는 코드 → 저장하는 코드**를 따라갑니다. 파일 이름은 내 프로그램에 맞게 찾습니다.
+2. 내 프로그램의 시작 파일이 있는 폴더에 다음 두 연결 파일을 복사합니다. `$lab`에는 압축을 푼 `hug4-connections`의 전체 경로를 넣습니다. 예제 프로젝트와 서버를 실습 폴더에 둔 채 서비스 주소로 연결합니다.
+
+   ```powershell
+   $lab = (Resolve-Path -LiteralPath (Read-Host 'hug4-connections 폴더의 전체 경로')).Path
+   Copy-Item -LiteralPath (Join-Path $lab 'workflow_links.py'), (Join-Path $lab 'local_http.py') -Destination .
+   $env:HUG_LAB_DIR = $lab
+   ```
+
+3. 기존 입력이 문자열이면 `read_api_input()`으로 받습니다. 기존 입력이 JSON 객체, 행 목록 등이라면 `read_api_input()`은 원문 문자열을 반환하므로 기존 파싱·자료형 변환 과정에 그 문자열을 전달합니다. 가공 규칙은 유지합니다.
+4. 가공을 마친 뒤 `read_mcp_rules(Path(os.environ['HUG_LAB_DIR']) / 'mcp_server.py')`로 검토 기준을 읽습니다. `review_rules.txt`에 내가 확인할 기준을 한두 줄 넣어 둡니다. 그 기준과 가공 결과에서 뽑은 짧은 텍스트를 `draft_with_cpu(processed_text, rules)`에 보냅니다. 실습에서는 결과 텍스트와 기준을 각각 400자 이내로 준비합니다.
+5. 모델 초안을 기존 데이터와 별도 필드 또는 별도 파일에 저장하고 확인 대상으로 표시합니다. 실습 폴더의 `.venv` Python으로 내 프로그램의 기존 시작 파일을 실행합니다. 내 프로젝트에 별도 라이브러리가 있으면 기존 설치 안내와 실습 `requirements.txt`를 같은 가상환경에 적용한 뒤 그 환경의 Python으로 실행합니다.
+
+   ```powershell
+   $entry = Read-Host '내 프로그램의 기존 시작 파일 경로'
+   & (Join-Path $lab '.venv\Scripts\python.exe') $entry --connected
+   ```
+
+6. 같은 입력으로 기존 결과와 연결한 결과를 비교합니다. 빈 입력을 다시 실행해 새 결과가 만들어지지 않는지 확인하고 원문을 복구합니다. 작업이 끝나면 PowerShell 1과 3에서 각각 `Ctrl+C`를 눌러 서버를 종료합니다.
 
 ## 어디에서 멈췄는지 찾기
 
@@ -105,5 +135,8 @@ py -3 run_cpu.py
 | `mcp_server.py`, `inspect_mcp.py` | MCP 도구 등록 및 목록 조회·도구 호출 |
 | `local_http.py` | 두 로컬 HTTP 포트로 요청을 보내고 JSON을 읽는 코드 |
 | `run_cpu.py` | API 응답을 받아 내 지시를 붙여 CPU 모델에 전달 |
+| `review_rules.txt` | MCP가 별도로 전달하는 확인용 초안의 검토 기준 |
+| `my_program.py` | 기준 실행과 세 연결을 포함한 실행을 비교하는 예제 |
+| `workflow_links.py` | 내 프로그램에서 호출할 API 입력·MCP 기준 조회·CPU 초안 함수 |
 
 [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk/tree/v1.26.0) · [llama.cpp 서버 문서](https://github.com/ggml-org/llama.cpp/blob/b12387/tools/server/README.md) · [Qwen 모델 카드](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF)

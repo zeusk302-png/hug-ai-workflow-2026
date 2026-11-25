@@ -18,11 +18,12 @@ async def main() -> None:
             print("tools/list")
             print(json.dumps(tools, ensure_ascii=False, indent=2))
 
-            print("\ntools/call read_input {}")
-            response = await session.call_tool("read_input", arguments={})
-            if response.isError or not isinstance(response.structuredContent, dict):
-                raise SystemExit("read_input 실행에 실패했습니다.")
-            print(json.dumps(response.structuredContent, ensure_ascii=False, indent=2))
+            for name in ("read_input", "read_review_rules"):
+                print(f"\ntools/call {name} {{}}")
+                response = await session.call_tool(name, arguments={})
+                if response.isError or not isinstance(response.structuredContent, dict):
+                    raise SystemExit(f"{name} 실행에 실패했습니다.")
+                print(json.dumps(response.structuredContent, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
