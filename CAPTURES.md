@@ -1,5 +1,32 @@
 # 수업 사이트 캡처 출처
 
+## 생성·검증·전달 워크플로우 도식
+
+[공개 도판](docs/assets/lesson/ai-review-map.webp)은 강사가 제공한 워크플로우 그림을 참조해 내장 ImageGen으로 다시 디자인한 1659×948 도식입니다. 상단 3개 구역과 하단 자료 구역의 노드 15개를 한글로 표기했습니다. 두 번째 편집에서 재계산 후 근거 첨부로 이어지는 실선과 검증 기록으로 내려가는 점선을 원본과 대조했습니다. 웹에서는 글자와 선을 보존하도록 무손실 WebP로 제공합니다. 이어지는 요소별 해설은 실습 키트의 `SOUND-2` 원문에 근거합니다.
+
+<details><summary>도식 제작에 사용한 프롬프트</summary>
+
+```text
+Use the supplied reference image as the exact blueprint for an EDIT: redesign this same flat scientific workflow diagram beautifully for an adult Korean lecture. READ the small original graph as a wireframe; keep its very specific spatial organization and directed arrows; translate its labels to the Korean strings below. This deliverable is a genuinely refined, information-dense 2D NODE AND EDGE DIAGRAM. No scenery, no physical machines, no hands, no metaphor, no isometric objects. Do not illustrate the processes with objects. Make it a premium technical figure from a contemporary science journal: precise typographic hierarchy, modern Korean sans, dark ink, soft desaturated cobalt, teal, and amber that denote a few semantic roles, crisp light fine borders, gently tinted regions, flat warm-white background, beautifully routed arrows with unmistakable arrowheads and ample breathing space. Slight dimensional paper edges on the real-data boxes only. Focused navy-blue main verification node with white type. Elegant and restrained, no gradients splashed all over. Orient landscape, about 1.75:1. No extraneous header, explanatory footer, page title, logo, figure number, decorative icon, legend or footnotes.
+
+Exactly FOUR region headings. TOP LEFT "생성" occupying 33% of width, TOP MIDDLE "검증" 42%, TOP RIGHT "전달" 25%. Bottom one FULL WIDTH shallow data strip "실제 자료". Keep each group as one subtle outlined flat region. Exactly 4 nodes in top left, 4 in top middle, 3 in top right and 4 across bottom = 15 nodes. Do not invent any nodes nor duplicate any words as extra nodes. Large correctly spelled Korean lettering.
+
+TOP LEFT generation 2×2, preserve the non-linear arrangement:
+left column upper "사용자 요청", below "맥락 구성" (small subline "상황 · 조건 · 요구"). Right column upper "초안 생성", below "항목 분리". Connect request DOWN to context, context RIGHT and UP into draft, draft DOWN to split; split connects RIGHT to next panel's check node.
+
+TOP MIDDLE: upper left large highlighted navy block "항목별 대조" with the small subline "존재 · 동작 · 시간 · 연결". Upper right "판정" plus subline "통과 · 수정 · 제외". Direct check → verdict. Directly below verdict place "교체 · 수정" and directly below that "재계산". Down arrows between these stacked nodes. Return route from recompute to the check node; a subtle dashed leftward loop from the revision back to the draft generator for regeneration. A thin approved route leaves the verification stage toward the deliver group. Feedback paths must read as actual connectors, not as decorations.
+
+TOP RIGHT: straight vertical chain of 3 nodes: upper "근거 첨부" with subline "출처 · 변경 내용", middle "응답", lower "사용자 검토". Arrows down from evidence to response to human review.
+
+BOTTOM: four aligned small archival-outline boxes: "기준 자료" | "운영 데이터" | "외부 자료" | "검증 기록". Below the three processing panels these are clearly separated as a data layer. Thin lines from the first three datasets feed the central check; separate dashed arrow INTO the rightmost log. Do not connect boxes sequentially across the bottom. Clean orthogonal elbow connectors, lines behind the boxes, no intersections through labels. Empty margins of about 3% around the design. All text must be readable on a 1080p classroom projector. Deliver only the finished illustration, no UI or photographer's framing.
+```
+
+```text
+Edit IMAGE 1 (the polished Korean workflow map), using IMAGE 2 (the small original) only to check the exact connector endpoints. Keep the Korean artwork, all 15 existing boxes and their text, relative positions, all four panels and their appearance. This is a precise correction to the issued arrows. For the SOLID line going into "근거 첨부", its LEFT end MUST exit from the RIGHT side of the LOWEST center box, "재계산" (Recompute). This wire goes a short distance RIGHT from 재계산 across the verification panel border, joins the upright conduit beside the delivery group, goes UP along that conduit, then turns RIGHT into 근거 첨부. There is NO solid rightward output directly from the middle "교체 · 수정" box; delete that old short horizontal segment feeding the delivery conduit from its wrong location. The 교체 · 수정 box has exactly two outputs: down into 재계산 and LEFT via the existing dashed regeneration route back into 초안 생성. At the corrected junction coming from 재계산, also branch a separate dashed vertical segment DOWN into 검증 기록 as in image 2. Label the solid delivery path "확인 완료" in small type placed in clear space, and the dashed left return "재생성". Ensure the lines rising from the top edges of all THREE source boxes physically meet the shared lower rail that flows into 항목별 대조. Keep the three big stage labels and text untouched. Do not add any arrow from 재계산 directly to 항목별 대조; the tall center line into 항목별 대조 belongs to the data layer. All other edges follow original. Improve refinement only through subtle lighter-weight rules and generous typographic margins, while preserving layout. Output finished Korean 2D flowchart artwork only.
+```
+
+</details>
+
 ## CPU 응답 측정
 
 강의 본문의 0.193초와 0.407초는 Intel Core i7-12700K에서 llama.cpp b12387을 CPU 4스레드, 컨텍스트 2,048로 실행해 얻은 단일 관측값입니다. [측정 스크립트](docs/downloads/measure_cpu.py)는 대화 형식을 적용한 뒤 생성 요청 전송부터 첫 토큰 ID 수신과 종료 응답 수신까지를 각각 잽니다. 모델을 이미 불러온 상태에서 Qwen2.5 0.5B Instruct Q4_K_M에 합주 시간을 다시 물었고, 응답 직후 Windows에서 읽은 서버 프로세스의 작업 집합은 505 MiB였습니다.

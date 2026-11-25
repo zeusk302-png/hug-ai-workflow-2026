@@ -79,18 +79,76 @@
         <section class="visual-slide review-spread" id="ai-review-workflow" data-slide data-title="AI가 답을 만드는 흐름" aria-labelledby="ai-review-title">
           <header class="review-heading"><p>워크플로우 · 생성에서 검증까지</p><h2 id="ai-review-title">AI가 쓴 초안은 언제 답이 될까?</h2></header>
           <figure class="review-figure">
-            <a href="assets/lesson/ai-review-workflow.svg" aria-label="AI 생성·검증·전달 흐름도 원본 확대"><img src="assets/lesson/ai-review-workflow.svg" width="1180" height="614" alt="왼쪽에서 모델이 초안을 쓰고, 가운데에서 항목마다 실제 자료와 대조합니다. 수정한 항목은 다시 검사하며, 오른쪽에서는 통과한 내용에 근거를 붙여 사용자에게 전달합니다."></a>
-            <figcaption>내 프로그램에 검증 단계를 붙인 설계입니다. 가운데에서 되돌아가는 화살표를 따라가 보세요. 틀린 항목만 고쳐 같은 기준으로 다시 확인합니다. 아래에는 판정에 쓸 자료와 판정 뒤에 남길 기록이 있습니다. 그림을 누르면 확대됩니다.</figcaption>
+            <a href="assets/lesson/ai-review-map.webp" aria-label="생성·검증·전달 워크플로우 그림 확대"><img src="assets/lesson/ai-review-map.webp" width="1659" height="948" alt="생성·검증·전달 세 구역 아래에 실제 자료가 놓인 흐름도. 초안을 항목으로 나눠 자료와 대조하고 판정합니다. 교체·수정에서 초안 생성으로 되돌아갈 수 있고, 재계산해 확인한 결과에는 근거를 붙입니다. 별도 경로로 검증 기록을 남깁니다."></a>
+            <figcaption>가운데의 <strong>교체·수정</strong>에서 두 길이 나옵니다. 문장을 다시 써야 하면 점선을 따라 <strong>초안 생성</strong>으로 돌아갑니다. 수치가 바뀌면 <strong>재계산</strong>을 거쳐 확인한 결과에 근거를 붙입니다. 아래의 세 자료는 대조할 때 읽고, 오른쪽 <strong>검증 기록</strong>에는 판단한 이유를 씁니다.</figcaption>
           </figure>
-          <details class="review-transcript" open>
-            <summary>단계마다 누가 무슨 일을 할까?</summary>
-            <ol>
-              <li><strong>질문을 자료와 묶습니다.</strong> 많은 문서 중 질문에 맞는 문단을 검색해 모델에게 건네는 방식이 <a href="#rag">RAG</a>입니다. 모델이 원문 열기를 요청할 때는 Claude Code가 허용된 <a href="#mcp-principles">MCP 도구</a>를 호출합니다. 그 도구가 자료 서비스의 <a href="#connection-principles">API</a>에서 읽어 온 본문도 모델에게 돌아갈 수 있습니다.</li>
-              <li><strong>모델이 초안을 씁니다.</strong> 모델은 질문과 자료를 읽고 다음에 올 짧은 글 조각(토큰)을 하나씩 예측해 문장을 만듭니다. “저녁에 더 컸고 녹음도 받을 수 있다”라면, 다음 단계에서 검사할 내용은 측정값과 녹음 공개 여부 두 가지입니다.</li>
-              <li><strong>항목별로 통과·수정·제외를 정합니다.</strong> 숫자는 코드로 다시 계산하고, 인용문은 원문에서 찾습니다. 인용문이 주장을 뒷받침하는지는 사람이 문맥까지 읽어 확인할 수 있습니다. 이 설계에서는 고친 항목을 한 번 더 검사하고, 여전히 확인할 수 없으면 제외 이유를 남깁니다.</li>
-              <li><strong>사용자가 답에서 원문으로 돌아갑니다.</strong> 통과한 항목에는 출처와 확인한 값을 붙입니다. 답할 수 없었던 질문도 표시합니다. 사용자는 답, 해당 원문, 무엇을 왜 고쳤는지 나란히 볼 수 있습니다.</li>
+          <ol class="plate-stages" aria-label="그림 속 요소 해설"><li><a href="#review-generate">초안 생성</a></li><li><a href="#review-verify">항목 검증</a></li><li><a href="#review-deliver">근거 전달</a></li></ol>
+        </section>
+
+        <section class="visual-slide review-spread review-anatomy" id="review-generate" data-slide data-title="초안 생성 · 질문에서 주장까지" aria-labelledby="review-generate-title">
+          <header class="review-heading"><p>초안 생성</p><h2 id="review-generate-title">한 문장의 질문에서 무엇을 뽑아낼까?</h2></header>
+          <div class="element-layout">
+            <ol class="element-route" aria-label="초안이 만들어지는 순서">
+              <li><b>사용자 요청</b><small>질문과 원하는 결과</small></li>
+              <li><b>맥락 구성</b><small>질문에 필요한 자료와 조건</small></li>
+              <li><b>초안 생성</b><small>모델이 제안한 답</small></li>
+              <li><b>항목 분리</b><small>하나씩 검증할 주장</small></li>
             </ol>
-          </details>
+            <div class="element-copy">
+              <dl class="element-notes">
+                <div><dt>사용자 요청</dt><dd>“솔밭 소리는 아침보다 저녁에 얼마나 커졌어? 원음도 듣고 싶어.” 이 질문에서 <strong>세기의 차이</strong>와 <strong>녹음 공개 여부</strong>라는 두 가지 부탁을 읽습니다.</dd></div>
+                <div><dt>맥락 구성</dt><dd>대상은 솔밭, 비교 시점은 아침과 저녁입니다. 모델이 원문을 요청하면 <strong>Claude Code가 허용된 <a href="#mcp-principles">MCP 도구</a>를 호출</strong>해 내 PC에서 읽은 <code>SOUND-2</code> 본문을 모델에게 돌려줍니다.</dd></div>
+                <div><dt>초안 생성</dt><dd>모델은 질문과 원문을 바탕으로 다음 글 조각(토큰)을 하나씩 생성합니다. “저녁값은 48이고 아침보다 18 높다. 원음도 받을 수 있다”는 오류를 넣은 연습용 초안입니다.</dd></div>
+                <div><dt>항목 분리</dt><dd>초안에서 ‘저녁값은 48’, ‘차이는 18’, ‘녹음은 공개’를 따로 꺼냅니다. 첫째는 표의 값, 둘째는 계산, 셋째는 자료 제공자의 안내로 확인합니다.</dd></div>
+              </dl>
+              <p class="element-evidence"><strong>내 자료가 다른 곳에 있다면?</strong> 자료 서비스에 <a href="#connection-principles">API</a>로 원문을 요청할 수 있습니다. 문서가 많아지면 질문에 관련된 문단을 먼저 찾아 모델에게 건네는 <a href="#rag">RAG</a>를 이 자리에 붙입니다.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="visual-slide review-spread review-anatomy" id="review-verify" data-slide data-title="항목 검증 · 대조와 재검사" aria-labelledby="review-verify-title">
+          <header class="review-heading"><p>항목 검증</p><h2 id="review-verify-title">무엇과 대조하고, 틀리면 어디로 돌려보낼까?</h2></header>
+          <div class="element-layout">
+            <ol class="element-route" aria-label="각 주장을 대조한 뒤 판정에 따라 갈라지는 경로">
+              <li><b>항목별 대조</b><small>존재 · 동작 · 시간 · 연결</small></li>
+              <li class="route-verdict"><b>판정</b>
+                <ul class="route-branches">
+                  <li><b>통과</b><span>근거 첨부로</span></li>
+                  <li><b>수정</b><span>교체·수정 → 재계산 → 재검사</span></li>
+                  <li><b>제외</b><span>근거 없는 항목을 빼고 이유 기록</span></li>
+                </ul>
+              </li>
+            </ol>
+            <div class="element-copy">
+              <dl class="element-notes">
+                <div><dt>항목별 대조</dt><dd><strong>존재</strong>는 <code>SOUND-2</code>가 있는지, <strong>동작</strong>은 읽기 도구가 본문을 반환했는지 확인합니다. <strong>시간</strong>은 저녁 측정이 오후 6시인지, <strong>연결</strong>은 값 48이 그 시각의 솔밭에 속하는지 대조합니다.</dd></div>
+                <div><dt>판정</dt><dd>‘저녁값 48’은 표와 일치해 <strong>통과</strong>합니다. ‘차이 18’은 다시 계산할 수 있어 <strong>수정</strong>으로 보냅니다. ‘원음을 받을 수 있다’는 원문의 안내와 모순되어 <strong>제외</strong>합니다.</dd></div>
+                <div><dt>교체·수정과 재계산</dt><dd>수정할 항목에서 두 원본 값으로 <strong>48 − 32 = 16</strong>을 다시 계산해 18을 교체합니다. 이처럼 숫자를 고치면 그 값을 인용한 결론도 함께 갱신합니다.</dd></div>
+                <div><dt>재생성과 재검사</dt><dd>모델이 수정 내용을 받아 해당 문장을 다시 쓰면, 프로그램이 새 문장의 값을 원문과 대조합니다. 이 수업의 설계는 한 차례 재검사한 뒤에도 맞지 않으면 항목을 제외하고 이유를 남깁니다.</dd></div>
+              </dl>
+              <p class="element-evidence"><strong>대조에 쓰는 세 자료</strong> · <b>기준 자료</b>는 측정 방법처럼 판단에 쓸 규칙, <b>운영 데이터</b>는 실제 측정값·시각·상태, <b>외부 자료</b>는 자료 제공자가 공개한 원문입니다. 소리 지도에서는 한 문서로 값과 공개 여부를 모두 확인할 수 있습니다.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="visual-slide review-spread review-anatomy" id="review-deliver" data-slide data-title="근거 전달 · 답과 검증 기록" aria-labelledby="review-deliver-title">
+          <header class="review-heading"><p>근거 전달</p><h2 id="review-deliver-title">답을 받은 사람이 어디까지 확인할 수 있을까?</h2></header>
+          <div class="element-layout">
+            <ol class="element-route" aria-label="확인한 답을 사용자에게 전달하는 순서">
+              <li><b>근거 첨부</b><small>확인한 원문과 변경 내용</small></li>
+              <li><b>응답</b><small>질문에 대한 최종 답</small></li>
+              <li><b>사용자 검토</b><small>원문을 열고 결과 확인</small></li>
+            </ol>
+            <div class="element-copy">
+              <dl class="element-notes">
+                <div><dt>근거 첨부</dt><dd>각 주장에 <strong>자료 ID와 확인한 대목</strong>을 붙입니다. 소리의 차이에는 <code>SOUND-2</code>의 ‘솔밭 32, 48’을, 녹음 제공 여부에는 ‘녹음 원본은 제공하지 않는다’를 붙입니다.</dd></div>
+                <div><dt>응답</dt><dd>처음 부탁한 두 가지에 답합니다. “솔밭의 상대 세기는 아침 32에서 저녁 48로 16 높아졌습니다. 녹음 원본은 제공하지 않습니다.”</dd></div>
+                <div><dt>사용자 검토</dt><dd>사용자는 원문을 열어 값의 순서와 장소를 확인합니다. 같은 표에서 ‘물가’의 값은 38과 53입니다. 출처를 따라가면 <strong>어디까지 이 답을 적용할 수 있는지</strong> 확인할 수 있습니다.</dd></div>
+                <div><dt>검증 기록</dt><dd>판정마다 <strong>초안의 값, 판정 이유, 근거, 수정 결과</strong>를 남깁니다. ‘차이 18 → <code>SOUND-2</code>의 두 값으로 재계산 → 16으로 수정 후 통과’가 이 설계에서 보존할 기록 한 줄입니다.</dd></div>
+              </dl>
+              <p class="element-evidence"><strong>실습에서 확인할 파일</strong> · <a href="#maker-agent-run">Team 실습</a>의 <code>output/ask.json</code>에는 모델의 답(<code>answer</code>)과 실제 도구 호출·반환값(<code>calls</code>)이 남습니다. 수강생이 둘을 대조합니다. 자동 검증으로 확장할 때는 항목별 판정과 수정 이유를 별도로 저장합니다.</p>
+            </div>
+          </div>
         </section>
 
         <section class="visual-slide review-spread" id="ai-review-example" data-slide data-title="초안 한 문장을 검증하는 예" aria-labelledby="ai-review-example-title">
