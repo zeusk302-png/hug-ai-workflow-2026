@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="assets/course-rail.css">
   <script src="assets/course-rail.js" defer></script>
   <link rel="stylesheet" href="assets/workflow-design.css">
+  <link rel="stylesheet" href="assets/review-workflow.css">
 </head>
 <body class="has-course-rail lesson course-editorial lecture-edition">
   <a class="skip" href="#main">본문으로</a>
@@ -38,6 +39,7 @@
     <nav class="rail-scroll" aria-label="강의 목차">
       <p class="rail-nav-label">강의 목차</p>
       <a href="#course-cover">수업 소개</a>
+      <a href="#ai-review-workflow">AI가 답을 만드는 흐름</a>
       <a href="#project-atlas">오픈소스 제작 사례</a>
       <a href="#discovery">수학 난제와 AI</a>
       <a href="#setup">실습 환경 준비</a>
@@ -73,6 +75,46 @@
     </section>
     <div class="wrap lesson-layout">
       <div class="lesson-reading">
+
+        <section class="visual-slide review-spread" id="ai-review-workflow" data-slide data-title="AI가 답을 만드는 흐름" aria-labelledby="ai-review-title">
+          <header class="review-heading"><p>워크플로우 · 생성에서 검증까지</p><h2 id="ai-review-title">AI가 쓴 초안은 언제 답이 될까?</h2></header>
+          <figure class="review-figure">
+            <a href="assets/lesson/ai-review-workflow.svg" aria-label="AI 생성·검증·전달 흐름도 원본 확대"><img src="assets/lesson/ai-review-workflow.svg" width="1180" height="614" alt="왼쪽에서 모델이 초안을 쓰고, 가운데에서 항목마다 실제 자료와 대조합니다. 수정한 항목은 다시 검사하며, 오른쪽에서는 통과한 내용에 근거를 붙여 사용자에게 전달합니다."></a>
+            <figcaption>내 프로그램에 검증 단계를 붙인 설계입니다. 가운데에서 되돌아가는 화살표를 따라가 보세요. 틀린 항목만 고쳐 같은 기준으로 다시 확인합니다. 아래에는 판정에 쓸 자료와 판정 뒤에 남길 기록이 있습니다. 그림을 누르면 확대됩니다.</figcaption>
+          </figure>
+          <details class="review-transcript" open>
+            <summary>단계마다 누가 무슨 일을 할까?</summary>
+            <ol>
+              <li><strong>질문을 자료와 묶습니다.</strong> 많은 문서 중 질문에 맞는 문단을 검색해 모델에게 건네는 방식이 <a href="#rag">RAG</a>입니다. 모델이 원문 열기를 요청할 때는 Claude Code가 허용된 <a href="#mcp-principles">MCP 도구</a>를 호출합니다. 그 도구가 자료 서비스의 <a href="#connection-principles">API</a>에서 읽어 온 본문도 모델에게 돌아갈 수 있습니다.</li>
+              <li><strong>모델이 초안을 씁니다.</strong> 모델은 질문과 자료를 읽고 다음에 올 짧은 글 조각(토큰)을 하나씩 예측해 문장을 만듭니다. “저녁에 더 컸고 녹음도 받을 수 있다”라면, 다음 단계에서 검사할 내용은 측정값과 녹음 공개 여부 두 가지입니다.</li>
+              <li><strong>항목별로 통과·수정·제외를 정합니다.</strong> 숫자는 코드로 다시 계산하고, 인용문은 원문에서 찾습니다. 인용문이 주장을 뒷받침하는지는 사람이 문맥까지 읽어 확인할 수 있습니다. 이 설계에서는 고친 항목을 한 번 더 검사하고, 여전히 확인할 수 없으면 제외 이유를 남깁니다.</li>
+              <li><strong>사용자가 답에서 원문으로 돌아갑니다.</strong> 통과한 항목에는 출처와 확인한 값을 붙입니다. 답할 수 없었던 질문도 표시합니다. 사용자는 답, 해당 원문, 무엇을 왜 고쳤는지 나란히 볼 수 있습니다.</li>
+            </ol>
+          </details>
+        </section>
+
+        <section class="visual-slide review-spread" id="ai-review-example" data-slide data-title="초안 한 문장을 검증하는 예" aria-labelledby="ai-review-example-title">
+          <header class="review-heading"><p>검증 예시 · 소리 지도</p><h2 id="ai-review-example-title">솔밭 소리는 얼마나 커졌고, 원음도 들을 수 있을까?</h2></header>
+          <div class="review-case">
+            <section class="review-source" aria-labelledby="review-sound-source">
+              <h3 id="review-sound-source">이번 호의 측정 기록 · SOUND-2</h3>
+              <blockquote>“표의 순서는 아침, 저녁이다. 솔밭 32, 48 / 돌담 45, 40 / 물가 38, 53.”</blockquote>
+              <blockquote>“녹음 원본은 제공하지 않는다.”</blockquote>
+              <p>실습 키트의 소리 지도에서 발췌했습니다. 숫자는 각 지점에서 기록한 소리의 상대 세기입니다. <a href="assets/captures/maker-inspect.png">MCP로 읽은 원문 보기</a></p>
+            </section>
+            <table class="review-ledger">
+              <caption>오류를 넣어 만든 연습용 초안</caption>
+              <thead><tr><th scope="col">초안의 항목</th><th scope="col">판정과 다음 동작</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">“솔밭의 저녁값은 48이다.”</th><td><b>통과</b> 표에서 두 번째 값이 저녁임을 확인하고 출처를 붙입니다.</td></tr>
+                <tr><th scope="row">“아침보다 18 높다.”</th><td><b>수정 → 재검사</b> 48 − 32 = 16으로 고칩니다. 고친 값 16을 아침값에 더해 저녁값 48과 일치하는지 확인합니다.</td></tr>
+                <tr><th scope="row">“원음도 내려받을 수 있다.”</th><td><b>제외</b> 원문 마지막 문장과 모순됩니다. 사용자가 원음을 물었으므로 제공 여부는 원문의 표현으로 알려 줍니다.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="review-outcome"><strong>사용자에게 전달할 답</strong> 솔밭의 상대 세기는 아침 32에서 저녁 48로 16 높아졌습니다. 녹음 원본은 제공하지 않습니다. [SOUND-2]</p>
+          <p>아래 <a href="#maker-agent-run">Claude Code 실습</a>에서 <code>output/ask.json</code>을 열면 모델의 답(<code>answer</code>)과 도구가 실제로 돌려준 원문(<code>calls</code>)을 대조할 수 있습니다. 현재 키트는 두 기록을 저장하고 수강생이 판정합니다. 자동화하려면 이 둘을 비교하는 단계를 답을 전달하기 직전에 붙입니다.</p>
+        </section>
 
         <section class="visual-slide atlas-story case-study case-research" id="project-atlas" data-slide data-title="scikit-learn으로 야생동물 서식지 찾기" aria-labelledby="project-atlas-title">
           <div class="case-layout">
@@ -936,7 +978,7 @@ claude</code></pre>
               <pre id="maker-ask-cmd"><code>.\.venv\Scripts\python.exe maker.py ask "소리 지도는 지난 호보다 무엇이 달라졌어? 두 원문의 근거 ID도 보여줘."
 .\.venv\Scripts\python.exe maker.py ask "그 자료에 녹음 원본도 있어? 어느 문장을 읽었어?" --after ask
 Get-Content .\output\ask.json -Encoding UTF8</code></pre><button type="button" class="btn copy-command" data-copy="maker-ask-cmd">명령 복사</button>
-              <p><code>answer</code>에서 모델의 답을, <code>calls</code>에서 도구 이름·실제 인자·반환 자료를 봅니다. ‘녹음 파일을 받을 수 있다’는 답이 나왔다면 <code>SOUND-2</code>의 마지막 문장을 대조하세요. 호출 기록이 비어 있으면 모델이 원문을 열었다고 판단할 근거도 없습니다.</p>
+              <p><code>answer</code>에서 모델의 답을, <code>calls</code>에서 도구 이름·실제 인자·반환 자료를 봅니다. ‘녹음 파일을 받을 수 있다’는 답이 나왔다면 <code>SOUND-2</code>의 마지막 문장을 대조하세요. 호출 기록이 비어 있으면 모델이 원문을 열었다고 판단할 근거도 없습니다. <a href="#ai-review-example">소리 지도 항목별 판정 예시</a></p>
             </li>
             <li><h3>내가 고른 메일이나 웹페이지 한 건으로 바꿉니다</h3><p>뉴스레터를 메일 프로그램에서 <code>.eml</code>로 내보내거나, 공개 웹페이지를 브라우저에서 <code>.html</code>로 저장합니다. 아래 명령의 경로를 그 파일의 실제 경로로 바꾸세요. <code>MY-1</code>은 내가 붙인 자료 ID입니다. 다음 자료에는 새 ID를 씁니다.</p>
               <pre id="maker-import-cmd"><code>.\.venv\Scripts\python.exe import_material.py --id MY-1 --period "이번 호" "C:\자료\소식지.eml"
@@ -1466,7 +1508,7 @@ $LASTEXITCODE
         <section id="schedule" class="visual-slide lecture-agenda" data-slide data-title="수업 시간표">
           <header class="chapter-heading"><p>11월 26일 · 13:30–17:30</p><h2>수업 시간표</h2></header>
           <dl class="lesson-agenda">
-            <div><dt>13:30–13:50</dt><dd>오픈소스의 실제 결과와 수학 난제에서 보는 AI의 제안과 검증</dd></div>
+            <div><dt>13:30–13:50</dt><dd>AI의 초안을 원문과 대조하는 흐름 · 오픈소스 제작 사례와 수학 난제</dd></div>
             <div><dt>13:50–14:10</dt><dd>내 PC의 실행 환경 점검 · Team에서 첫 응답을 받고 파일 한 건 저장</dd></div>
             <div><dt>14:10–14:40</dt><dd>Claude와 두 설계 비교 · 각자 실행 위치, 자료의 이동, 저장할 결과 결정</dd></div>
             <div><dt>14:40–14:50</dt><dd>휴식</dd></div>

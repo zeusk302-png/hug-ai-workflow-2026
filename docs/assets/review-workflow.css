@@ -1,0 +1,65 @@
+.review-spread {
+  --review-ink: #17283e;
+  --review-blue: #274c8d;
+  --review-secondary: #435468;
+  --review-rule: #c4cbd0;
+  container-type: inline-size;
+  min-width: 0;
+}
+.review-spread .review-heading { margin: 0 0 clamp(1rem, 2.4cqi, 1.8rem); }
+.review-heading > p:first-child { margin: 0 0 .4rem; color: var(--review-blue); font-size: .94rem; font-weight: 740; }
+.review-heading h2 { margin: 0; color: var(--review-ink); font-size: clamp(1.9rem, 4.5cqi, 3.5rem); line-height: 1.15; letter-spacing: -.055em; text-wrap: balance; }
+.review-heading > p:not(:first-child) { margin-top: .7rem; max-width: 60em; color: var(--review-secondary); line-height: 1.6; }
+
+.review-spread .review-figure { margin: 0; }
+.review-figure a { display: block; cursor: zoom-in; }
+.review-figure img { display: block; width: 100%; height: auto; margin-inline: auto; }
+.review-figure figcaption { margin: .6rem 0 0; color: var(--review-secondary); font-size: .93rem; line-height: 1.6; }
+.review-transcript { margin-top: .85rem; padding: 0; border-block: 1px solid var(--review-rule); }
+.review-transcript summary { padding: .65rem 0; color: var(--review-blue); font-size: .95rem; font-weight: 710; }
+.review-transcript ol { margin: 0 0 .8rem; max-width: 62em; padding-inline-start: 1.6rem; color: var(--review-secondary); line-height: 1.65; }
+.review-transcript li { padding-inline-start: .2rem; }
+.review-transcript li + li { margin-top: .4rem; }
+.review-transcript li::marker { color: var(--review-blue); font-weight: 700; }
+.review-transcript li :is(b,strong) { color: var(--review-ink); }
+
+.review-case { display: grid; grid-template-columns: minmax(0, .84fr) minmax(0, 1.4fr); align-items: start; gap: clamp(1rem, 3cqi, 2.6rem); }
+.review-source { min-width: 0; padding: clamp(.95rem, 2.3cqi, 1.6rem); border-block-start: 3px solid #375675; background: #eaf0f2; color: var(--review-ink); }
+.review-source h3 { margin: 0 0 .65rem; color: #294764; font-size: 1rem; letter-spacing: -.025em; }
+.review-source blockquote { margin: 0; padding: 0; background: transparent; border: 0; color: var(--review-ink); font-size: clamp(1.12rem, 2.3cqi, 1.55rem); font-weight: 650; line-height: 1.52; letter-spacing: -.035em; }
+.review-source blockquote + blockquote { margin-top: .55rem; }
+.review-source p { margin: .75rem 0 0; color: #415669; font-size: .93rem; line-height: 1.6; }
+.review-ledger { table-layout: fixed; width: 100%; margin: 0; border-collapse: collapse; text-align: start; }
+.review-ledger caption { padding: 0 0 .55rem; color: var(--review-ink); text-align: start; font-weight: 730; font-size: 1.05rem; line-height: 1.4; }
+.review-ledger :is(th, td) { padding: .68rem .5rem .68rem 0; border: 0; border-bottom: 1px solid var(--review-rule); background: transparent; text-align: start; vertical-align: top; overflow-wrap: anywhere; }
+.review-ledger thead th { border-top: 2px solid var(--review-ink); color: var(--review-secondary); font-size: .9rem; font-weight: 680; }
+.review-ledger tr > :first-child { width: 40%; padding-inline-end: clamp(.6rem, 2cqi, 1.5rem); }
+.review-ledger tr > :last-child { padding-inline-end: 0; }
+.review-ledger tbody { color: var(--review-secondary); font-size: 1rem; line-height: 1.6; }
+.review-ledger tbody th { color: var(--review-ink); font-weight: 670; }
+.review-ledger td > :is(b,strong):first-child { display: block; margin-bottom: .15rem; color: var(--review-blue); font-weight: 720; }
+.review-outcome { margin: 1.3rem 0 0; max-width: 66em; padding: .7rem 0 .1rem .9rem; border-inline-start: 3px solid #436d62; color: #24453f; line-height: 1.65; }
+.review-outcome > strong { display: block; margin-bottom: .15rem; }
+.review-spread :is(th,td,blockquote,summary) { word-break: keep-all; overflow-wrap: anywhere; }
+
+@container (max-width: 680px) {
+  .review-case { grid-template-columns: 1fr; gap: 1.25rem; }
+  .review-source { padding: .85rem 1rem; }
+}
+@container (max-width: 440px) {
+  .review-spread .review-heading { margin-bottom: .9rem; }
+  .review-heading h2 { font-size: 1.8rem; }
+  .review-ledger tr > :first-child { width: 39%; }
+  .review-ledger tbody { font-size: .96rem; }
+  .review-figure figcaption { font-size: .9rem; }
+}
+@media (min-width: 960px) {
+  .presenting .review-heading { margin-bottom: .7rem; }
+  .presenting .review-heading h2 { font-size: clamp(2rem, 3.5vw, 3.2rem); }
+  .presenting .review-figure img { max-height: 66vh; object-fit: contain; }
+}
+@media print {
+  .review-source, .review-ledger tr { break-inside: avoid; }
+  .review-transcript { border: 0; }
+  .review-transcript summary { display: none; }
+}
