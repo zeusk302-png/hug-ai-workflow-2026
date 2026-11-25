@@ -87,6 +87,25 @@
             <figure class="course-example release-figure"><a href="assets/captures/example-lean-release.png"><img src="assets/captures/example-lean-release.png" width="924" height="91" alt="Lean FRO와 Mathlib Initiative가 2026년 11월 21일 게시한 리만 가설 검증 공동 발표의 제목과 작성자 부분" loading="lazy"></a><figcaption>공동 발표 원문 상단입니다. 11월 20일 알푀게가 공개한 증명 코드를 다음 날 어떤 팀이 검사했는지 작성자와 게시일에서 확인할 수 있습니다.</figcaption></figure>
             <p class="editorial-note"><strong>확인 범위</strong> · 11월 25일 확인한 Clay 수학연구소의 공식 문제 페이지에는 <code>Active</code>가 표시됐습니다. 아래에서 원래 명제와 검증 과정을 각각 살펴봅니다.</p>
           </section>
+          <section class="visual-slide" id="riemann-proof-spine" data-slide data-title="리만 가설 증명의 120단계 척추">
+            <header class="chapter-heading"><p>리만 가설 · 증명 지도</p><h2>보라색 그림에서 ‘120단계 척추’는 무엇일까?</h2></header>
+            <figure class="proof-spine">
+              <a class="proof-spine-art" href="assets/math/riemann-proof-spine-frame.png" data-original-artwork="https://pbs.twimg.com/media/HXwboNtagAAVb46.jpg?name=orig" aria-label="리만 가설 증명의 보라색 척추 그림 확대"><img src="assets/math/riemann-proof-spine-frame.png" width="255" height="360" decoding="async" alt="검은 바탕에 분홍빛 줄기가 위에서 아래로 굽어 내려오고, 양옆으로 가느다란 보라색 가지가 뻗은 증명 지도."></a>
+              <figcaption>
+                <p class="proof-spine-lead"><span id="proof-spine-reading">맨 위의 <code>riemannHypothesis</code>가 증명하려는 결론입니다. “이 결론을 내려면 무엇을 먼저 알아야 할까?”라고 물으며 밝은 줄기를 따라 내려가 보세요.</span></p>
+                <dl class="proof-spine-key">
+                  <div><dt>밝은 줄기</dt><dd>Takens Theorem이 증명 코드에서 추적한 경로입니다. 자막의 ‘120단계’는 이 줄기의 길이입니다.</dd></div>
+                  <div><dt>보라색 가지</dt><dd>줄기 위의 정리가 증명에 사용한 보조정리 가운데 일부입니다. 한 지점에서 여러 가지가 뻗으면 그 단계에서 여러 중간 결과를 가져다 썼다고 읽습니다.</dd></div>
+                  <div><dt>희미한 점</dt><dd>이 경로를 따라가면서 방문하지 않은 파일입니다. 공개된 코드의 규모와 한 결론을 위해 따라간 경로의 차이가 드러납니다.</dd></div>
+                </dl>
+                <p class="proof-spine-credit">시각화 · <a href="https://x.com/takenstheorem/status/2124603523115684067">Takens Theorem 원 게시물</a></p>
+                <details class="proof-spine-frame">
+                  <summary>한국어 자막이 있는 장면 보기</summary>
+                  <a href="assets/math/riemann-proof-spine-frame.png" aria-label="한국어 영상 캡처 확대"><img src="assets/math/riemann-proof-spine-frame.png" width="255" height="360" loading="lazy" alt="같은 그림의 가운데를 확대한 영상 장면. 하단 자막에 ‘가운데 120단계 핵심 척추’라고 적혀 있습니다."></a>
+                </details>
+              </figcaption>
+            </figure>
+          </section>
           <section class="visual-slide" id="riemann" data-slide data-title="리만 가설">
             <header class="chapter-heading"><p>리만 가설 · 명제</p><h2>리만 가설은 무엇을 묻는가</h2><p>소수의 개수를 어림하는 문제에서 시작해, 복소평면에 놓인 영점이 왜 중요한지 연결합니다.</p></header>
             <figure class="principle-plate">

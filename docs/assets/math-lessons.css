@@ -1,3 +1,44 @@
+.proof-spine {
+  display: grid;
+  grid-template-columns: minmax(240px, .86fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(20px, 4vw, 56px);
+  margin: 0;
+}
+
+.proof-spine-art {
+  display: grid;
+  place-items: center;
+  background: #09080d;
+  border-radius: 8px;
+  min-width: 0;
+  cursor: zoom-in;
+}
+
+.proof-spine-art img {
+  display: block;
+  width: 100%;
+  height: clamp(360px, 62vh, 590px);
+  object-fit: contain;
+}
+
+.proof-spine figcaption { color: #243249; line-height: 1.65; word-break: keep-all; overflow-wrap: anywhere; }
+.proof-spine-lead { margin: 0; font-size: clamp(1.07rem, 1.7vw, 1.38rem); }
+.proof-spine-lead code { font-size: .85em; }
+.proof-spine-key { margin: 1.2rem 0 .8rem; }
+.proof-spine-key div { border-top: 1px solid #ded8e7; padding: .62rem 0; }
+.proof-spine-key dt { color: #57277a; font-weight: 750; }
+.proof-spine-key dd { margin: .1rem 0 0; }
+.proof-spine-credit { margin: 0 0 .75rem; font-size: .9rem; }
+.proof-spine-frame summary { width: fit-content; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.proof-spine-frame a { display: block; width: fit-content; max-width: 100%; margin-top: .6rem; cursor: zoom-in; }
+.proof-spine-frame img { display: block; height: auto; max-width: 100%; }
+
+@media (max-width: 720px) {
+  .proof-spine { grid-template-columns: minmax(0, 1fr); }
+  .proof-spine-art img { height: auto; max-height: 62vh; }
+}
+
 .math-slide {
   --math-navy: #122e49;
   --math-blue: #1767a6;

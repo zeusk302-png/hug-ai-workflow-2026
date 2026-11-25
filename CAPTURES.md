@@ -2,6 +2,7 @@
 
 ## 발표 화면의 수학 도표
 
+- 리만 가설 도입의 보라색 증명 지도는 Takens Theorem의 [원 게시물](https://x.com/takenstheorem/status/2124603523115684067)에서 [작가가 게시한 전체 그림](https://pbs.twimg.com/media/HXwboNtagAAVb46.jpg?name=orig)을 불러옵니다. 한국어 해설은 그림 왼쪽 아래 범례를 옮긴 것입니다. `docs/assets/math/riemann-proof-spine-frame.png`는 강의자가 제공한 한국어 영상 캡처(255×360)이며, 전체 그림을 불러올 수 없을 때도 표시됩니다.
 - `docs/assets/math/empetrisor-riemann-zeta-detail.png`는 Empetrisor의 복소평면 제타 함수 시각화입니다. TomFryers의 고해상도 판본을 수정 없이 게시했습니다. [Wikimedia Commons 원본과 CC BY-SA 4.0](https://commons.wikimedia.org/wiki/File:Riemann-Zeta-Detail.png)
 - `docs/assets/math/epstein-lean-proof-spine.svg`는 Jonathan Epstein이 작성한 Lean 증명 상위 의존성 지도입니다. 수정 없이 게시했으며 원본의 Apache 2.0 라이선스 전문을 같은 폴더에 포함했습니다. [Wikimedia Commons 원본과 라이선스](https://commons.wikimedia.org/wiki/File:EpsteinSpineOfAlpogeProofOfRH.svg)
 

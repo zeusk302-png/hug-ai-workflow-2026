@@ -1,4 +1,17 @@
 (() => {
+  const artworkLink = document.querySelector("[data-original-artwork]");
+  if (artworkLink) {
+    const original = new Image();
+    original.addEventListener("load", () => {
+      const preview = artworkLink.querySelector("img");
+      preview.src = original.src;
+      preview.width = original.naturalWidth;
+      preview.height = original.naturalHeight;
+      artworkLink.href = original.src;
+    }, {once: true});
+    original.src = artworkLink.dataset.originalArtwork;
+  }
+
   if (typeof HTMLDialogElement === "undefined" || !HTMLDialogElement.prototype.showModal) return;
 
   const viewer = document.createElement("dialog");
@@ -28,7 +41,7 @@
   document.addEventListener("click", (event) => {
     if (event.defaultPrevented || event.button || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
     const link = event.target.closest("figure a[href]");
-    if (!link || link.origin !== location.origin || !/\.(?:png|webp|jpe?g|svg)$/i.test(link.pathname)) return;
+    if (!link || (link.origin !== location.origin && link !== artworkLink) || !/\.(?:png|webp|jpe?g|svg)$/i.test(link.pathname)) return;
     event.preventDefault();
     opener = link;
     const figure = link.closest("figure");
