@@ -19,13 +19,14 @@
     <header class="page-title"><div class="wrap">
       <p class="kicker">15:35–16:25 · 연결 실습</p>
       <h1>내 도구 실행과 연결</h1>
-      <p>API로 읽은 원문을 내 업무 규칙에 넣고, MCP 검토 기준과 처리 결과를 CPU 모델에 전달합니다.</p>
+      <p>‘접수 문서 3건, 검토 대기 5건’을 한 문장으로 정리하려면 원문과 작성 기준이 필요합니다. 내가 만든 프로그램이 두 자료를 가져와 문장 초안을 받아보는 과정을 따라갑니다.</p>
       <nav class="jump" aria-label="실행과 연결 목차"><a href="#install">설치</a><a href="#start">작업 폴더</a><a href="#claude">Claude Code</a><a href="#api">HTTP API</a><a href="#mcp">MCP</a><a href="models.html#cpu">CPU 모델</a><a href="#apply-to-project">내 도구에 붙이기</a></nav>
     </div></header>
 
     <section class="wrap section" id="install">
       <h2>수업 전에 Python과 Claude Code를 설치합니다</h2>
-      <p class="reading">Windows PowerShell에서 아래 명령을 실행합니다. 교재는 Python 3.12를 기준으로 안내합니다. 현재 설치된 도구는 버전 확인부터 합니다.</p>
+      <p class="reading">Python은 <code>.py</code> 파일에 적힌 명령을 실행합니다. Claude Code는 내가 설명한 업무에 맞춰 그 파일을 작성하거나 수정하는 도구입니다. Windows 시작 메뉴에서 <strong>PowerShell</strong>을 열면 명령을 입력할 창이 나옵니다. 글자로 명령을 입력해 프로그램을 쓰는 방식을 <strong>CLI</strong>라고 합니다.</p>
+      <p class="reading"><code>py -3.12 --version</code>과 <code>claude --version</code>으로 설치 여부를 확인합니다. 없는 도구는 Windows 패키지 설치 도구인 <code>winget</code>으로 설치합니다.</p>
       <pre class="reading"><code>winget --version
 winget install --id Python.Python.3.12 --exact --source winget
 winget install --id Anthropic.ClaudeCode --exact --source winget</code></pre>
@@ -40,8 +41,8 @@ claude --version</code></pre>
       <div class="actions"><a class="btn primary" href="downloads/hug4-connections.zip" download>연결 실습 ZIP 받기</a></div>
       <ol class="lesson-steps reading" id="prepare">
         <li>ZIP을 풀어 <code>api_server.py</code>와 <code>input.txt</code>가 있는 <code>hug4-connections</code> 폴더를 엽니다. 탐색기 주소 표시줄에 <code>powershell</code>을 입력합니다.</li>
-        <li><code>input.txt</code>에 직접 고른 공개 자료나 가상 텍스트를 400자 이내로 쓰고 UTF-8로 저장합니다. 모델에 요청할 결과를 한 문장으로 정합니다.</li>
-        <li><strong>수업 전에 Python 전용 환경을 준비합니다.</strong> 이 폴더에 <code>.venv</code>를 만들고 MCP 라이브러리를 설치합니다.
+        <li><code>input.txt</code>에 내 도구를 처음 시험한 텍스트를 400자 이내로 쓰고 UTF-8로 저장합니다. UTF-8은 한글을 파일에 기록하고 읽을 때 양쪽이 사용할 문자 표기 방식입니다.</li>
+        <li><strong>수업 전에 실습 전용 Python 환경을 준비합니다.</strong> 첫 줄은 실습용 Python과 추가 기능을 둘 <code>.venv</code> 폴더를 만듭니다. 둘째 줄은 그 폴더의 Python을 써서 <code>requirements.txt</code>에 적힌 추가 기능을 설치합니다.
           <pre><code>py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt</code></pre></li>
       </ol>
@@ -56,7 +57,7 @@ claude --version</code></pre>
             <p>로그인이 필요하면 <code>claude auth login</code>을 실행해 공식 로그인 화면에서 본인 Team 계정을 선택합니다. 연결을 해제하려면 <code>claude auth logout</code>을 실행합니다.</p>
           </li>
           <li><strong>내 프로젝트를 만드는 세션을 엽니다.</strong> 작업 폴더에서 <code>claude</code>를 실행하고, 어떤 입력을 넣어 어떤 결과를 낼지 설명합니다.</li>
-          <li><strong>명령형 호출로 응답을 읽습니다.</strong> 같은 공개 텍스트로 요청을 만든 뒤 결과를 JSON으로 받습니다.
+          <li><strong>한 번 요청하고 결과를 받습니다.</strong> 프로그램도 답을 읽을 수 있게 JSON 형식을 지정합니다. JSON은 항목 이름과 그 값을 짝지어 쓰는 데이터 형식입니다.
             <pre><code>$sourceText = Get-Content -LiteralPath .\input.txt -Raw -Encoding UTF8
 $instruction = Read-Host '이 입력으로 만들 결과를 적으세요'
 $taskPrompt = $instruction + [Environment]::NewLine + $sourceText
@@ -78,26 +79,30 @@ claude -p --output-format json --max-turns 2 -- "$taskPrompt"</code></pre>
     </section></div>
 
     <section class="wrap section" id="api">
-      <h2>만든 HTTP API를 호출합니다</h2>
-      <p class="reading"><code>api_server.py</code>는 <code>GET /input</code> 요청을 받아 <code>input.txt</code>의 상태와 텍스트를 JSON으로 돌려줍니다. 하나의 PowerShell에 서버를 열고, 같은 폴더의 다른 PowerShell에서 요청을 보냅니다.</p>
+      <h2>API로 업무 원문을 요청합니다</h2>
+      <p class="reading">평소에는 내가 파일을 열고 문장을 복사했습니다. 이번에는 내 프로그램이 다른 프로그램에 “현재 원문을 주세요”라고 요청합니다. <strong>어떤 기능을 어떻게 요청하면 어떤 결과를 받는지 정해 둔 약속</strong>을 API라고 합니다. 이 실습은 HTTP라는 통신 규칙으로 요청을 보냅니다.</p>
+      <p class="reading">요청을 보내는 프로그램이 <strong>클라이언트</strong>, 요청을 기다렸다가 처리해 주는 프로그램이 <strong>서버</strong>입니다. 여기서는 둘 다 내 PC에서 실행합니다. 요청을 받을 프로그램을 첫 창에서 계속 켜 두고, 둘째 창에서 요청을 보냅니다.</p>
+      <div class="diagram" aria-label="입력 API에서 원문을 받는 순서"><b>내 프로그램이 원문을 요청</b><span aria-hidden="true">→</span><b>서버가 input.txt 읽기</b><span aria-hidden="true">→</span><b>내 프로그램이 원문을 받음</b></div>
       <ol class="lesson-steps reading">
-        <li><strong>서버를 켭니다.</strong> <code>http://127.0.0.1:8766/input</code>이 표시되면 내 프로그램의 연결 검증을 시작할 때까지 이 창을 열어 둡니다.
+        <li><strong>서버를 켭니다.</strong> 표시된 주소 <code>http://127.0.0.1:8766/input</code>에서 <code>127.0.0.1</code>은 내 PC, <code>8766</code>은 그 PC에서 요청을 받을 프로그램을 찾는 번호(포트)입니다. 연결 실습 동안 이 창을 열어 둡니다.
           <pre><code>py -3.12 api_server.py</code></pre></li>
-        <li><strong>클라이언트를 실행합니다.</strong> HTTP 상태와 응답 본문의 <code>status</code>를 각각 봅니다. <code>status: ok</code>이면 <code>text</code>에 내 입력이 들어 있습니다.
+        <li><strong>클라이언트에서 원문을 요청합니다.</strong> 아래 프로그램이 보내는 <code>GET /input</code>에서 <code>GET</code>은 자료 읽기, <code>/input</code>은 실습 서버가 정해 둔 원문 조회 경로입니다. 서버가 돌려준 JSON에서 <code>status</code>는 파일을 읽은 상태, <code>text</code>는 실제 원문입니다.
           <pre><code>py -3.12 inspect_api.py</code></pre></li>
-        <li><code>input.txt</code> 한 줄을 바꾸고 다시 호출합니다. 입력을 비웠을 때는 HTTP 200과 <code>status: empty</code>를 확인합니다. 다음 단계 전에 입력을 복구합니다.</li>
+        <li><code>input.txt</code> 한 줄을 바꾼 뒤 다시 요청해 <code>text</code>가 바뀌는지 봅니다. 원문을 보관한 뒤 파일을 비우면 <code>HTTP 200</code>과 <code>status: empty</code>가 함께 나옵니다. 서버는 요청에 응답했고, 응답의 내용은 “파일이 비었습니다”입니다. 다음 단계 전에 원문을 복구합니다.</li>
       </ol>
     </section>
 
     <div class="paper"><section class="wrap section" id="mcp">
-      <h2>MCP에서 업무 원문과 검토 기준을 구분합니다</h2>
-      <p class="reading"><code>mcp_server.py</code>는 원문을 읽는 도구와 검토 기준을 읽는 도구를 제공합니다. <code>inspect_mcp.py</code>가 표준 입출력으로 연결해 <code>tools/list</code>로 이름과 규격을 받고, <code>tools/call</code>로 도구를 실행합니다.</p>
+      <h2>MCP로 검토 기준을 읽는 도구를 찾아 씁니다</h2>
+      <p class="reading">이번에는 “항목 이름과 숫자를 그대로 적으세요”라는 검토 기준이 필요합니다. 이 기준을 찾아 읽는 기능을 Claude Code와 내 프로그램이 함께 쓰게 해보겠습니다. <strong>MCP(Model Context Protocol)</strong>는 프로그램들이 사용 가능한 도구의 이름과 사용법을 알아보고, 정해진 형식으로 도구 실행을 요청할 수 있게 해 주는 공통 규칙입니다.</p>
+      <div class="diagram" aria-label="MCP로 검토 기준을 요청하는 순서"><b>어떤 도구가 있나요?</b><span aria-hidden="true">→</span><b>목록에서 기준 읽기 찾기</b><span aria-hidden="true">→</span><b>이름으로 호출해 기준 받기</b></div>
+      <p class="reading">앞에서 원문을 요청할 때는 프로그램이 <code>/input</code>이라는 경로를 알고 있었습니다. 이번에는 검사기 <code>inspect_mcp.py</code>가 <code>tools/list</code>로 이름과 사용법을 받고, <code>tools/call</code>에 이름을 넣어 기준 읽기를 요청합니다. 실제로 파일을 여는 쪽은 <code>mcp_server.py</code>입니다. MCP로 공개한 도구가 내부에서 또 다른 API를 호출할 수도 있습니다. <a href="index.html#connection-principles">같은 자료로 API와 MCP의 역할 따라가기</a></p>
       <ol class="lesson-steps reading">
         <li><a href="#start">앞에서 준비한 Python 환경</a>으로 검사기를 실행합니다. 검사기가 서버를 시작하므로 별도의 MCP 서버 창은 필요 없습니다.
           <pre><code>.\.venv\Scripts\python.exe inspect_mcp.py</code></pre>
         </li>
         <li><code>tools/list</code>에서 <code>read_input</code>을 확인합니다. <code>tools/call read_input {}</code>로 실행한 결과의 상태와 텍스트를 HTTP API의 값과 대조합니다.</li>
-        <li><code>review_rules.txt</code>에 내 업무의 검토 기준을 적은 뒤 <code>tools/call read_review_rules {}</code>의 결과와 대조합니다. 내 프로그램에서는 이 기준을 CPU 모델에 전달합니다.</li>
+        <li><code>review_rules.txt</code>에 내 업무의 검토 기준을 적은 뒤 검사기를 다시 실행합니다. <code>tools/call read_review_rules {}</code>의 <code>{}</code>는 추가로 보낼 값이 없다는 뜻입니다. 반환된 기준이 내가 적은 문장과 같은지 봅니다.</li>
       </ol>
       <h3>Claude Code에서도 같은 서버를 등록합니다</h3>
       <p class="reading">같은 폴더에서 다음 명령으로 등록합니다. <code>--scope local</code>은 현재 프로젝트에서 쓰는 개인 설정을 뜻합니다.</p>
@@ -131,7 +136,7 @@ claude mcp get hug4-input</code></pre>
         <ul>
           <li>설치 · <a href="https://www.python.org/downloads/windows/">Windows용 Python</a> · <a href="https://docs.python.org/3.12/library/venv.html">Python 전용 실행 환경</a> · <a href="https://git-scm.com/install/windows">Git for Windows</a></li>
           <li>Claude Code · <a href="https://code.claude.com/docs/en/setup">Windows 설치</a> · <a href="https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan">Team 계정 연결</a> · <a href="https://code.claude.com/docs/en/cli-reference">CLI 명령과 옵션</a></li>
-          <li>MCP · <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 아키텍처</a> · <a href="https://code.claude.com/docs/en/mcp">Claude Code의 MCP 연결</a></li>
+          <li>프로그램 연결 · <a href="https://developer.mozilla.org/en-US/docs/Glossary/API">API의 뜻</a> · <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP의 구성과 도구 호출</a> · <a href="https://code.claude.com/docs/en/mcp">Claude Code의 MCP 연결</a></li>
         </ul>
       </details>
     </div>

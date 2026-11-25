@@ -1,0 +1,47 @@
+.concept-walkthrough {
+  margin: 1.5rem 0;
+  border: 1px solid #ccd6e7;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  color: #17283e;
+}
+.concept-walkthrough figcaption { padding: 1rem clamp(1rem, 3vw, 2rem); background: #f0f4fc; }
+.concept-walkthrough figcaption strong, .concept-walkthrough figcaption span { display: block; }
+.concept-walkthrough figcaption strong { color: #1c314a; font-size: clamp(1.12rem, 2vw, 1.45rem); }
+.concept-walkthrough figcaption span { margin-top: .25rem; font-size: .94rem; color: #4b5970; }
+.concept-walkthrough [hidden] { display: none !important; }
+.concept-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.concept-controls button {
+  min-height: 3.1rem;
+  border: 0;
+  border-bottom: 3px solid #d3dce8;
+  padding: .55rem .3rem;
+  font: inherit;
+  font-weight: 700;
+  color: #34465f;
+  background: #fafbfd;
+  cursor: pointer;
+}
+.concept-controls button[aria-selected="true"] { color: #263c99; border-color: #344bb4; background: #ebefff; }
+.concept-controls button:focus-visible, .concept-step:focus-visible { outline: 3px solid #2f55aa; outline-offset: -4px; }
+.concept-step { margin: 0; padding: clamp(1rem, 3vw, 2rem); }
+.concept-step + .concept-step { border-top: 1px solid #dee4ee; }
+.concept-step h3 { margin: 0; color: #17283e; font-size: clamp(1.1rem, 2vw, 1.4rem); }
+.concept-exchange { display: grid; grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1fr); align-items: stretch; gap: .45rem; margin: 1rem 0; }
+.concept-packet { padding: .85rem 1rem; border-radius: 7px; background: #f1f4fb; }
+.concept-packet:last-child { background: #e9f4f0; }
+.concept-packet b { display: block; margin-bottom: .4rem; color: #283f60; }
+.concept-packet pre { white-space: pre-wrap; overflow-wrap: anywhere; margin: .35rem 0; padding: .55rem; background: #fff; border: 1px solid #d4dfeb; border-radius: 4px; }
+.concept-packet pre code { background: transparent; color: #243c57; padding: 0; }
+.concept-arrow { align-self: center; text-align: center; font-size: 1.4rem; color: #536d92; }
+.concept-step p { margin: .4rem 0 0; line-height: 1.65; }
+@media (max-width: 660px) {
+  .concept-controls { grid-template-columns: 1fr 1fr; }
+  .concept-exchange { grid-template-columns: minmax(0, 1fr); gap: .12rem; }
+  .concept-arrow { justify-self: center; transform: rotate(90deg); }
+}
+@media print {
+  .concept-walkthrough [data-concept-controls] { display: none; }
+  .concept-walkthrough .concept-step[hidden] { display: block !important; }
+}

@@ -97,6 +97,20 @@
 .lab-route a { margin-top: 2px; font-size: .96rem; color: var(--editorial-ink); font-weight: 750; }
 .lab-action { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 14px 0; }
 .lab-bridge { margin-top: 15px; }
+.beginner-exchange { margin: 1.2rem 0; padding: clamp(14px, 2.4vw, 25px); border: 1px solid #cbd7ed; border-radius: 10px; background: #f7f9ff; }
+.beginner-exchange figcaption { margin-bottom: 12px; font-size: 1.18rem; font-weight: 800; color: #203754; }
+.beginner-message { display: grid; grid-template-columns: 5em minmax(0, 1fr); gap: 10px; padding: 10px 0; align-items: baseline; }
+.beginner-message + .beginner-message { border-top: 1px solid #d6dfef; }
+.beginner-message > span { color: #31499a; font-weight: 750; }
+.beginner-message b { margin-left: .3em; }
+.beginner-message strong, .beginner-message code { display: block; }
+.beginner-message code { margin-top: 6px; width: fit-content; max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; }
+.beginner-explain { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 32px; margin: 16px 0; }
+.beginner-explain h3 { margin: 0 0 4px; }
+@media (max-width: 690px) {
+  .beginner-explain { grid-template-columns: minmax(0, 1fr); }
+  .beginner-message { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
 .course-editorial .lab-sheet .guided-steps { margin-top: 15px; }
 .course-editorial .lab-sheet .guided-steps > li + li { margin-top: 14px; }
 .lab-sheet pre { max-width: 81ch; }
