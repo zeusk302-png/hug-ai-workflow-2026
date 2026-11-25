@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="허그 4회차 Windows 개인 실습. 공고 비교 도구를 실행하고 Claude Code, 공개 API, 직접 만든 MCP를 연결합니다.">
-  <title>PC 실습 · HUG 4회차</title>
+  <title>내 도구 실행과 연결 · HUG 4회차</title>
   <link rel="stylesheet" href="assets/site.css">
 </head>
 <body class="guide-page">
@@ -12,7 +12,7 @@
   <header class="top">
     <div class="wrap">
       <a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a>
-      <nav aria-label="수업 메뉴"><a href="index.html">수업</a><a href="workbench.html">브라우저 실습</a><a href="local.html" aria-current="page">PC 실습</a><a href="models.html">모델 받기</a></nav>
+      <nav aria-label="수업 메뉴"><a href="index.html">수업</a><a href="index.html#practice">실습</a><a href="models.html">모델 받기</a></nav>
     </div>
   </header>
   <main id="main">
@@ -20,7 +20,7 @@
       <p class="kicker">Windows 개인 실습</p>
       <h1>내 PC에서 첫 실행까지</h1>
       <p>준비된 파일로 결과를 한 번 저장한 뒤, Claude Code로 자기 업무에 맞게 바꿉니다. 외부 자료나 도구가 필요하면 연결 실습 하나를 골라 진행합니다.</p>
-      <nav class="jump" aria-label="PC 실습 목차"><a href="#start">첫 실행</a><a href="#claude">Claude 연결</a><a href="#api">공개 API</a><a href="#mcp">MCP 도구</a><a href="models.html#cpu">CPU 모델</a></nav>
+      <nav class="jump" aria-label="실행과 연결 목차"><a href="#start">첫 실행</a><a href="#claude">Claude 연결</a><a href="#api">공개 API</a><a href="#mcp">MCP 도구</a><a href="models.html#cpu">CPU 모델</a></nav>
     </div></header>
 
     <section class="wrap section" id="start">
@@ -49,7 +49,7 @@ py -3 runner.py --case missing</code></pre>
       <p class="reading">같은 폴더에서 아래 명령을 실행한 다음 <a href="http://127.0.0.1:8765/">http://127.0.0.1:8765/</a>에 접속합니다. 예시와 AI 모드를 선택해 실행한 뒤 단계별 기록을 펼칩니다. 미리보기에서는 오프라인과 모의 응답을 실행할 수 있습니다. 미리보기 창을 종료할 때는 PowerShell에서 <strong>Ctrl+C</strong>를 누릅니다.</p>
       <pre class="reading"><code>py -3 preview.py</code></pre>
       <div class="result-check reading"><strong>다음으로 갈 기준</strong> · 원문에 찍힌 두 날짜를 결과에서 직접 대조할 수 있습니다. 이제 작업 폴더를 Claude Code로 연 뒤, 내 업무의 입력·처리·저장할 결과를 전달합니다.</div>
-      <details class="reading"><summary>PowerShell에서 파일을 찾지 못했어요</summary><p><code>Get-Location</code>을 실행해 현재 위치를 확인합니다. ZIP을 풀지 않았거나 부모 폴더를 연 경우에는 <code>runner.py</code>가 보이는 폴더에서 창을 다시 엽니다. Python 설치가 제한된 PC에서는 <a href="workbench.html">브라우저 실습</a>에서 먼저 실행 흐름을 따라갈 수 있습니다.</p></details>
+      <details class="reading"><summary>PowerShell에서 파일을 찾지 못했어요</summary><p><code>Get-Location</code>을 실행해 현재 위치를 확인합니다. ZIP을 풀지 않았거나 부모 폴더를 연 경우에는 <code>runner.py</code>가 보이는 폴더에서 창을 다시 엽니다. Python 설치가 제한되면 <a href="index.html#practice">본문에서 예제 실행</a>을 계속할 수 있습니다.</p></details>
     </section>
 
     <div class="paper"><section class="wrap section" id="claude">

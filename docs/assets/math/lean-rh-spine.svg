@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" lang="ko" role="img" aria-labelledby="title description">
+  <title id="title">리만 가설 Lean 증명의 선언 지도</title>
+  <desc id="description">최종 리만 가설 정리부터 아래로 정리 8개가 중앙에 연결되고, 좌우에는 그 정리들이 의존하는 큰 갈래 8개가 이어진다. 파란 화살표는 주 경로, 주황 점선은 큰 갈래의 연결이다. 갈래 숫자는 해당 갈래를 통해서만 도달하는 선언의 수다. 출처는 2026년 11월 20일 공개본을 분석한 Tam Nguyen의 정적 선언 인덱스다.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#102139"/>
+      <stop offset="1" stop-color="#0a1424"/>
+    </linearGradient>
+    <linearGradient id="focus" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#22578b"/>
+      <stop offset="1" stop-color="#193652"/>
+    </linearGradient>
+    <marker id="spine-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 9 5 1 9Z" fill="#7ac8ff"/>
+    </marker>
+    <marker id="branch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 9 5 1 9Z" fill="#f1ad70"/>
+    </marker>
+    <style>
+      text { font-family: "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif; fill: #f4f8ff; }
+      .heading { font-size: 43px; font-weight: 750; letter-spacing: -1.2px; }
+      .subtitle { font-size: 21px; fill: #bdcde0; }
+      .node { fill: #162b42; stroke: #4a779a; stroke-width: 1.5; }
+      .branch-node { fill: #231f2a; stroke: #845d50; stroke-width: 1.5; }
+      .node-label { font-size: 26px; font-weight: 700; text-anchor: middle; }
+      .branch-label { font-size: 23px; font-weight: 700; }
+      .code { font-family: "Cascadia Mono", Consolas, monospace; font-size: 16px; text-anchor: middle; fill: #b7d7f6; }
+      .count { font-size: 17px; font-weight: 650; fill: #ffd2a9; }
+      .legend { font-size: 18px; fill: #d9e4f1; }
+      .footnote { font-size: 17px; fill: #bdcde0; }
+      .spine-edge { fill: none; stroke: #7ac8ff; stroke-width: 3; stroke-linecap: round; marker-end: url(#spine-arrow); }
+      .branch-edge { fill: none; stroke: #f1ad70; stroke-width: 2.5; stroke-dasharray: 6 6; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#branch-arrow); }
+    </style>
+  </defs>
+
+  <rect width="1440" height="900" rx="22" fill="url(#background)"/>
+  <text x="46" y="65" class="heading">리만 가설 Lean 증명의 선언 지도</text>
+  <text x="47" y="103" class="subtitle">최종 정리에서 출발해, 각 정리가 사용하는 결과를 아래로 따라간다.</text>
+  <path d="M44 127H1396" stroke="#304258"/>
+
+  <g aria-label="범례">
+    <path d="M1080 65h44" class="spine-edge"/>
+    <text x="1140" y="71" class="legend">주 경로</text>
+    <path d="M1244 65h44" class="branch-edge"/>
+    <text x="1304" y="71" class="legend">큰 갈래</text>
+  </g>
+
+  <g aria-label="주 경로 연결">
+    <path d="M720 208v21" class="spine-edge"/>
+    <path d="M720 293v21" class="spine-edge"/>
+    <path d="M720 378v21" class="spine-edge"/>
+    <path d="M720 463v21" class="spine-edge"/>
+    <path d="M720 548v21" class="spine-edge"/>
+    <path d="M720 633v21" class="spine-edge"/>
+    <path d="M720 718v21" class="spine-edge"/>
+  </g>
+  <g aria-label="큰 갈래 연결">
+    <path d="M463 431h-64" class="branch-edge"/>
+    <path d="M463 516h-64" class="branch-edge"/>
+    <path d="M463 601h-64" class="branch-edge"/>
+    <path d="M977 601h64" class="branch-edge"/>
+    <path d="M977 686h64" class="branch-edge"/>
+    <path d="M463 766h-37v-80h-27" class="branch-edge"/>
+    <path d="M463 781h-37v-10h-27" class="branch-edge"/>
+    <path d="M977 771h64" class="branch-edge"/>
+  </g>
+
+  <g aria-label="주 경로의 Lean 선언 8개">
+    <g>
+      <title>riemannHypothesis</title>
+      <rect x="463" y="145" width="514" height="63" rx="12" fill="url(#focus)" stroke="#82c2f6" stroke-width="2"/>
+      <text x="720" y="173" class="node-label">리만 가설</text>
+      <text x="720" y="194" class="code">riemannHypothesis</text>
+    </g>
+    <g>
+      <title>rhOfAll</title>
+      <rect x="463" y="230" width="514" height="63" rx="12" class="node"/>
+      <text x="720" y="258" class="node-label">영점 배제에서 리만 가설로</text>
+      <text x="720" y="279" class="code">rhOfAll</text>
+    </g>
+    <g>
+      <title>allChi</title>
+      <rect x="463" y="315" width="514" height="63" rx="12" class="node"/>
+      <text x="720" y="343" class="node-label">모든 캐릭터에 대한 영점 배제</text>
+      <text x="720" y="364" class="code">allChi</text>
+    </g>
+    <g>
+      <title>UpperTheory.FinalTheorems.everyCharacter</title>
+      <rect x="463" y="400" width="514" height="63" rx="12" class="node"/>
+      <text x="720" y="428" class="node-label">캐릭터 전체에 대한 정리</text>
+      <text x="720" y="449" class="code">FinalTheorems.everyCharacter</text>
+    </g>
+    <g>
+      <title>UpperTheory.FinalTheorems.everyCharacter_of_row</title>
+      <rect x="463" y="485" width="514" height="63" rx="12" class="node"/>
+      <text x="720" y="513" class="node-label">갈루아 표현을 이용한 환원</text>
+      <text x="720" y="534" class="code">everyCharacter_of_row</text>
+    </g>
+    <g>
+      <title>UpperTheory.LiteratureTheorems.every_character_of_literature_of_vWin</title>
+      <rect x="463" y="570" width="514" height="63" rx="12" class="node"/>
+      <text x="720" y="598" class="node-label">기존 정리와 보조 수체의 조건 결합</text>
+      <text x="720" y="619" class="code">every_character_of_literature_of_vWin</text>
+    </g>
+    <g>
+      <title>UpperTheory.Lit.every_character_of_theta_integrals_local_matching</title>
+      <rect x="463" y="655" width="514" height="63" rx="12" class="node"/>
+      <text x="720" y="683" class="node-label">세타 적분과 국소 대응을 이용한 환원</text>
+      <text x="720" y="704" class="code">every_character_of_theta_integrals_local_matching</text>
+    </g>
+    <g>
+      <title>UpperTheory.Lit.nonempty_hyps_definite_side_of_closed_bound</title>
+      <rect x="463" y="740" width="514" height="63" rx="12" class="node"/>
+      <text x="720" y="768" class="node-label">필요한 가설을 만족하는 대상의 존재</text>
+      <text x="720" y="789" class="code">nonempty_hyps_definite_side_of_closed_bound</text>
+    </g>
+  </g>
+
+  <g aria-label="큰 갈래의 Lean 선언 8개와 해당 갈래로만 도달하는 선언 수">
+    <g>
+      <title>UpperTheory.Gal.Int.galoisLocalGlobalStrong_recParameter — 51,591</title>
+      <rect x="44" y="400" width="350" height="63" rx="10" class="branch-node"/>
+      <text x="63" y="427" class="branch-label">갈루아 표현의 국소·전역 호환성</text>
+      <text x="63" y="449" class="count">51,591개 선언</text>
+    </g>
+    <g>
+      <title>UpperTheory.One.vwin_of_row — 55,805</title>
+      <rect x="44" y="485" width="350" height="63" rx="10" class="branch-node"/>
+      <text x="63" y="512" class="branch-label">보조 수체의 Sha 길이 상계</text>
+      <text x="63" y="534" class="count">55,805개 선언</text>
+    </g>
+    <g>
+      <title>SelfIntersectionVolumeEstimates.topCovolSlim2_use_alt_alt — 52,186</title>
+      <rect x="44" y="570" width="350" height="63" rx="10" class="branch-node"/>
+      <text x="63" y="597" class="branch-label">자기교차 부피 추정</text>
+      <text x="63" y="619" class="count">52,186개 선언</text>
+    </g>
+    <g>
+      <title>UpperTheory.LiteratureTheorems.theta_integrals_agree_and_local_matching_of_literature — 8,520</title>
+      <rect x="1046" y="570" width="350" height="63" rx="10" class="branch-node"/>
+      <text x="1065" y="597" class="branch-label">세타 적분의 일치와 국소 대응</text>
+      <text x="1065" y="619" class="count">8,520개 선언</text>
+    </g>
+    <g>
+      <title>GlobalTheory.Fc.S0.ontoX_and_lamLow_of_unitaryGroupHypotheses' — 19,399</title>
+      <rect x="44" y="655" width="350" height="63" rx="10" class="branch-node"/>
+      <text x="63" y="682" class="branch-label">유니터리 군의 전사성·하한</text>
+      <text x="63" y="704" class="count">19,399개 선언</text>
+    </g>
+    <g>
+      <title>UpperTheory.Top.every_character_of_green_v_win — 12,070</title>
+      <rect x="1046" y="655" width="350" height="63" rx="10" class="branch-node"/>
+      <text x="1065" y="682" class="branch-label">Green 이론과 VWin 조건 결합</text>
+      <text x="1065" y="704" class="count">12,070개 선언</text>
+    </g>
+    <g>
+      <title>GlobalTheory.T.open0_of_unitary_group_hypotheses — 12,608</title>
+      <rect x="44" y="740" width="350" height="63" rx="10" class="branch-node"/>
+      <text x="63" y="767" class="branch-label">유니터리 군의 열린 조건</text>
+      <text x="63" y="789" class="count">12,608개 선언</text>
+    </g>
+    <g>
+      <title>GlobalTheory.Fc.S0.StageU.hypotheses_nonempty_of_unramified_exponents_alt — 88,131</title>
+      <rect x="1046" y="740" width="350" height="63" rx="10" class="branch-node"/>
+      <text x="1065" y="767" class="branch-label">비분기 지수에서 가설의 존재</text>
+      <text x="1065" y="789" class="count">88,131개 선언</text>
+    </g>
+  </g>
+
+  <path d="M44 824H1396" stroke="#304258"/>
+  <text x="45" y="853" class="footnote">2026-11-20 공개본 · Tam Nguyen 정적 선언 인덱스의 주 경로와 큰 갈래를 수업용으로 재구성</text>
+  <text x="45" y="878" class="footnote">갈래 숫자는 해당 갈래로만 도달하는 선언 수 · 전체 그래프의 일부</text>
+</svg>

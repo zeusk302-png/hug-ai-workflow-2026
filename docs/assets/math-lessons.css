@@ -1,0 +1,215 @@
+.math-slide {
+  --math-navy: #122e49;
+  --math-blue: #1767a6;
+  --math-muted: #405a6c;
+  --math-rule: #cadce8;
+  --math-paper: #f3f8fc;
+  --math-mint: #e9f6f0;
+  --math-teal: #146148;
+  padding: clamp(26px, 5vw, 56px) clamp(0px, 2.2vw, 22px);
+  border-bottom: 1px solid var(--math-rule);
+  color: var(--math-navy);
+  scroll-margin-top: 20px;
+}
+
+.math-slide-header {
+  margin-bottom: 20px;
+}
+
+.math-slide-header h2 {
+  margin: 0 0 9px;
+  font-size: clamp(1.6rem, 3.6vw, 2.65rem);
+  line-height: 1.2;
+}
+
+.math-slide-header p {
+  max-width: 62ch;
+  color: var(--math-muted);
+  line-height: 1.6;
+}
+
+.agi-visual,
+.pnp-process {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.agi-visual {
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+}
+
+.math-card {
+  min-width: 0;
+  margin: 0;
+  padding: clamp(14px, 2.25vw, 23px);
+  border: 1px solid var(--math-rule);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.math-slide .math-card h3,
+.math-slide .pnp-scenario h3 {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  line-height: 1.35;
+}
+
+.math-slide .math-card p,
+.math-slide .pnp-scenario p {
+  margin: 0;
+  color: var(--math-muted);
+  line-height: 1.55;
+}
+
+.math-card figcaption {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.math-card figcaption strong {
+  font-size: 1.35rem;
+}
+
+.math-card figcaption span {
+  color: var(--math-muted);
+}
+
+.agi-levels,
+.math-labels,
+.pnp-verify {
+  padding: 0;
+  list-style: none;
+}
+
+.agi-levels {
+  margin: 0;
+}
+
+.agi-levels li {
+  display: grid;
+  grid-template-columns: 32px 4.25em minmax(0, 1fr);
+  align-items: baseline;
+  gap: 7px;
+  padding: 8px 0;
+  border-top: 1px solid var(--math-rule);
+  line-height: 1.35;
+}
+
+.agi-levels li span:last-child {
+  color: var(--math-muted);
+  font-size: .9rem;
+}
+
+.agi-number {
+  color: var(--math-blue);
+  font-size: 1.3rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.agi-range > div {
+  padding: 13px;
+  border: 1px solid var(--math-rule);
+  border-radius: 7px;
+  background: var(--math-paper);
+}
+
+.agi-range > div + div {
+  margin-top: 10px;
+  border-color: #c3dfd3;
+  background: var(--math-mint);
+}
+
+.math-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 0;
+}
+
+.math-labels li {
+  padding: 3px 8px;
+  border: 1px solid #c3d8e7;
+  border-radius: 5px;
+  background: #fff;
+  color: var(--math-navy);
+  font-size: .9rem;
+  font-weight: 650;
+}
+
+.agi-range > div + div .math-labels li {
+  border-color: #b8d9ca;
+}
+
+.math-takeaway {
+  max-width: 78ch;
+  margin: 15px 0 0;
+  line-height: 1.6;
+}
+
+.math-takeaway strong {
+  color: var(--math-blue);
+}
+
+.math-sources {
+  margin-top: 12px;
+  color: var(--math-muted);
+  font-size: .9rem;
+}
+
+.math-sources p {
+  max-width: 78ch;
+}
+
+.pnp-scenario {
+  margin-bottom: 12px;
+  padding: 12px 15px;
+  border-left: 3px solid var(--math-blue);
+  background: var(--math-paper);
+}
+
+.pnp-candidates {
+  margin-top: 15px;
+}
+
+.pnp-verify {
+  margin: 10px 0 0;
+}
+
+.pnp-verify li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px 10px;
+  padding: 5px 0;
+  border-top: 1px solid var(--math-rule);
+  line-height: 1.4;
+}
+
+.pnp-verify li span {
+  color: var(--math-muted);
+}
+
+.math-slide .pnp-result {
+  margin-top: 7px;
+  color: var(--math-teal);
+  font-weight: 750;
+}
+
+@media (max-width: 740px) {
+  .agi-visual,
+  .pnp-process {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  .agi-levels li {
+    grid-template-columns: 24px 3.25em minmax(0, 1fr);
+    gap: 5px;
+  }
+}

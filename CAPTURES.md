@@ -1,5 +1,10 @@
 # 수업 사이트 캡처 출처
 
+## 발표 화면의 수학 도표
+
+- `assets/math/riemann-zeroes.webp`는 mpmath의 `zetazero(n)`으로 처음 열 양의 허수부 영점 좌표를 계산해 Matplotlib으로 그린 도표입니다. 실수부 0.5를 표시하고, 계산한 각 점에 제타 함수를 다시 대입해 값이 0에 근접하는지 확인했습니다. [Odlyzko의 영점 표](https://www-users.cse.umn.edu/~odlyzko/zeta_tables/)
+- `assets/math/lean-rh-spine.svg`는 2026년 11월 20일 공개 Lean 소스의 정적 선언 인덱스에서 주 경로 8개와 주요 갈래 8개를 뽑아 그린 수업용 그림입니다. 각 갈래 수는 정적 인덱스에서 그 갈래를 통해서만 도달하는 선언 수입니다. [Tam Nguyen의 데이터](https://riemann.tamnd.com/code/) · [Mirza의 증명 탐색기](https://bosnadev.com/lab/riemann/app)
+
 ## 2026년 11월 25일 개편
 
 Windows에서 Chrome으로 실습을 실행하고 캡처했습니다. 로그 뷰어 이미지는 명령과 HTTP 요청에서 실제로 받은 값 중 수업에 필요한 필드를 보여줍니다.

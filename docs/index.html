@@ -7,22 +7,27 @@
   <title>내 업무를 처리하는 프로그램 만들기 | HUG 실무 AI 교육 4회차</title>
   <link rel="stylesheet" href="assets/site.css">
   <link rel="stylesheet" href="assets/lesson.css">
+  <link rel="stylesheet" href="assets/presentation.css">
+  <link rel="stylesheet" href="assets/math-lessons.css">
+  <link rel="stylesheet" href="assets/workbench.css">
   <script src="assets/lesson.js" defer></script>
+  <script src="assets/presentation.js" defer></script>
+  <script src="assets/workbench.js" defer></script>
 </head>
 <body class="lesson">
   <a class="skip" href="#main">본문으로</a>
   <header class="top"><div class="wrap">
     <a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a>
-    <nav aria-label="실습 메뉴"><a href="workbench.html">브라우저 실습</a><a href="local.html">PC 실습</a><a href="models.html">모델 받기</a></nav>
+    <nav class="course-nav" aria-label="수업 메뉴"><a href="#opening">도입</a><a href="#practice">실습</a><a href="#verify">검증</a><button type="button" id="open-deck" class="btn" hidden>발표 모드</button></nav>
   </div></header>
   <main id="main">
-    <section class="lesson-cover" aria-labelledby="lesson-title">
+    <section class="lesson-cover" aria-labelledby="lesson-title" data-slide data-title="내 업무 도구 만들기">
       <div class="wrap cover-layout">
         <div class="cover-copy">
           <p class="cover-session">4회차 <span>·</span> <time datetime="2026-11-26">11월 26일(목)</time> <span>·</span> 13:30–17:30</p>
           <h1 id="lesson-title">내 업무를 처리하는<br>프로그램 만들기</h1>
           <p class="cover-summary">반복하는 일 하나를 골라 내 손으로 실행 순서를 정합니다. Claude Code로 만들고, 결과가 틀리면 어느 단계에서 값이 달라졌는지 찾아 고칩니다.</p>
-          <a class="btn primary" href="#build">개인 실습 시작</a>
+          <a class="btn primary" href="#practice">개인 실습 시작</a>
         </div>
         <figure class="cover-example">
           <figcaption>오늘의 예제 <strong>공고 변경 검토</strong></figcaption>
@@ -36,16 +41,6 @@
       </div>
     </section>
     <div class="wrap lesson-layout">
-      <aside class="lesson-outline">
-        <nav aria-label="교재 목차">
-          <p>이 페이지</p>
-          <a href="#opening">AI와 검증</a>
-          <a href="#build">내 도구 만들기</a>
-          <a href="#backend">실행 버튼의 뒷단</a>
-          <a href="#connect">선택 실습</a>
-          <a href="#verify">새 입력으로 검증</a>
-        </nav>
-      </aside>
       <div class="lesson-reading">
         <details id="schedule" class="lesson-disclosure schedule-disclosure">
           <summary><strong>수업 일정</strong><span>14:10 첫 요청 · 15:10 첫 실행</span></summary>
@@ -63,62 +58,220 @@
           </dl>
         </details>
 
-        <section class="lesson-section" id="opening">
-          <header class="chapter-heading"><p>13:30–13:55</p><h2>AI가 낸 답을 어떻게 확인할까?</h2>
-            <p>수학에서는 주장과 증명을 각각 확인합니다. 오늘 만들 도구에서도 AI가 돌려준 값과 그 값이 근거에 맞는지를 따로 살핍니다.</p>
-          </header>
-          <h3>리만 가설의 증명은 어떻게 검증했을까?</h3>
-          <p>소수의 개수는 범위가 커질수록 어느 정도 예측할 수 있습니다. 리만 가설은 그 예측에서 생기는 오차를 얼마나 정밀하게 설명할 수 있는지에 연결됩니다. 수학적으로는 리만 제타 함수의 특정한 영점들이 모두 한 직선 위에 놓인다는 주장입니다.</p>
-          <figure class="lesson-photo"><img src="assets/lesson/chalkboard.webp" alt="점과 선이 그려진 칠판의 연출 이미지" width="1200" height="675" loading="lazy"></figure>
-          <dl class="proof-timeline">
-            <div>
-              <dt><time datetime="2026-11-20">11.20</time> <strong>증명 공개</strong></dt>
-              <dd>레벤트 알푀게는 간단한 상황에서 시도한 두 아이디어를 더 일반적인 문제에 적용하는 과정에서 Claude가 핵심 단계의 구성을 제안했다고 설명합니다. 공동 작업의 결과는 컴퓨터로 검사할 수 있는 Lean 코드 약 1,700만 줄로 공개됐습니다.</dd>
+        <div class="opening-deck" id="opening">
+          <section class="visual-slide" id="riemann" data-slide data-title="리만 가설">
+            <header class="chapter-heading"><p>13:30–13:55 · AI와 수학</p><h2>리만 가설이 가리키는 선</h2></header>
+            <div class="slide-split">
+              <div class="slide-copy">
+                <p>소수는 불규칙하게 나타나지만, 범위를 넓히면 몇 개쯤 있을지 예측할 수 있습니다. 리만 가설은 <strong>그 예측의 오차를 얼마나 정밀하게 설명할 수 있는지</strong>에 연결됩니다.</p>
+                <p>그래프의 점은 리만 제타 함수의 값이 0이 되는 곳입니다. 그림 속 열 점은 모두 실수부가 0.5인 세로선 위에 있습니다.</p>
+                <p class="slide-insight"><strong>가설이 묻는 것</strong><br>비자명한 영점이 <em>전부</em> 이 선 위에 있을까?</p>
+              </div>
+              <figure class="slide-figure"><img src="assets/math/riemann-zeroes.webp" alt="복소평면의 실수부 0.5 선에 놓인 리만 제타 함수의 처음 열 양의 비자명한 영점. 첫 세 점의 허수부는 약 14.13, 21.02, 25.01입니다." width="1406" height="1008"><figcaption>처음 열 영점의 좌표를 수치 계산해 그렸습니다. 가설이 말하는 범위는 모든 비자명한 영점입니다.</figcaption></figure>
             </div>
-            <div>
-              <dt><time datetime="2026-11-21">11.21</time> <strong>독립 검증</strong></dt>
-              <dd>Lean·Mathlib 검증팀은 코드가 여러 환경에서 같은 증명 데이터를 만들어 내는지 확인했습니다. 증명이 겨냥한 명제가 수학 라이브러리의 리만 가설과 정확히 같은지 두 도구로 대조하고, 그 증명 데이터를 여러 검사기로 다시 확인했습니다.</dd>
-            </div>
-            <div>
-              <dt><time datetime="2026-11-25">11.25</time> <strong>공식 표기</strong></dt>
-              <dd>검증팀은 고전적 리만 가설의 명제와 증명이 정확하다고 발표했습니다. 11월 25일 확인한 Clay 수학연구소의 문제 페이지에는 <code>Active</code>가 표시됐습니다. 두 기록은 형식 검증 결과와 기관의 게시 상태를 각각 알려줍니다.</dd>
-            </div>
-          </dl>
+          </section>
 
-          <h3>반례 하나로 추측이 바뀐 사례</h3>
-          <div class="lesson-aside">
-            <div><p>에르되시는 평면에 점을 놓을 때 <strong>거리가 정확히 1인 점의 쌍</strong>을 얼마나 많이 만들 수 있는지 물었습니다. 정사각형으로 시작하면 점 4개에서 그런 쌍이 4개 나옵니다.</p>
-            <p>2026년 5월, OpenAI 모델은 점의 수를 늘릴 때 단위거리 쌍이 기존 추측보다 더 빠르게 늘어나는 배치 방법을 내놓았습니다. 이 방법은 점을 더 많이 놓은 배치를 계속 만들 수 있어서 증가율에 대한 추측을 깨는 근거가 됩니다. 연구자들은 이 구성을 다시 검토하고 사람이 읽을 수 있는 증명으로 정리했습니다.</p></div>
-            <figure class="unit-diagram" aria-label="한 변이 1인 정사각형에서 길이가 1인 쌍 네 개를 보여주는 설명용 도식">
-              <div class="distance-square" aria-hidden="true"><i></i><i></i><i></i><i></i><b>1</b><span></span></div>
-              <figcaption>정사각형의 네 변만<br>길이가 1입니다.</figcaption>
+          <section class="visual-slide" id="lean" data-slide data-title="Lean 증명 지도">
+            <header class="chapter-heading"><p>리만 가설 · 형식 검증</p><h2>Lean 증명의 뼈대</h2><p>한 정리가 다른 정리들을 근거로 씁니다. 중심 줄기를 따라가면 최종 결론을 떠받치는 갈래들이 펼쳐집니다.</p></header>
+            <figure class="slide-figure proof-map"><img src="assets/math/lean-rh-spine.svg" alt="리만 가설 최종 정리 아래로 Lean 선언 8개가 세로로 이어지고, 양옆에 큰 의존성 갈래 8개와 각 갈래의 선언 수가 표시된 지도" width="1440" height="900" loading="lazy"><figcaption>공개 Lean 소스를 정적으로 분석한 인덱스에서 주 경로 8개와 큰 갈래 8개를 골랐습니다. 화살표는 정리가 사용하는 선언을 가리킵니다. 갈래에 적힌 숫자는 그 갈래를 통해서만 도달하는 선언 수입니다.</figcaption></figure>
+            <dl class="proof-timeline">
+              <div><dt><time datetime="2026-11-20">11.20</time> <strong>증명 공개</strong></dt><dd>알푀게는 간단한 경우에서 찾은 아이디어를 일반화하는 과정에서 Claude가 핵심 단계의 구성을 제안했다고 설명했습니다. 결과는 약 1,700만 줄의 Lean 코드로 공개됐습니다.</dd></div>
+              <div><dt><time datetime="2026-11-21">11.21</time> <strong>공동 검증</strong></dt><dd>Lean·Mathlib 팀은 명제가 수학 라이브러리의 리만 가설과 같은지 대조하고, 여러 검사기로 증명 데이터를 확인했습니다.</dd></div>
+              <div><dt><time datetime="2026-11-25">11.25</time> <strong>기관 표기 확인</strong></dt><dd>공동 발표는 고전적 리만 가설의 명제와 증명이 정확하다고 밝혔습니다. 11월 25일 Clay 문제 페이지의 표기는 <code>Active</code>였습니다.</dd></div>
+            </dl>
+          </section>
+
+          <section class="visual-slide math-slide" id="agi" data-slide data-title="AGI의 성능과 범위" aria-labelledby="agi-title">
+            <header class="math-slide-header">
+              <h2 id="agi-title">AGI를 이야기할 때 보는 두 축</h2>
+              <p>Morris 등은 범용 인공지능(AGI)을 설명하기 위해 과제를 얼마나 잘하는지와 얼마나 다양한 일을 할 수 있는지를 따로 봅니다.</p>
+            </header>
+
+            <div class="agi-visual">
+              <figure class="math-card agi-performance">
+                <figcaption>
+                  <strong>성능</strong>
+                  <span>정해진 과제를 얼마나 잘하나</span>
+                </figcaption>
+                <ol class="agi-levels" start="0">
+                  <li><span class="agi-number">0</span><strong>비AI</strong><span>계산기처럼 정해진 절차를 실행</span></li>
+                  <li><span class="agi-number">1</span><strong>초기</strong><span>비숙련자와 비슷하거나 조금 높은 수준</span></li>
+                  <li><span class="agi-number">2</span><strong>능숙</strong><span>해당 기술을 갖춘 성인의 50백분위 이상</span></li>
+                  <li><span class="agi-number">3</span><strong>전문가</strong><span>해당 기술을 갖춘 성인의 90백분위 이상</span></li>
+                  <li><span class="agi-number">4</span><strong>탁월</strong><span>해당 기술을 갖춘 성인의 99백분위 이상</span></li>
+                  <li><span class="agi-number">5</span><strong>초인간</strong><span>해당 과제에서 모든 사람을 능가</span></li>
+                </ol>
+              </figure>
+
+              <figure class="math-card agi-breadth">
+                <figcaption>
+                  <strong>범위</strong>
+                  <span>그 성능을 몇 종류의 과제에서 내나</span>
+                </figcaption>
+                <div class="agi-range">
+                  <div>
+                    <h3>좁은 범위</h3>
+                    <p>정해진 한 과제 또는 비슷한 과제 묶음</p>
+                    <ul class="math-labels" aria-label="좁은 범위의 예">
+                      <li>체스</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3>넓은 범위</h3>
+                    <p>종류가 다른 여러 인지 과제에 적용</p>
+                    <ul class="math-labels" aria-label="넓은 범위의 예">
+                      <li>문서</li>
+                      <li>코딩</li>
+                      <li>수학</li>
+                      <li>새 기술 학습</li>
+                    </ul>
+                  </div>
+                </div>
+              </figure>
+            </div>
+
+            <p class="math-takeaway"><strong>초지능(ASI)</strong>은 넓은 범위에서 초인간 성능을 낸다는 뜻입니다. <strong>기술적 특이점</strong>은 그런 능력이 기술 개발을 가속해 앞으로의 변화를 예측하기 어려워질 수 있다는 가설입니다.</p>
+            <details class="lesson-disclosure math-sources">
+              <summary>성능 그래프 읽는 법</summary>
+              <p>가령 50백분위는 비교 집단의 중간 수준입니다. 막대 길이는 0부터 5까지 등급의 순서를 나타냅니다. 체스에서는 체스 성능을, 문서와 코딩에서는 각각의 과제 성능을 측정해 이 틀에 놓습니다.</p>
+            </details>
+          </section>
+
+          <section class="visual-slide math-slide" id="p-np" data-slide data-title="P 대 NP" aria-labelledby="p-np-title">
+            <header class="math-slide-header">
+              <h2 id="p-np-title">P vs NP · 답 찾기와 답 확인하기</h2>
+              <p>맞는 후보를 빠르게 확인할 수 있는 문제라면, 맞는 후보가 있는지도 항상 빠르게 알아낼 수 있을까요?</p>
+            </header>
+
+            <div class="pnp-scenario">
+              <h3>다섯 명 중 세 명 배정하기</h3>
+              <p>후보는 A, B, C, D, E입니다. 같은 팀에 둘 수 없는 쌍은 <strong>A–B, B–D, C–E</strong>입니다.</p>
+            </div>
+
+            <div class="pnp-process">
+              <div class="math-card">
+                <h3>조건을 만족하는 팀 찾기</h3>
+                <p>세 명을 고르는 방법은 이 예에서 10개입니다. 후보를 하나씩 살펴보는 방법이라면 조건을 만족하는 조합을 만날 때까지 확인합니다.</p>
+                <ul class="math-labels pnp-candidates" aria-label="검토할 후보 일부">
+                  <li>A·B·C</li>
+                  <li>A·B·D</li>
+                  <li>A·B·E</li>
+                  <li>…</li>
+                </ul>
+              </div>
+              <div class="math-card">
+                <h3>이미 주어진 팀 검사하기</h3>
+                <p><strong>A·C·D</strong>를 받았다면 인원과 팀 안의 세 쌍을 확인합니다.</p>
+                <ul class="pnp-verify">
+                  <li><span>인원</span><strong>3명</strong></li>
+                  <li><span>팀 안의 쌍</span><strong>A–C, A–D, C–D</strong></li>
+                  <li><span>금지 목록에 있는 쌍</span><strong>0개</strong></li>
+                </ul>
+                <p class="pnp-result">A·C·D는 조건을 만족합니다.</p>
+              </div>
+            </div>
+
+            <p class="math-takeaway"><strong>알려진 관계는 P ⊆ NP입니다.</strong> 답을 빠르게 결정할 수 있으면, 답이 ‘예’라는 후보도 빠르게 확인할 수 있습니다. 두 집합이 같은지, NP에 P 바깥의 문제가 있는지는 미해결입니다.</p>
+            <figure class="pnp-set-figure">
+              <div class="pnp-set-grid">
+                <div><strong>P = NP일 경우</strong><div class="pnp-ellipse">P = NP</div></div>
+                <div><strong>P ≠ NP일 경우</strong><div class="pnp-ellipse pnp-nested"><span>P</span><b>NP</b></div></div>
+              </div>
+              <figcaption>두 가능성 모두 P ⊆ NP를 만족합니다.</figcaption>
             </figure>
-          </div>
-          <div class="exercise">
-            <div><h4>5분 실습 · 소수라는 주장 확인하기</h4><p><var>n</var>에 0, 1, 2를 넣으면 <strong>41, 43, 47</strong>이 나옵니다. Claude에게 이 식이 항상 소수인지 물어보고, 답으로 받은 값을 직접 넣어봅니다.</p></div>
-            <form id="counter-form" class="counter-form"><label for="counter-n">n에 넣을 정수</label><div><input id="counter-n" name="n" type="number" min="0" max="1000" value="2" required><button type="submit" class="btn">계산</button></div></form>
-            <output class="calculation" id="counter-result" for="counter-n" aria-live="polite"><strong>2² + 2 + 41 = 47</strong><span>47은 소수입니다.</span></output>
-            <details><summary>반례 확인</summary><p><var>n</var> = 40이면 1,681 = 41 × 41입니다. 몇 번 맞았는지와 모든 입력에서 맞는지는 검증 범위가 다릅니다.</p></details>
-          </div>
 
-          <h3>수학 능력으로 AGI를 판단할 수 있을까?</h3>
-          <p>메러디스 링겔 모리스와 동료들은 AI를 평가할 때 <strong>능력의 폭</strong>과 <strong>과제별 성능</strong>을 따로 보자고 제안합니다. 수학을 잘 푼다는 기록은 그 과제의 성능을 보여줍니다. 법률 검토부터 일정 조정까지 잘하는지도 알아보려면 분야를 넓혀 각각 시험해야 합니다.</p>
-          <dl class="term-list">
-            <div><dt>특화 AI</dt><dd>문서 분류처럼 맡긴 과제 안에서 얼마나 잘하는지 평가합니다.</dd></div>
-            <div><dt>범용 AI(AGI)</dt><dd>여러 분야에 능력을 적용할 수 있는지, 각 분야에서 성능이 어느 수준인지 함께 봅니다.</dd></div>
-            <div><dt>초지능(ASI)</dt><dd>넓은 범위에서 인간 전문가의 능력을 크게 넘어서는 수준을 가리킵니다.</dd></div>
+            <details class="lesson-disclosure math-sources">
+              <summary>수학에서 말하는 ‘빠르게’</summary>
+              <p>정식으로는 답이 예 또는 아니오인 문제를 다룹니다. P는 입력 길이에 대해 다항 시간 안에 결정할 수 있는 문제의 집합입니다. NP는 예라는 답을 뒷받침하는 후보가 주어지면 다항 시간 안에 검증할 수 있는 문제의 집합입니다. 이 배정 예시는 후보를 만드는 일과 주어진 후보를 확인하는 일을 보여줍니다. 다른 해결법의 한계까지 밝히려면 별도의 수학적 증명이 필요합니다.</p>
+            </details>
+          </section>
+
+          <section class="visual-slide" id="counterexample" data-slide data-title="반례 하나 찾기">
+            <header class="chapter-heading"><p>5분 실습</p><h2>반례 하나면 추측이 바뀝니다</h2></header>
+            <div class="slide-split counter-slide">
+              <div class="slide-copy"><h3>에르되시의 단위거리</h3><p>점 네 개를 정사각형으로 놓으면 거리가 1인 쌍은 네 변에서 나옵니다. OpenAI 모델은 점 수를 계속 늘렸을 때 단위거리 쌍의 수가 기존 추측보다 더 빨리 늘어나는 구성을 제시했습니다. 연구자들이 그 반례를 검토했습니다.</p>
+                <figure class="unit-diagram" aria-label="한 변이 1인 정사각형에서 길이가 1인 네 쌍"><div class="distance-square" aria-hidden="true"><i></i><i></i><i></i><i></i><b>1</b><span></span></div><figcaption>점 4개 중 길이 1인 쌍은<br>네 변에 하나씩 있습니다.</figcaption></figure>
+              </div>
+              <div class="exercise">
+                <div><h3>항상 소수인지 확인하기</h3><p><var>n</var>이 0, 1, 2일 때 결과는 <strong>41, 43, 47</strong>입니다. Claude에게 항상 소수인지 물어보고, 답으로 받은 값을 넣어보세요.</p></div>
+                <form id="counter-form" class="counter-form"><label for="counter-n">n에 넣을 정수</label><div><input id="counter-n" name="n" type="number" min="0" max="1000" value="2" required><button type="submit" class="btn">계산</button></div></form>
+                <output class="calculation" id="counter-result" for="counter-n" aria-live="polite"><strong>2² + 2 + 41 = 47</strong><span>47은 소수입니다.</span></output>
+                <details><summary>반례 확인</summary><p><var>n</var> = 40에서 1,681 = 41 × 41입니다. 오후 실습에서도 처음 맞았던 입력 뒤에 조건이 다른 입력을 하나 더 넣습니다.</p></details>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="lesson-section visual-slide lab lab-embedded" id="practice" data-slide data-title="공고 비교 예제 실행" aria-labelledby="practice-title">
+          <header class="chapter-heading">
+            <p>13:55–14:05 · 실습 시작</p>
+            <h2 id="practice-title">공고 비교를 먼저 실행해 봅니다</h2>
+            <p>두 날짜를 넣고 실행한 뒤 <strong>마감일 비교</strong> 상자를 눌러 무엇을 받고 무엇을 내보냈는지 확인합니다.</p>
+          </header>
+          <noscript><p class="class-note">이 예제를 실행하려면 JavaScript가 필요합니다. <a href="#prepare">시작 파일에서 실행하는 방법</a>도 확인할 수 있습니다.</p></noscript>
+          <div class="bench" id="bench">
+            <div class="panel lab-controls">
+              <h3>입력 확인</h3>
+              <form id="runner">
+                <div class="fields">
+                  <fieldset class="date-fields" id="deadline-fields">
+                    <legend class="lab-sr-only">비교할 공고 날짜</legend>
+                    <label>기존 마감일<input type="date" id="deadline-before" value="2026-12-10"></label>
+                    <label>변경 마감일<input type="date" id="deadline-after" value="2026-12-17"></label>
+                    <button class="btn" id="clear-deadline" type="button">변경 마감일 비우기</button>
+                  </fieldset>
+                  <label id="input-field" hidden>입력<textarea id="input" rows="2" maxlength="8000"></textarea></label>
+                  <label id="second-field" hidden>비교할 문서<textarea id="second" rows="2" maxlength="8000"></textarea></label>
+                  <label id="filter-field" hidden>찾을 단어<input id="keyword" maxlength="100"></label>
+                  <label id="mode-field" hidden>NASA 검색 방식<select id="mode"><option value="sample">저장된 샘플 1건</option><option value="live">실시간 NASA API</option><option value="empty">실습용 0건 응답</option><option value="failure">실습용 연결 실패</option></select></label>
+                </div>
+                <button class="btn primary" id="run" type="submit">워크플로 실행</button>
+              </form>
+            </div>
+            <div class="panel lab-sequence">
+              <h3>실행 순서</h3>
+              <p class="lab-help">상자를 누르면 실행 기록에서 단계별 값을 볼 수 있습니다.</p>
+              <ol class="graph" id="graph" aria-label="노드 실행 순서"></ol>
+              <details class="lab-extra">
+                <summary>예제 바꾸기와 노드 추가</summary>
+                <div class="options"><label for="preset">시작 예제</label><select id="preset"><option value="deadline">공고 마감일 비교</option><option value="nasa">NASA 사진 카드</option><option value="diff">두 문서의 줄 비교</option><option value="list">관심 단어로 목록 거르기</option><option value="blank">빈 흐름</option></select><button class="btn" id="load" type="button">예제 열기</button></div>
+                <div class="options"><label for="kind">추가할 노드</label><select id="kind"></select><button class="btn" id="add" type="button">노드 추가</button></div>
+                <p class="lab-help">실시간 NASA API를 선택하면 검색어를 NASA의 공개 서비스로 보냅니다.</p>
+              </details>
+            </div>
+            <div class="panel lab-results">
+              <h3>실행 결과와 기록</h3>
+              <p class="status" id="status" role="status">실행 전 · 아래 기록에서 선택한 상자의 값을 봅니다.</p>
+              <div id="result" class="result-card" hidden></div>
+              <div id="inspect">
+                <strong id="node-title">입력</strong>
+                <div class="io"><div><h4>받은 값</h4><pre id="in">실행 전</pre></div><div><h4>내보낸 값</h4><pre id="out">실행 전</pre></div></div>
+              </div>
+              <details class="lab-storage lab-extra">
+                <summary>흐름 저장하고 다시 열기</summary>
+                <div class="row-buttons">
+                  <button class="btn" id="export" type="button">워크플로 JSON 저장</button><button class="btn" id="import" type="button">워크플로 JSON 열기</button><input type="file" id="json-file" accept=".json,application/json" hidden>
+                </div>
+                <p class="lab-help">JSON에는 상자 종류와 순서를 저장합니다. 실행할 때 비교할 값은 다시 넣습니다.</p>
+              </details>
+            </div>
+          </div>
+          <dl class="lab-cases" aria-label="입력을 바꿔 볼 세 가지 실행">
+            <div><dt>기본 날짜</dt><dd><strong>7일 연장</strong> · 비교 단계의 <code>differenceDays</code>는 7입니다.</dd></div>
+            <div><dt>두 날짜를 같게</dt><dd><strong>마감일 그대로</strong> · 비교 단계의 <code>differenceDays</code>는 0입니다.</dd></div>
+            <div><dt>변경 마감일 비우기</dt><dd><strong>날짜 확인에서 멈춤</strong> · 비교와 결과 표시를 건너뜁니다.</dd></div>
           </dl>
-          <p><strong>기술적 특이점</strong>은 성능 등급과는 별개의 가설입니다. 버너 빈지는 인간을 넘어선 지능이 기술을 만드는 일 자체에 투입되면, 발전 속도와 방식이 달라져 이후를 지금의 경험으로 예측하기 어려워질 수 있다고 봤습니다.</p>
+          <p class="class-note">비교 순서가 익숙해지면 <a href="#prepare">한 번 받은 시작 파일</a>에서 내 업무의 입력과 처리 규칙을 바꿉니다. 같은 파일 안에서 입력 비교와 결과 저장부터 실행하고, 초안이 필요하면 AI 단계를 붙입니다.</p>
         </section>
 
-        <section class="lesson-section" id="build">
+        <section class="lesson-section visual-slide" id="build" data-slide data-title="내 도구 첫 버전">
           <header class="chapter-heading"><p>13:55–15:10</p><h2>내 업무 도구의 첫 버전을 만듭니다</h2>
             <p>강사 예제는 공고 마감일 비교입니다. 문의 분류, 파일 비교, 회의 메모 정리처럼 입력 하나와 예상 결과 하나를 바로 준비할 수 있는 자기 업무를 고릅니다.</p>
           </header>
           <ol class="guided-steps">
             <li id="prepare"><h3>작업 폴더를 열고 연결을 확인합니다</h3>
               <p>시작 파일을 받아 압축을 풉니다. <code>runner.py</code>가 보이는 폴더를 탐색기에서 열고, 주소 표시줄에 <code>powershell</code>을 입력합니다.</p>
-              <div class="action-line"><a class="btn primary" href="downloads/hug4-starter.zip" download>시작 파일 ZIP 받기</a><a href="local.html#start">PC에서 막혔을 때</a></div>
+              <div class="action-line"><a class="btn primary" href="downloads/hug4-starter.zip" download>시작 파일 ZIP 받기</a><a href="local.html#start">압축 풀기와 실행 도움말</a></div>
               <pre><code>Test-Path .\runner.py
 py -3 --version
 claude auth status</code></pre>
@@ -140,12 +293,12 @@ claude auth status</code></pre>
               <p>준비된 예제를 먼저 실행하면 작업 폴더가 제대로 열렸는지 확인할 수 있습니다. <code>outputs/latest.md</code>를 열어 두 날짜와 원문 위치가 있는지 확인합니다.</p>
               <pre><code>py -3 runner.py --case changed</code></pre>
               <p>이제 Claude Code가 알려준 명령으로 내 도구를 실행합니다. 값이 예상과 다르면 실제 입력 한 줄, 나온 결과, 예상했던 결과를 함께 주고 문제가 생긴 단계 하나를 수정합니다.</p>
-              <p class="class-note">설치가 제한된 PC에서는 브라우저 실습에서 흐름을 조립하고, 날짜나 문서를 바꿔 실행한 뒤 JSON으로 저장합니다. <a href="workbench.html#bench">브라우저 실습 열기</a></p>
+              <p class="class-note">설치가 제한된 경우에는 <a href="#practice">위 실행 화면</a>에서 날짜나 문서를 바꿔 흐름을 실행하고 JSON으로 저장할 수 있습니다.</p>
             </li>
           </ol>
         </section>
 
-        <section class="lesson-section" id="backend">
+        <section class="lesson-section visual-slide" id="backend" data-slide data-title="실행 버튼의 뒷단">
           <header class="chapter-heading"><p>15:10–15:35</p><h2>실행 버튼 뒤에서 일어나는 일</h2>
             <p><strong>파일 트리</strong>를 보면 어느 파일을 열어야 할지 알 수 있고, <strong>워크플로우</strong>를 보면 어느 단계까지 값이 제대로 전달됐는지 알 수 있습니다.</p>
           </header>
@@ -160,7 +313,7 @@ claude auth status</code></pre>
           <details class="lesson-disclosure"><summary>실제 파일 목록과 기록 화면</summary><figure class="lesson-shot"><img src="assets/captures/lesson-tree.png" alt="배포 ZIP에서 읽은 파일 목록과 실제 첫 실행에서 저장된 결과" loading="lazy"><figcaption>압축 안의 경로와 실제 실행에서 저장된 비교 결과를 같이 봅니다.</figcaption></figure></details>
 
           <h3>워크플로우에서 입력과 출력을 따라갑니다</h3>
-          <p>실행기는 <code>workflow.json</code>을 읽고 앞 단계의 출력을 다음 상자에 넘깁니다. 예를 들어 날짜가 빠지면 브라우저 실습은 날짜 확인에서 비교를 건너뜁니다. PC에서는 날짜를 찾지 못한 위치와 보류 판정을 파일에 저장합니다.</p>
+          <p>실행기는 <code>workflow.json</code>을 읽고 앞 단계의 출력을 다음 상자에 넘깁니다. 예제에서 날짜가 빠지면 비교를 건너뜁니다. 파일을 쓰는 버전은 날짜를 찾지 못한 위치와 보류 판정도 저장합니다.</p>
           <ol class="workflow-map">
             <li><strong>파일 읽기</strong><span>원문과 줄 번호</span></li>
             <li><strong>마감일 비교</strong><span>이전 날짜와 새 날짜</span></li>
@@ -188,7 +341,7 @@ claude auth status</code></pre>
           </details>
         </section>
 
-        <section class="lesson-section" id="connect">
+        <section class="lesson-section visual-slide" id="connect" data-slide data-title="API·MCP·CPU 모델 연결">
           <header class="chapter-heading"><p>15:35–16:25</p><h2>필요한 연결 하나만 추가합니다</h2><p>내 도구에 필요한 기능을 더 고쳐도 좋습니다. 외부 자료, 다른 앱에서 쓸 기능, 내 PC에서 도는 모델이 필요하다면 아래 실습을 고릅니다.</p></header>
           <dl class="connection-list">
             <div><dt>API · 외부에서 자료 받기</dt><dd>현장 방문 준비 도구가 좌표로 날씨를 요청하고, 응답에서 강수확률 하나를 가져옵니다. HTTP로 요청을 보내고 JSON에서 필요한 값을 골라 내 도구에 넘깁니다. <a href="local.html#api">API 호출 실습</a></dd></div>
@@ -197,7 +350,7 @@ claude auth status</code></pre>
           </dl>
         </section>
 
-        <section class="lesson-section" id="verify">
+        <section class="lesson-section visual-slide" id="verify" data-slide data-title="새 입력에서 검증">
           <header class="chapter-heading"><p>16:35–17:30</p><h2>새 입력으로 시험하고 다시 엽니다</h2><p>처음 성공한 입력을 보관합니다. 조건이 다른 입력과 값이 빠진 입력을 넣기 전에, 각각 어떤 결과가 나와야 하는지 적습니다.</p></header>
           <div class="table-wrap"><table><thead><tr><th scope="col">무엇을 넣을까?</th><th scope="col">어떤 결과가 나와야 할까?</th></tr></thead><tbody>
             <tr><td>마감일이 다른 공고</td><td>변경 전후 날짜와 원문 위치가 저장됩니다.</td></tr>
@@ -213,16 +366,23 @@ claude auth status</code></pre>
         <details class="sources-drawer" id="sources">
           <summary>원문과 출처</summary>
           <ul>
-            <li>리만 가설 · <a href="https://alpo.ge/remark.pdf">알푀게의 공개문</a>, <a href="https://leanprover-community.github.io/blog/posts/riemann-hypothesis/">Lean·Mathlib 공동 검증 발표</a>, <a href="https://www.claymath.org/millennium/riemann-hypothesis/">Clay의 문제 설명과 게시 상태</a></li>
+            <li>리만 가설 · <a href="https://alpo.ge/remark.pdf">알푀게의 공개문</a>, <a href="https://leanprover-community.github.io/blog/posts/riemann-hypothesis/">Lean·Mathlib 공동 검증 발표</a>, <a href="https://www.claymath.org/millennium/riemann-hypothesis/">Clay 문제 설명</a>, <a href="https://www-users.cse.umn.edu/~odlyzko/zeta_tables/">Odlyzko 영점 자료</a>, <a href="https://riemann.tamnd.com/code/">Lean 선언 의존성 데이터</a>, <a href="https://bosnadev.com/lab/riemann/app">Mirza의 공개 증명 탐색기</a></li>
             <li>단위거리 · <a href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/">OpenAI 발표</a>, <a href="https://arxiv.org/abs/2605.20695">Alon 외의 반례 검토</a></li>
-            <li>AI 능력의 수준 · <a href="https://arxiv.org/abs/2311.02462">Morris 외의 AGI 평가 틀</a>, <a href="https://ntrs.nasa.gov/api/citations/19940022856/downloads/19940022856.pdf">버너 빈지의 특이점 논문</a></li>
+            <li>P 대 NP · <a href="https://www.claymath.org/millennium/p-vs-np/">Clay의 미해결 문제</a>, <a href="https://www.claymath.org/wp-content/uploads/2022/06/pvsnp.pdf">Stephen Cook의 문제 정의</a></li>
+            <li>AI 능력의 수준 · <a href="https://arxiv.org/html/2311.02462v5#S4">Morris 외의 AGI 평가 틀</a>, <a href="https://ntrs.nasa.gov/api/citations/19940022856/downloads/19940022856.pdf">버너 빈지의 특이점 논문</a></li>
             <li>모델 요청 · <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works">Claude의 도구 호출</a>, <a href="https://platform.claude.com/docs/en/build-with-claude/context-windows">컨텍스트</a>, <a href="https://code.claude.com/docs/en/headless">CLI 구조화 응답</a></li>
           </ul>
-          <p>칠판 사진은 수업용 연출 이미지입니다. 실행 캡처에는 교육용 가상 입력을 사용했습니다.</p>
+          <p>영점 그래프는 mpmath로 계산했습니다. 실행 캡처에는 교육용 가상 입력을 사용했습니다.</p>
         </details>
       </div>
     </div>
   </main>
+  <nav class="deck-controls" id="deck-controls" aria-label="발표 화면 이동" hidden>
+    <button type="button" id="deck-prev" class="btn">이전</button>
+    <output id="deck-state" aria-live="polite"></output>
+    <button type="button" id="deck-next" class="btn">다음</button>
+    <button type="button" id="close-deck" class="btn">교재로</button>
+  </nav>
   <footer class="bottom"><div class="wrap"><span>HUG 실무 AI 교육 · 4회차</span><span>내 업무를 처리하는 프로그램 만들기</span></div></footer>
 </body>
 </html>
