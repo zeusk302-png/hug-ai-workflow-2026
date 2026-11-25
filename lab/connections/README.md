@@ -1,6 +1,6 @@
 # 내 입력 연결하기
 
-각 연결의 반환값을 먼저 확인합니다. 그 뒤 예제 프로그램에서 입력 API, 검토 기준 MCP, CPU 추론을 한 번에 호출하고, 앞에서 만든 내 프로그램에도 같은 위치에 붙입니다.
+각 연결의 반환값을 확인한 뒤 예제 프로그램에서 입력 API, MCP, CPU 추론을 한 번에 실행합니다. RAG 모드에서는 질문에 맞는 문단을 검색해 모델에 건네고, 앞에서 만든 내 프로그램에 이 흐름을 붙입니다.
 
 ## 시작 전 준비
 
@@ -93,7 +93,24 @@ Get-Content -LiteralPath .\output\before.json, .\output\connected.json -Encoding
 - 연결 실행은 같은 입력을 API로 가져와 동일한 `prepare_rows()`를 적용합니다. 이어 MCP의 `read_review_rules`를 호출해 `review_rules.txt`를 읽고, 정리 결과와 검토 기준으로 CPU에서 초안을 생성합니다. `output/connected.json`에서 `rows`는 기준 실행과 같아야 합니다. 생성된 문장은 `draft`에 있고 `requires_review`는 `true`입니다.
 - `review_rules.txt`가 비거나 모델이 응답하지 않으면 어느 단계에서 멈췄는지 표시하고 이번 결과를 저장하지 않습니다. 기존 결과 파일이 있으면 그 파일의 수정 시간과 실행기의 저장 메시지를 함께 확인합니다.
 
-## 5. 앞서 만든 내 프로그램에 옮깁니다 · 16:35부터
+## 5. RAG로 근거 문단을 찾아 초안을 만듭니다 · 16:35–16:50
+
+**16:35–16:41 · 원리.** 질문이 바뀌면 참고할 내용도 달라집니다. 프로그램이 먼저 문서에서 관련 문단을 검색하고, 그 결과를 업무 자료와 함께 모델에 주어 답을 작성하는 방식이 검색 증강 생성(RAG)입니다. MCP는 이 실습에서 문단 검색 기능을 호출하는 통로이고, CPU는 생성에 필요한 계산을 맡습니다.
+
+**16:41–16:50 · 직접 실행.** 입력 API와 CPU 모델 서버를 켜 둡니다. `evidence/` 안의 두 파일은 수업용 가상 문서입니다. 각 파일을 열어 빈 줄로 구분한 두 문단을 읽은 뒤 실습 폴더에서 실행합니다.
+
+```powershell
+.\.venv\Scripts\python.exe my_program.py --rag "접수 문서"
+Get-Content -LiteralPath .\output\rag.json -Raw -Encoding UTF8
+```
+
+1. 프로그램이 API에서 원문을 읽고 기존 규칙으로 줄을 정리합니다. 이어 MCP로 `search_evidence`에 검색할 말을 보냅니다.
+2. 검색기는 질문과 문단의 단어를 비교합니다. 공통 단어 한 종류가 1점이며, 1점 이상인 문단 가운데 상위 두 개까지 가져옵니다. 띄어쓰기와 문장부호로 단어를 나누고, 동점이면 파일명과 문단 순서를 따릅니다. “접수 문서”는 `evidence/01-intake.txt` 1문단에서 2점, `evidence/02-review.txt` 1문단에서 1점입니다. 조사나 동의어 때문에 관련 문단이 누락될 수 있습니다.
+3. 모델이 받는 값은 질문, 기존 처리 결과, 검색된 문단과 그 위치입니다. `output/rag.json`에서 `rows`와 기존 기본 실행 결과를 대조합니다. `evidence` 각 항목의 `file`을 열어 `paragraph` 번호(1부터)의 본문과 `excerpt`가 같은지 확인합니다. `score`는 단어가 일치한 정도입니다. 초안의 사실과 숫자가 근거에서 뒷받침되는지는 직접 읽고 판단합니다.
+4. 같은 프로그램을 `--rag "보완 요청은"`으로 실행해 선택된 파일과 문단이 바뀌는지 봅니다. 이어 `--rag "출장 여비"`로 실행합니다. 수업 자료에서 검색 결과가 0건이면 모델 호출 전에 멈춥니다. 이번 실행의 새 파일은 생기지 않고, 이미 저장된 `rag.json`은 직전 성공 결과입니다.
+5. 직접 고른 참고 자료를 `evidence/` 안에 UTF-8 `.txt`로 저장합니다. 한 문단을 짧게 쓰고 문단 사이는 빈 줄로 구분합니다. 문서에 실제로 등장하는 단어로 다시 요청해 저장된 파일명과 문단 번호를 찾아봅니다.
+
+## 6. 앞서 만든 내 프로그램에 옮깁니다 · 16:50–17:15
 
 1. 앞서 성공했던 실행 명령을 다시 쓰고 기존 결과를 저장합니다. 에디터의 파일 트리에서 **실행하는 파일 → 입력을 읽는 코드 → 규칙을 처리하는 코드 → 저장하는 코드**를 따라갑니다. 파일 이름은 내 프로그램에 맞게 찾습니다.
 2. 내 프로그램의 시작 파일이 있는 폴더에 다음 두 연결 파일을 복사합니다. `$lab`에는 압축을 푼 `hug4-connections`의 전체 경로를 넣습니다. 예제 프로젝트와 서버를 실습 폴더에 둔 채 서비스 주소로 연결합니다.
@@ -113,7 +130,23 @@ Get-Content -LiteralPath .\output\before.json, .\output\connected.json -Encoding
    & (Join-Path $lab '.venv\Scripts\python.exe') $entry --connected
    ```
 
-6. 같은 입력으로 기존 결과와 연결한 결과를 비교합니다. 빈 입력을 다시 실행해 새 결과가 만들어지지 않는지 확인하고 원문을 복구합니다. 작업이 끝나면 PowerShell 1과 3에서 각각 `Ctrl+C`를 눌러 서버를 종료합니다.
+6. 같은 실행 파일에 `--rag "질문"`을 추가합니다. API 입력과 기존 가공 결과가 준비된 뒤 검색 → 생성 → 저장 순서로 두 함수를 호출합니다. 아래 코드는 이미 복사한 연결 모듈을 사용합니다. `processed_text`에는 내 업무 결과를 읽기 쉽게 풀어 쓴 텍스트를 넣고 `query`에는 실행 명령으로 받은 질문을 넣습니다.
+
+   ```python
+   import os
+   from pathlib import Path
+   from workflow_links import draft_with_evidence, search_mcp_evidence
+
+   server = Path(os.environ["HUG_LAB_DIR"]) / "mcp_server.py"
+   evidence = search_mcp_evidence(server, query)
+   draft = draft_with_evidence(processed_text, query, evidence)
+   ```
+
+   기존 업무 결과와 함께 `query`, `evidence`, `draft`, `requires_review=True`를 별도 RAG 결과 파일에 저장합니다. 검색 함수는 0건이면 오류를 반환하므로 이후 모델 호출과 저장을 건너뜁니다. 검색 서버 코드와 `evidence/`는 실습 폴더에 있습니다.
+
+## 7. 내 프로그램의 결과를 확인합니다 · 17:15–17:30
+
+같은 입력으로 기본·연결·RAG 결과의 원래 업무 값을 대조합니다. 검색 문단의 출처를 열어 초안 한 문장을 점검합니다. 검색어를 바꿔 일치 문단이 0개인 경우 이번 결과를 새로 저장하지 않는지 확인합니다. 작업이 끝나면 PowerShell 1과 3에서 각각 `Ctrl+C`를 눌러 서버를 종료합니다.
 
 ## 어디에서 멈췄는지 찾기
 
@@ -136,6 +169,7 @@ Get-Content -LiteralPath .\output\before.json, .\output\connected.json -Encoding
 | `local_http.py` | 두 로컬 HTTP 포트로 요청을 보내고 JSON을 읽는 코드 |
 | `run_cpu.py` | API 응답을 받아 내 지시를 붙여 CPU 모델에 전달 |
 | `review_rules.txt` | MCP가 별도로 전달하는 확인용 초안의 검토 기준 |
+| `evidence/*.txt`, `evidence_search.py` | 검색 대상인 수업용 가상 문서와 질문에 맞는 문단을 고르는 코드 |
 | `my_program.py` | 기준 실행과 세 연결을 포함한 실행을 비교하는 예제 |
 | `workflow_links.py` | 내 프로그램에서 호출할 API 입력·MCP 기준 조회·CPU 초안 함수 |
 

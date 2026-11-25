@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="assets/system-diagrams.css">
   <link rel="stylesheet" href="assets/course-editorial.css">
   <link rel="stylesheet" href="assets/concept-walkthrough.css">
+  <link rel="stylesheet" href="assets/rag-lesson.css">
   <script src="assets/concept-walkthrough.js" defer></script>
   <script src="assets/lesson.js" defer></script>
   <script src="assets/presentation.js" defer></script>
@@ -30,8 +31,8 @@
         <div class="cover-copy">
           <p class="cover-session">허그 실무 AI 교육 <span>·</span> 4회차</p>
           <h1 id="lesson-title">내 업무를 처리하는<br>프로그램 만들기</h1>
-          <p class="cover-summary">평소 손으로 하던 일 하나를 골라 프로그램으로 만듭니다. 자료를 가져오고, 내 규칙으로 처리하고, 검토 기준에 맞춰 AI가 초안을 쓰는 과정까지 직접 연결합니다.</p>
-          <div class="cover-actions"><a class="btn primary" href="#opening">수업 시작</a><a class="btn" href="#connection-principles">API와 MCP 이해하기</a><a class="btn" href="#setup">실습 환경 준비</a></div>
+          <p class="cover-summary">평소 손으로 하던 일 하나를 골라 프로그램으로 만듭니다. 자료를 가져와 내 규칙으로 처리하고, 질문에 맞는 문서를 찾아 AI 초안과 그 근거를 함께 확인합니다.</p>
+          <div class="cover-actions"><a class="btn primary" href="#opening">수업 시작</a><a class="btn" href="#connection-principles">API와 MCP</a><a class="btn" href="#rag">RAG의 원리</a><a class="btn" href="#setup">실습 환경 준비</a></div>
           <p class="cover-date"><time datetime="2026-11-26">11월 26일(목)</time> <span>13:30–17:30</span></p>
         </div>
         <figure class="cover-system">
@@ -58,8 +59,9 @@
             <div><dt>15:10–15:35</dt><dd>API로 자료 받기, MCP로 도구 쓰기, 파일 트리와 AI 실행 원리</dd></div>
             <div><dt>15:35–16:25</dt><dd>API·MCP·CPU를 실행해 보고 한 프로그램에서 세 연결 확인</dd></div>
             <div><dt>16:25–16:35</dt><dd>휴식</dd></div>
-            <div><dt>16:35–17:05</dt><dd>내 프로그램의 파일을 찾아 API·MCP·CPU 연결</dd></div>
-            <div><dt>17:05–17:30</dt><dd>내 프로그램 연결 전후·새 입력·장애 확인</dd></div>
+            <div><dt>16:35–16:50</dt><dd>RAG 원리와 실습 · 질문에 맞는 문단 찾아 초안과 대조</dd></div>
+            <div><dt>16:50–17:15</dt><dd>내 프로그램에 자료 읽기, 근거 검색, 초안 생성 연결</dd></div>
+            <div><dt>17:15–17:30</dt><dd>내 프로그램의 업무 결과·검색 출처·연결 장애 확인</dd></div>
           </dl>
         </details>
 
@@ -558,6 +560,8 @@ steps/process.py에 업무 규칙, steps/output.py에 결과 저장을 두거나
                 <li><code>mcp_server.py</code><span>같은 함수를 MCP로 공개하는 서버</span></li>
                 <li><code>run_cpu.py</code><span>API의 값을 받아 모델에 보내는 실행기</span></li>
                 <li><code>review_rules.txt</code><span>연결 모드에서 MCP로 전달할 검토 기준</span></li>
+                <li><code>evidence/</code><span>질문에 맞는 근거 문단을 찾을 때 검색하는 자료 폴더</span></li>
+                <li><code>evidence_search.py</code><span>자료를 문단으로 나누고 질문과 겹치는 단어를 세어 근거를 고르는 함수</span></li>
                 <li><code>my_program.py</code><span>업무 규칙과 세 연결을 한 번에 실행하는 참조 프로그램</span></li>
                 <li><code>requirements.txt</code><span>실습용 Python 라이브러리 목록</span></li>
               </ul>
@@ -757,45 +761,150 @@ claude mcp get hug4-input</code></pre><button type="button" class="btn copy-comm
 .\.venv\Scripts\python.exe my_program.py --connected
 Get-Content -LiteralPath .\output\before.json, .\output\connected.json -Encoding UTF8</code></pre><button type="button" class="btn copy-command" data-copy="reference-run-command">명령 복사</button>
           <figure class="lesson-shot lab-run-capture"><a href="assets/captures/integration-before-after.png" target="_blank" rel="noopener"><img src="assets/captures/integration-before-after.png" alt="같은 참조 프로그램을 두 실행 명령으로 실행한 실제 기록. 두 결과에 같은 업무 결과가 있고, 연결 실행에는 MCP 검토 기준과 CPU 모델 초안이 추가되어 있습니다." loading="lazy"></a><figcaption>같은 파일로 실행한 실제 결과입니다. 두 실행의 업무 결과는 ‘접수 문서 3건’과 ‘검토 대기 5건’으로 같았습니다. 모델은 3건의 항목을 바꾸고 원문에 없던 ‘검토 기간’을 추가했습니다. 그래서 초안에는 사람이 확인할 표시를 붙입니다.</figcaption></figure>
-          <div class="lab-evidence"><strong>확인할 값</strong><p><code>output/before.json</code>과 <code>output/connected.json</code>의 <code>rows</code>가 같은지 봅니다. 연결 실행의 <code>draft</code>를 <code>review_rules.txt</code>와 대조합니다. 휴식 뒤 내 프로그램에 붙일 때까지 두 서버 창을 열어 둡니다. <a href="#integrate">내 도구에 붙이기</a></p></div>
+          <div class="lab-evidence"><strong>확인할 값</strong><p><code>output/before.json</code>과 <code>output/connected.json</code>의 <code>rows</code>가 같은지 봅니다. 연결 실행의 <code>draft</code>를 <code>review_rules.txt</code>와 대조합니다. 휴식 뒤 같은 프로그램으로 문서를 검색하므로 두 서버 창을 켜 둡니다. <a href="#rag">질문에 맞는 근거 찾기</a></p></div>
         </section>
 
+        <section class="lesson-section visual-slide lab-sheet" id="rag" data-slide data-title="RAG · 질문에 맞는 근거 찾기">
+          <header class="chapter-heading"><p>16:35–16:41 · 검색과 생성</p><h2>검토 기준이 여러 문서에 흩어져 있다면?</h2><p>담당자가 “보완 요청을 기록할 때 무엇을 함께 적어야 하나요?”라고 묻습니다. 현황표에는 건수만 있습니다. 답을 쓰려면 먼저 작성 안내를 열어 ‘보완 요청은 사유와 함께 기록합니다’라는 문장을 찾아야 합니다.</p></header>
+          <p><strong>RAG</strong>(Retrieval-Augmented Generation, 검색 증강 생성)는 프로그램이 질문과 관련된 자료를 찾아 모델에 함께 보내고, 모델이 그 자료를 참고해 답을 생성하는 방식입니다. 앞 실습에서는 항상 같은 파일을 열었습니다. 이제는 질문을 바꾸면 찾아오는 문단도 달라집니다.</p>
+          <ol class="workflow-map" aria-label="질문에서 원문 확인까지 RAG의 네 단계">
+            <li><strong>자료 준비</strong><span>작성 안내를 문단으로 나누고 각 문단의 위치를 기록</span></li>
+            <li><strong>근거 검색</strong><span>질문과 단어가 겹치는 문단을 MCP 도구로 조회</span></li>
+            <li><strong>초안 생성</strong><span>질문·현황·선택한 문단을 CPU 모델에 전달</span></li>
+            <li><strong>원문 대조</strong><span>저장된 출처를 열어 초안의 숫자와 작성 조건 확인</span></li>
+          </ol>
+          <div class="beginner-explain">
+            <div><h3>모델을 부르기 전에 무엇을 하나요?</h3><p>안내문을 빈 줄 기준으로 문단으로 나눕니다. 각 문단에 파일명과 문단 번호를 붙여 원문으로 돌아갈 수 있게 합니다. 질문이 들어오면 관련 문단을 찾습니다. 이번 실습은 질문과 문단에 공통으로 있는 단어의 수를 세어 점수가 높은 문단을 최대 두 개 고릅니다.</p></div>
+            <div><h3>모델은 무엇을 보고 답을 쓰나요?</h3><p>내 프로그램이 <strong>질문, 업무 규칙으로 정리한 현황, 검색한 문단</strong>을 한 요청에 담아 보냅니다. 모델은 이번 요청에서 그 내용을 읽고 초안을 씁니다. 작성 기준이 바뀌면 문서를 고치고 다시 검색합니다. 모델의 학습된 가중치는 그대로 사용합니다.</p></div>
+          </div>
+          <figure class="rag-preview" aria-labelledby="rag-preview-title">
+            <figcaption><strong id="rag-preview-title">질문을 바꾸면 어떤 근거 문단이 선택될까요?</strong><p>실습 검색기에서 얻은 결과를 미리 볼 수 있습니다. 질문을 고르고 출처를 펼쳐 원문을 대조하세요.</p></figcaption>
+            <fieldset class="rag-picker"><legend>질문 선택</legend>
+              <input type="radio" name="rag-preview-query" id="rag-query-intake" aria-controls="rag-case-intake" checked><label for="rag-query-intake">접수 문서</label>
+              <input type="radio" name="rag-preview-query" id="rag-query-review" aria-controls="rag-case-review"><label for="rag-query-review">보완 요청은</label>
+              <input type="radio" name="rag-preview-query" id="rag-query-absent" aria-controls="rag-case-absent"><label for="rag-query-absent">출장 여비</label>
+              <div class="rag-cases">
+                <section class="rag-case" id="rag-case-intake" aria-labelledby="rag-case-title-intake">
+                  <h3 id="rag-case-title-intake">‘접수 문서’로 찾은 문단 · 2건</h3>
+                  <ol class="rag-results">
+                    <li>
+                      <span class="rag-match">일치한 단어 2개 · 2점</span>
+                      <blockquote><mark>접수</mark> <mark>문서</mark> 건수는 원문의 항목 이름과 숫자를 그대로 씁니다.</blockquote>
+                      <details class="rag-source"><summary>원문 대조 · <code>evidence/01-intake.txt</code> 1문단</summary><ol>
+                        <li aria-current="true">접수 문서 건수는 원문의 항목 이름과 숫자를 그대로 씁니다.</li>
+                        <li>원문에 없는 처리 기한은 덧붙이지 않습니다.</li>
+                      </ol></details>
+                    </li>
+                    <li>
+                      <span class="rag-match">일치한 단어 1개 · 1점</span>
+                      <blockquote>검토 대기 건수는 <mark>접수</mark> 건수와 분리해 적습니다.</blockquote>
+                      <details class="rag-source"><summary>원문 대조 · <code>evidence/02-review.txt</code> 1문단</summary><ol>
+                        <li aria-current="true">검토 대기 건수는 접수 건수와 분리해 적습니다.</li>
+                        <li>보완 요청은 사유와 함께 기록합니다.</li>
+                      </ol></details>
+                    </li>
+                  </ol>
+                  <p class="rag-delivery"><strong>모델에 건넬 값</strong> · 질문과 기존 업무 결과에 선택된 2개 문단을 붙입니다. 실습 프로그램을 실행하면 이 자료로 초안을 생성합니다.</p>
+                </section>
+                <section class="rag-case" id="rag-case-review" aria-labelledby="rag-case-title-review">
+                  <h3 id="rag-case-title-review">‘보완 요청은’ 검색 결과 · 1건</h3>
+                  <ol class="rag-results">
+                    <li>
+                      <span class="rag-match">일치한 단어 2개 · 2점</span>
+                      <blockquote><mark>보완</mark> <mark>요청은</mark> 사유와 함께 기록합니다.</blockquote>
+                      <details class="rag-source"><summary>원문 대조 · <code>evidence/02-review.txt</code> 2문단</summary><ol>
+                        <li>검토 대기 건수는 접수 건수와 분리해 적습니다.</li>
+                        <li aria-current="true">보완 요청은 사유와 함께 기록합니다.</li>
+                      </ol></details>
+                    </li>
+                  </ol>
+                  <p class="rag-delivery"><strong>모델에 건넬 값</strong> · 질문과 기존 업무 결과에 선택된 1개 문단을 붙입니다. 실습 프로그램을 실행하면 이 자료로 초안을 생성합니다.</p>
+                </section>
+                <section class="rag-case rag-case-empty" id="rag-case-absent" aria-labelledby="rag-case-title-absent">
+                  <h3 id="rag-case-title-absent">‘출장 여비’로 찾은 문단 · 0건</h3>
+                  <p class="rag-delivery"><strong>근거 없음</strong> · 두 실습 문서에 질문과 일치하는 단어가 없습니다. 프로그램은 여기서 멈춥니다. 모델을 호출하기 전에 문서에 근거가 있는지 확인하거나 질문을 고쳐 봅니다.</p>
+                </section>
+              </div>
+            </fieldset>
+          </figure>
+          <details class="lesson-disclosure"><summary>‘접수 문서’를 고르면 모델에는 어떤 글이 도착하나요?</summary>
+            <p>프로그램은 검색을 마친 뒤 모델 서버에 요청을 한 번 보냅니다. 요청의 <code>system</code> 메시지는 한국어 한 문장으로 초안을 쓰라고 지시합니다. <code>user</code> 메시지에는 아래처럼 질문과 자료가 함께 들어갑니다. 실제 실습 입력에서 구성한 내용입니다.</p>
+            <pre><code>질문
+접수 문서
+
+업무 자료
+접수 문서 3건
+검토 대기 5건
+
+검색 문단
+evidence/01-intake.txt · 1문단
+접수 문서 건수는 원문의 항목 이름과 숫자를 그대로 씁니다.
+
+evidence/02-review.txt · 1문단
+검토 대기 건수는 접수 건수와 분리해 적습니다.</code></pre>
+          </details>
+          <details class="lesson-disclosure"><summary>단어가 달라도 뜻이 비슷한 문단을 찾을 수 있나요?</summary><p>이 실습은 ‘요청’과 ‘요청은’도 서로 다른 단어로 셉니다. ‘보충 서류’와 ‘보완 요청’처럼 표현이 다르면 관련 문단을 놓칠 수 있습니다. 문장의 뜻을 여러 숫자로 나타낸 값인 <strong>임베딩</strong>을 만들어 비교하는 방법도 있습니다. 문서가 많으면 미리 만들어 둔 검색용 색인에서 후보를 찾습니다. 어느 방법이든 찾은 문단이 질문에 실제로 답하는지는 원문으로 확인합니다.</p></details>
+          <p class="lab-bridge">앞에서 Claude Code에 등록한 MCP 서버에는 <code>search_evidence</code>라는 검색 도구도 있습니다. 내 프로그램은 <strong>API</strong>로 업무 현황을 읽고, <strong>MCP</strong>로 이 도구에 질문을 보냅니다. 검색된 문단을 현황과 함께 CPU 모델에 전달해 초안을 만드는 과정이 <strong>RAG</strong>입니다.</p>
+        </section>
+
+        <section class="lesson-section visual-slide lab-sheet lab-cpu" id="rag-lab" data-slide data-title="실습 · 문서 근거로 초안 쓰기">
+          <header class="chapter-heading"><p>16:41–16:50 · 9분</p><h2>실습 4 · 문단을 찾아 초안과 원문을 대조합니다</h2><p>입력 API와 모델 서버가 켜진 상태에서 실습 폴더의 PowerShell 2를 사용합니다. <code>evidence</code>에 들어 있는 두 파일은 이 수업을 위해 만든 가상 작성 안내입니다.</p></header>
+          <ol class="guided-steps">
+            <li><h3>같은 업무 자료로 질문을 바꿉니다</h3><p>접수 건수와 관련된 기준을 먼저 찾습니다. 다음에는 보완 요청의 기록 방법을 묻습니다. 각 명령 뒤에 저장한 결과를 열어 <code>evidence</code>의 파일명과 문단 번호가 어떻게 달라지는지 확인합니다.</p>
+              <pre id="rag-read-command"><code>.\.venv\Scripts\python.exe my_program.py --rag "접수 문서"
+Get-Content -LiteralPath .\output\rag.json -Encoding UTF8
+.\.venv\Scripts\python.exe my_program.py --rag "보완 요청은"
+Get-Content -LiteralPath .\output\rag.json -Encoding UTF8</code></pre><button type="button" class="btn copy-command" data-copy="rag-read-command">명령 복사</button></li>
+            <li><h3>검색 기록에서 실제 원문으로 돌아갑니다</h3><p>‘보완 요청은’의 결과에서 <code>file</code>과 <code>paragraph</code>를 찾습니다. <code>evidence/02-review.txt</code>를 열어 두 번째 문단과 <code>excerpt</code>(검색한 문장)를 대조합니다. 다음으로 <code>draft</code>(생성한 초안)를 읽습니다. “사유와 함께 기록한다”는 조건이 들어 있는지, 원문에 없는 기한을 새로 만들었는지 확인합니다.</p>
+              <pre><code>Get-Content -LiteralPath .\evidence\02-review.txt -Encoding UTF8</code></pre></li>
+            <li><h3>근거를 찾지 못한 경우를 시험합니다</h3><p>같은 프로그램에 <code>--rag "출장 여비"</code>를 주고 실행합니다. 실습 문서에 일치하는 단어가 없어 모델 호출 전에 멈춥니다. 폴더에 남아 있는 <code>rag.json</code>은 직전 성공 결과입니다. 파일 안의 <code>query</code>를 확인합니다.</p></li>
+          </ol>
+          <figure class="lesson-shot lab-run-capture"><a href="assets/captures/rag-run.png" target="_blank" rel="noopener"><img src="assets/captures/rag-run.png" alt="접수 문서로 실제 실행한 결과. 두 근거 문단을 찾아 저장했지만 CPU 모델의 초안에는 검토 대기 5건만 적혀 있습니다." loading="lazy"></a><figcaption>실제 실행 로그와 저장된 JSON을 나란히 놓았습니다. 검색기는 항목 이름과 숫자를 유지하라는 문단을 찾았습니다. 그러나 업무 결과에 있던 <strong>접수 문서 3건</strong>이 초안에서 빠졌습니다. 이 초안을 사용하려면 누락된 항목을 원문에서 확인해 복원해야 합니다.</figcaption></figure>
+          <details class="lesson-disclosure"><summary>내 실행 결과를 Windows 터미널 원본 화면과 비교하기</summary>
+            <figure class="lesson-shot"><a href="assets/captures/rag-terminal.png" target="_blank" rel="noopener"><img src="assets/captures/rag-terminal.png" alt="Windows 명령 프롬프트에서 접수 문서로 검색해 두 문단을 찾고 CPU 초안을 받아 output/rag.json에 저장한 실제 화면" loading="lazy"></a><figcaption>실습용 Python 환경을 활성화한 명령 프롬프트에서 실행했습니다. PowerShell에서 위 명령을 실행했을 때도 입력, 기존 규칙, MCP, CPU, 저장 순으로 표시됩니다.</figcaption></figure>
+          </details>
+          <div class="lab-evidence"><strong>출처에서 확인할 것</strong><p>검색 점수는 두 글에 같은 단어가 몇 개 있는지 나타냅니다. 프로그램이 기록한 파일명은 모델에 건넨 자료의 위치입니다. 그 문단이 초안의 각 주장을 뒷받침하는지는 사람이 직접 대조합니다.</p></div>
+        </section>
 
         <section class="lesson-section visual-slide lab-sheet lab-mcp" id="integrate" data-slide data-title="실습 · 내 프로그램에 붙이기">
-          <header class="chapter-heading"><p>16:35–17:05 · 30분</p><h2>실습 4 · 앞에서 만든 내 프로그램에 붙입니다</h2><p>앞에서 기록한 명령으로 내 프로그램을 다시 실행합니다. 그 결과를 보관한 뒤 <code>README.md</code>에서 실제 파일과 함수 이름을 찾고 같은 프로그램에 연결 모드를 추가합니다.</p></header>
+          <header class="chapter-heading"><p>16:50–17:15 · 25분</p><h2>실습 5 · 앞에서 만든 내 프로그램에 붙입니다</h2><p>앞에서 기록한 명령으로 내 프로그램을 다시 실행합니다. 그 결과를 보관한 뒤 <code>README.md</code>에서 실제 함수 이름을 찾고 같은 프로그램에 연결 모드와 근거 검색을 붙입니다.</p></header>
           <figure class="course-files transfer-tree" aria-labelledby="transfer-tree-title">
             <figcaption id="transfer-tree-title">내 프로그램의 어디를 열어야 하나요?</figcaption>
             <div class="course-files-root"><code>내-업무-도구/</code></div>
             <ul>
               <li><code>README.md</code><span><strong>먼저 열기</strong> · 앞서 적은 실행 명령과 실제 파일명을 찾습니다.</span></li>
-              <li><code>app.py</code><span><strong>수정</strong> · 기본·연결 모드를 고르고 API → 업무 규칙 → MCP → CPU 순서를 호출합니다.</span></li>
+              <li><code>app.py</code><span><strong>수정</strong> · 기본 실행, 고정 기준으로 연결하는 실행, 질문으로 문단을 검색하는 실행을 고릅니다.</span></li>
               <li><code>steps/source.py</code><span><strong>입력 확인</strong> · 기존 파일 입력을 읽는 함수와 그 반환값의 형식을 확인합니다.</span></li>
               <li><code>steps/process.py</code><span><strong>규칙 확인</strong> · 기존 업무 규칙 함수가 받는 자료형과 계산 결과를 찾습니다.</span></li>
-              <li><code>steps/output.py</code><span><strong>수정</strong> · 연결 모드에서 계산 결과와 AI 초안을 각각 저장합니다.</span></li>
+              <li><code>steps/output.py</code><span><strong>수정</strong> · 업무 결과와 초안을 저장합니다. RAG 실행에서는 질문, 근거 파일명, 문단 번호와 원문도 함께 남깁니다.</span></li>
               <li><code>workflow_links.py</code><span><strong>복사</strong> · 실습 ZIP에서 API·MCP·CPU 연결 함수를 가져옵니다.</span></li>
               <li><code>local_http.py</code><span><strong>복사</strong> · 같은 ZIP에서 HTTP 요청 함수를 가져옵니다.</span></li>
             </ul>
           </figure>
           <p>그림은 첫 요청에서 제안한 구조입니다. 이름이 다르면 내 <code>README.md</code>에 적힌 역할을 따라갑니다. 계산 결과가 목록이나 표라면 모델에 보낼 짧은 문자열만 별도로 만듭니다.</p>
           <details class="lesson-disclosure">
-            <summary>참조 코드에서 실제 연결한 세 위치 보기</summary>
+            <summary>참조 프로그램에서 입력·검색·저장을 연결한 코드 보기</summary>
             <ol class="guided-steps">
-              <li><p><strong>입력 교체</strong> · <code>text</code>의 출처만 연결 모드에 따라 고릅니다. 두 모드 모두 <code>prepare_rows()</code>에 같은 형식의 값을 넘깁니다.</p>
-                <pre><code>text = read_api_input() if args.connected else need_text(read_input(), source)
+              <li><p><strong>입력 선택</strong> · 기본 실행은 파일을 읽습니다. 연결 실행과 RAG 실행은 API를 통해 원문을 받아 같은 업무 규칙에 넘깁니다.</p>
+                <pre><code>uses_api = args.connected or query is not None
+source = "HTTP GET /input" if uses_api else "input.txt"
+text = read_api_input() if uses_api else need_text(read_input(), source)
 rows = prepare_rows(text)
 result = {"rows": rows}</code></pre></li>
-              <li><p><strong>계산 이후</strong> · MCP가 돌려준 기준과 계산 결과를 CPU 모델에 넘깁니다. 이 호출은 연결 모드에서 실행합니다.</p>
+              <li><p><strong>고정 기준으로 실행</strong> · <code>--connected</code>에서는 MCP가 돌려준 작성 기준과 업무 결과를 CPU 모델에 넘깁니다.</p>
                 <pre><code>rules = read_mcp_rules(PROJECT_FOLDER / "mcp_server.py")
 draft = draft_with_cpu("\n".join(rows), rules)</code></pre></li>
-              <li><p><strong>저장 직전</strong> · 기존 <code>rows</code>와 같은 객체의 다른 필드에 초안을 넣습니다.</p>
-                <pre><code>result.update(draft=draft, requires_review=True)</code></pre></li>
+              <li><p><strong>질문으로 근거를 찾아 실행</strong> · <code>--rag</code>에서는 검색한 문단을 업무 결과와 함께 모델에 보냅니다. 저장할 때 근거를 초안 옆에 남겨 다시 확인할 수 있게 합니다.</p>
+                <pre><code>evidence = search_mcp_evidence(PROJECT_FOLDER / "mcp_server.py", query)
+draft = draft_with_evidence("\n".join(rows), query, evidence)
+result.update(query=query, evidence=evidence, draft=draft, requires_review=True)</code></pre></li>
             </ol>
           </details>
           <ol class="guided-steps">
-            <li><h3>0–5분 · 내 도구의 실행 파일 옆에 연결 모듈을 복사합니다</h3><p>실습 폴더의 <code>workflow_links.py</code>와 <code>local_http.py</code>를 내 실행 파일 옆에 둡니다. <code>mcp_server.py</code>와 <code>review_rules.txt</code>는 실습 폴더에 둡니다.</p></li>
-            <li><h3>5–22분 · 찾은 위치에 연결하는 코드를 작성합니다</h3>
+            <li><h3>0–5분 · 내 업무 자료와 연결 모듈을 준비합니다</h3><p>내 프로그램에서 처음 사용한 입력을 <code>hug4-connections/input.txt</code>에 넣습니다. 입력 API는 이 파일을 읽습니다. 같은 실습 폴더의 <code>workflow_links.py</code>와 <code>local_http.py</code>를 내 실행 파일 옆에 복사합니다.</p><p><code>hug4-connections/evidence/</code> 안에는 내 업무에 쓸 공개 또는 가상의 작성 기준을 짧은 UTF-8 <code>.txt</code> 파일로 추가합니다. 빈 줄로 문단을 나누고, 실제로 찾을 만한 단어를 하나 정합니다.</p></li>
+            <li><h3>5–18분 · 실행 파일에서 자료와 근거를 연결합니다</h3>
               <p>Claude Code를 내 프로젝트 폴더에서 열고 아래 요청을 보냅니다. 완료되면 실행 파일과 저장 파일에서 실제 바뀐 부분을 확인합니다.</p>
-              <pre id="integration-prompt"><code>이 폴더에서 내가 전에 실행한 프로그램에 --connected를 추가해줘.
+              <pre id="integration-prompt"><code>이 폴더에서 내가 전에 실행한 프로그램에 --connected와 --rag "질문"을 추가해줘.
 README.md에서 기존 실행 파일, 입력 읽기, 업무 규칙,
 결과를 저장하는 파일과 함수를 먼저 찾아줘.
 기본 실행 명령과 그 실행의 기존 결과를 보존해줘.
@@ -808,24 +917,31 @@ workflow_links.read_mcp_rules(서버 경로)로 검토 기준을 가져와줘.
 workflow_links.draft_with_cpu(결과 텍스트, 검토 기준)로 초안을 받아줘.
 기존 처리 결과, 검토 기준, 초안, 확인 필요 표시를 별도 항목으로
 연결 결과에 저장해줘. 기본 모드의 결과 파일과 이름을 구분해줘.
-API·MCP·CPU 중 하나가 실패하면 단계와 오류를 보여주고 저장 전에 멈춰줘.
-실제 바꾼 파일과 함수, 두 모드의 실행 명령을 README.md에 적어줘.
+RAG 실행에서도 같은 원문을 같은 업무 규칙으로 처리해줘.
+이때는 고정 기준 대신 workflow_links.search_mcp_evidence(서버 경로, 질문)로
+문단을 찾고 workflow_links.draft_with_evidence(결과 텍스트, 질문, 찾은 문단)로 초안을 써줘.
+output/rag.json에 rows, query, evidence, draft, requires_review를 기록해줘.
+evidence는 검색기가 준 파일명, 문단 번호, 원문, 점수를 그대로 저장해줘.
+근거가 없거나 연결이 실패하면 단계와 오류를 보여주고 저장 전에 멈춰줘.
+실제 바꾼 파일과 함수, 각 모드의 실행 명령을 README.md에 적어줘.
 내가 쓰던 프로그램을 수정해줘.</code></pre><button type="button" class="btn copy-command" data-copy="integration-prompt">요청 복사</button></li>
-            <li><h3>22–30분 · 내 폴더에서 연결 모드를 실행합니다</h3><p>API와 모델 서버가 실행 중인지 확인합니다. 아래 명령의 경로 질문에 <code>hug4-connections</code> 폴더의 전체 경로를 붙여 넣습니다. 내 실행 파일이 <code>app.py</code>가 아니면 마지막 줄의 파일명을 바꿉니다.</p>
+            <li><h3>18–25분 · 내 자료를 넣고 근거 원문까지 확인합니다</h3><p>API와 모델 서버가 실행 중인지 확인합니다. 아래 명령의 경로 질문에 <code>hug4-connections</code> 폴더의 전체 경로를 붙여 넣습니다. <code>app.py</code>는 내 실행 파일 이름으로 바꾸고, 질문에는 방금 추가한 내 문서에서 찾을 단어를 씁니다.</p>
               <pre id="own-connected-run"><code>$env:HUG_LAB_DIR = (Resolve-Path -LiteralPath (Read-Host '연결 실습 폴더 전체 경로')).Path
-&amp; (Join-Path $env:HUG_LAB_DIR '.venv\Scripts\python.exe') .\app.py --connected</code></pre><button type="button" class="btn copy-command" data-copy="own-connected-run">명령 복사</button>
+&amp; (Join-Path $env:HUG_LAB_DIR '.venv\Scripts\python.exe') .\app.py --connected
+$ragQuery = Read-Host '내 문서에서 어떤 기준을 찾을까요?'
+&amp; (Join-Path $env:HUG_LAB_DIR '.venv\Scripts\python.exe') .\app.py --rag "$ragQuery"</code></pre><button type="button" class="btn copy-command" data-copy="own-connected-run">명령 복사</button>
               <p>내 프로그램에 별도 Python 라이브러리가 있다면 그 환경에도 실습 <code>requirements.txt</code>를 설치하고, 평소 쓰던 Python으로 실행합니다. 화면이 있는 프로그램은 연결 모드로 실행한 뒤 원래의 실행 버튼을 누릅니다.</p></li>
           </ol>
-          <div class="lab-evidence"><strong>완료 기준</strong><p>내 프로그램의 기본 결과와 연결 결과를 둘 다 열 수 있습니다. 같은 입력에서 업무 결과는 일치하고, 연결 결과에는 검토 기준과 모델 초안이 별도 항목으로 있습니다.</p></div>
+          <div class="lab-evidence"><strong>완료 기준</strong><p>내 프로그램에서 같은 입력으로 계산한 업무 결과를 대조합니다. 결과의 <code>evidence</code>에 적힌 파일은 실습 폴더(<code>HUG_LAB_DIR</code>)를 기준으로 찾아 엽니다. 그 문단이 초안의 어느 문장을 뒷받침하는지 짚고, 근거가 어긋났으면 질문과 검색된 문단부터 확인합니다.</p></div>
         </section>
 
         <section class="lesson-section visual-slide" id="verify" data-slide data-title="실습 · 내 프로그램 검증">
-          <header class="chapter-heading"><p>17:05–17:30 · 25분</p><h2>실습 5 · 내 도구에서 새 입력과 중단을 확인합니다</h2><p>내 프로그램의 연결 전후, 새 입력, 연결 장애를 차례로 실행합니다. 결과와 실행 명령을 함께 남깁니다.</p></header>
+          <header class="chapter-heading"><p>17:15–17:30 · 15분</p><h2>실습 6 · 내 도구에서 새 입력과 중단을 확인합니다</h2><p>기존 업무 결과, 검색한 근거, 모델이 생성한 초안을 차례로 확인합니다. 통과한 입력과 실행 명령을 함께 남깁니다.</p></header>
           <div class="table-wrap"><table><thead><tr><th scope="col">무엇을 넣을까?</th><th scope="col">어떤 결과가 나와야 할까?</th></tr></thead><tbody>
-            <tr><td>10분 · 연결 전후 같은 입력</td><td>기본 결과와 연결 결과의 업무 값을 대조합니다. 모델 초안을 검토 기준과 맞춰 보고, 잘못 바뀐 값이 있다면 표시합니다.</td></tr>
-            <tr><td>8분 · 두 번째 정상 입력</td><td>API가 읽는 <code>input.txt</code>의 값 하나를 바꿉니다. 기대하는 결과를 먼저 적고 연결 모드를 다시 실행합니다.</td></tr>
-            <tr><td>5분 · API 연결 장애</td><td>PowerShell 1에서 <kbd>Ctrl</kbd>+<kbd>C</kbd>로 API 서버를 닫고 연결 모드를 한 번 실행합니다. 입력 단계의 오류가 뜨는지, 기존 결과 파일의 시각과 내용이 유지되는지 확인합니다.</td></tr>
-            <tr><td>2분 · 실행 기록 보관</td><td>기본·연결 명령과 결과 파일을 내 폴더에 남깁니다. PowerShell 3에서 <kbd>Ctrl</kbd>+<kbd>C</kbd>로 모델 서버를 종료합니다.</td></tr>
+            <tr><td>4분 · 연결 전후 같은 입력</td><td>기본 결과와 연결 결과의 업무 값을 대조합니다. 초안에서 잘못 바뀐 내용이 있다면 원문과 나란히 표시합니다.</td></tr>
+            <tr><td>4분 · 새 근거와 새 입력</td><td>이미 찾아 본 내 근거 문단에 식별할 단어를 하나 추가해 저장하고 <code>input.txt</code>의 값 하나를 바꿉니다. 새 단어로 RAG를 실행해 저장된 업무 값과 검색 원문이 모두 바뀌었는지 봅니다.</td></tr>
+            <tr><td>5분 · 근거 없음과 연결 장애</td><td>문서에 없는 단어로 검색해 이번 초안을 저장하지 않았는지 확인합니다. PowerShell 1에서 <kbd>Ctrl</kbd>+<kbd>C</kbd>로 API 서버를 닫고 다시 실행해 이번에는 입력 단계에서 멈추는지 확인합니다.</td></tr>
+            <tr><td>2분 · 실행 기록 보관</td><td>기본·연결·RAG 명령과 결과 파일을 내 폴더에 남깁니다. PowerShell 3에서 <kbd>Ctrl</kbd>+<kbd>C</kbd>로 모델 서버를 종료합니다.</td></tr>
           </tbody></table></div>
           <div class="class-note" id="finish"><strong>수업이 끝나기 전</strong><p>내 프로그램을 기본 모드로 다시 엽니다. API가 꺼진 상태에서도 첫 버전처럼 동작하는지 확인합니다.</p></div>
         </section>
@@ -843,6 +959,7 @@ API·MCP·CPU 중 하나가 실패하면 단계와 오류를 보여주고 저장
             <li>모델 요청 · <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works">Claude의 도구 호출</a>, <a href="https://platform.claude.com/docs/en/build-with-claude/context-windows">컨텍스트</a>, <a href="https://code.claude.com/docs/en/headless">CLI 구조화 응답</a>, <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 연결 방식</a>, <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a></li>
             <li>설치와 CLI · <a href="https://www.python.org/downloads/release/python-31210/#files">Python 설치 파일</a>, <a href="https://docs.python.org/3.12/using/windows.html#installation-steps">Python Windows 설치 절차</a>, <a href="https://code.claude.com/docs/en/quickstart">Claude Code 설치</a>, <a href="https://code.claude.com/docs/en/cli-reference">CLI 명령과 옵션</a>, <a href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/blob/main/qwen2.5-0.5b-instruct-q4_k_m.gguf">Hugging Face Qwen GGUF 파일 화면</a></li>
             <li>연결 원리 · <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_APIs/Introduction">MDN의 API 개념 설명</a>, <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP의 구성과 역할</a></li>
+            <li>검색 증강 생성 · <a href="https://arxiv.org/abs/2005.11401">Lewis 등, Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a>, <a href="https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview">Microsoft의 검색과 생성 구조 설명</a></li>
             <li>연결 실습 · <a href="https://platform.claude.com/docs/en/api/messages">Claude Messages API 요청 규격</a>, <a href="https://code.claude.com/docs/en/mcp">Claude Code 도구 등록</a>, <a href="https://modelcontextprotocol.io/specification/2025-11-25/server/tools">MCP 도구 목록과 호출 규격</a>, <a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/transports">MCP 전송 방식</a>, <a href="https://github.com/ggml-org/llama.cpp/blob/b12387/tools/server/README.md">llama.cpp 서버 경로와 옵션</a>, <a href="https://huggingface.co/docs/transformers/en/cache_explanation">추론과 KV 캐시</a></li>
           </ul>
           <p>실행 화면 캡처에는 확인용 텍스트를 사용했습니다.</p>

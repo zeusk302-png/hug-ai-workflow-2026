@@ -1,5 +1,6 @@
 from mcp.server.fastmcp import FastMCP
 
+from evidence_search import find_evidence
 from input_source import REVIEW_RULES_FILE, read_input as read_lesson_input, read_text
 
 
@@ -16,6 +17,12 @@ def read_input() -> dict[str, str | None]:
 def read_review_rules() -> dict[str, str | None]:
     """Read the fixed review_rules.txt checklist for drafting a result."""
     return read_text(REVIEW_RULES_FILE)
+
+
+@server.tool()
+def search_evidence(query: str) -> dict[str, list[dict[str, str | int]]]:
+    """Find matching paragraphs in the classroom evidence documents for this query."""
+    return {"evidence": find_evidence(query)}
 
 
 if __name__ == "__main__":

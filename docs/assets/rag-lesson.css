@@ -1,0 +1,52 @@
+.rag-preview {
+  margin: 1.4rem 0;
+  padding: clamp(1rem, 2.8vw, 2rem);
+  color: #22324d;
+  background: #f4f6fd;
+  border: 1px solid #cbd4e9;
+  border-radius: 12px;
+}
+.rag-preview figcaption strong { display: block; color: #213867; font-size: clamp(1.12rem, 2vw, 1.45rem); }
+.rag-preview figcaption p { margin: .3rem 0 .9rem; color: #465570; }
+.rag-picker { min-width: 0; margin: 0; padding: 0; border: 0; }
+.rag-picker legend { margin-bottom: .4rem; padding: 0; font-weight: 750; }
+.rag-picker > input { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
+.rag-picker > label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0 .2rem .3rem 0;
+  padding: .4rem .8rem;
+  border: 1px solid #99a9cc;
+  border-radius: 6px;
+  background: #fff;
+  color: #2b3e69;
+  font-weight: 700;
+  cursor: pointer;
+}
+.rag-picker > input:checked + label { color: #fff; background: #334a92; border-color: #334a92; }
+.rag-picker > input:focus-visible + label, .rag-source summary:focus-visible { outline: 3px solid #235aa7; outline-offset: 2px; }
+.rag-case { display: none; min-width: 0; padding-top: .7rem; }
+#rag-query-intake:checked ~ .rag-cases #rag-case-intake,
+#rag-query-review:checked ~ .rag-cases #rag-case-review,
+#rag-query-absent:checked ~ .rag-cases #rag-case-absent { display: block; }
+.rag-case h3 { margin: .15rem 0 .65rem; font-size: 1.05rem; color: #293c66; }
+.rag-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: .7rem; margin: 0; padding: 0; list-style: none; }
+.rag-results > li { min-width: 0; padding: .8rem 1rem; border-radius: 7px; border: 1px solid #cfd9e7; background: #fff; }
+.rag-results blockquote { margin: .35rem 0 .55rem; padding: 0; border: 0; font-size: 1.03rem; line-height: 1.6; color: #172e47; }
+.rag-match { color: #26574a; font-weight: 700; font-size: .92rem; }
+.rag-results mark { background: #d7eece; color: #16342c; }
+.rag-source { margin-top: .45rem; border-top: 1px solid #e2e7ed; padding-top: .45rem; }
+.rag-source summary { cursor: pointer; color: #314b81; overflow-wrap: anywhere; }
+.rag-source ol { margin: .5rem 0 0; padding-left: 1.45rem; }
+.rag-source li { padding: .22rem; color: #425267; }
+.rag-source li[aria-current="true"] { color: #173b32; background: #eff8ea; }
+.rag-delivery { margin: .65rem 0 0; padding: .7rem .9rem; border-left: 3px solid #378773; background: #e9f3ef; }
+.rag-case-empty .rag-delivery { border-color: #a07029; background: #fbf1df; }
+@media (max-width: 460px) {
+  .rag-picker > label { padding-inline: .48rem; font-size: .92rem; }
+}
+@media print {
+  .rag-picker > label, .rag-picker > input, .rag-picker > legend { display: none; }
+  .rag-case { display: block; }
+}

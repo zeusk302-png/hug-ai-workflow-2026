@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="허그 4회차 연결 실습. Python과 Claude Code를 설치하고 자기 입력으로 HTTP API, MCP, CPU 모델을 차례로 실행합니다.">
+  <meta name="description" content="허그 4회차 연결 실습. Python과 Claude Code를 설치하고 내 프로그램에 입력 API, MCP 문서 검색, CPU 모델 초안 생성을 연결합니다.">
   <title>내 도구 실행과 연결 · HUG 4회차</title>
   <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -17,10 +17,10 @@
   </header>
   <main id="main">
     <header class="page-title"><div class="wrap">
-      <p class="kicker">15:35–16:25 · 연결 실습</p>
+      <p class="kicker">4회차 · 연결 실습 실행 안내</p>
       <h1>내 도구 실행과 연결</h1>
       <p>‘접수 문서 3건, 검토 대기 5건’을 한 문장으로 정리하려면 원문과 작성 기준이 필요합니다. 내가 만든 프로그램이 두 자료를 가져와 문장 초안을 받아보는 과정을 따라갑니다.</p>
-      <nav class="jump" aria-label="실행과 연결 목차"><a href="#install">설치</a><a href="#start">작업 폴더</a><a href="#claude">Claude Code</a><a href="#api">HTTP API</a><a href="#mcp">MCP</a><a href="models.html#cpu">CPU 모델</a><a href="#apply-to-project">내 도구에 붙이기</a></nav>
+      <nav class="jump" aria-label="실행과 연결 목차"><a href="#install">설치</a><a href="#start">작업 폴더</a><a href="#claude">Claude Code</a><a href="#api">HTTP API</a><a href="#mcp">MCP</a><a href="models.html#cpu">CPU 모델</a><a href="#local-rag">RAG</a><a href="#apply-to-project">내 도구에 붙이기</a></nav>
     </div></header>
 
     <section class="wrap section" id="install">
@@ -125,9 +125,20 @@ claude mcp get hug4-input</code></pre>
       </ol>
       <p class="reading"><a href="index.html#connection-check">전후 워크플로우 그림과 실제 결과 보기</a></p>
     </section>
+    <div class="paper"><section class="wrap section" id="local-rag">
+      <h2>질문에 맞는 문단을 찾아 같은 CPU 모델에 보냅니다</h2>
+      <p class="reading">앞에서는 언제나 같은 검토 기준을 읽었습니다. 기준이 여러 파일에 나뉘어 있으면, 질문과 관련된 부분을 먼저 골라 이번 요청에 붙일 수 있습니다. 이렇게 찾아온 자료로 답을 쓰는 방식을 RAG(검색 증강 생성)라고 합니다. <a href="index.html#rag">질문을 바꿔 검색 결과 비교하기</a></p>
+      <ol class="lesson-steps reading">
+        <li>두 서버 창을 열어 두고 실습 폴더에서 실행합니다.
+          <pre><code>.\.venv\Scripts\python.exe my_program.py --rag "접수 문서"
+Get-Content -LiteralPath .\output\rag.json -Encoding UTF8</code></pre></li>
+        <li><code>rows</code>는 프로그램이 정리한 업무 결과, <code>evidence</code>는 검색된 문단, <code>draft</code>는 모델이 작성한 초안입니다. <code>evidence/01-intake.txt</code>의 첫 문단을 열고 초안이 항목 이름과 숫자를 정확하게 옮겼는지 확인합니다.</li>
+      </ol>
+      <p class="reading"><a href="index.html#rag-lab">다른 질문과 실제 실행 화면으로 대조하기</a></p>
+    </section></div>
     <section class="wrap section" id="apply-to-project">
       <h2>앞에서 만든 내 프로그램에 붙입니다</h2>
-      <p class="reading">서버는 켜 둔 채 <code>workflow_links.py</code>와 <code>local_http.py</code>를 내가 만든 실행 파일 옆으로 복사합니다. API의 값은 기존 업무 규칙의 입력에, MCP의 검토 기준과 CPU 호출은 결과 저장 앞에 연결합니다.</p>
+      <p class="reading">서버는 켜 둔 채 <code>workflow_links.py</code>와 <code>local_http.py</code>를 내가 만든 실행 파일 옆으로 복사합니다. 실습 폴더의 <code>evidence/</code>에 내 작성 기준을 넣습니다. 내 프로그램에서 업무 값을 계산한 직후 문단 검색을 호출하고, 찾은 문단과 그 업무 값으로 초안을 작성해 함께 저장합니다.</p>
       <p class="reading"><a class="btn primary" href="index.html#integrate">내 파일 트리에서 연결할 위치 찾기</a></p>
     </section>
     <div class="wrap">
