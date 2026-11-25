@@ -10,39 +10,51 @@
   <link rel="stylesheet" href="assets/presentation.css">
   <link rel="stylesheet" href="assets/math-lessons.css">
   <link rel="stylesheet" href="assets/workbench.css">
+  <link rel="stylesheet" href="assets/system-diagrams.css">
+  <link rel="stylesheet" href="assets/course-editorial.css">
   <script src="assets/lesson.js" defer></script>
   <script src="assets/presentation.js" defer></script>
   <script src="assets/workbench.js" defer></script>
 </head>
-<body class="lesson">
+<body class="lesson course-editorial">
   <a class="skip" href="#main">본문으로</a>
   <header class="top"><div class="wrap">
     <a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a>
-    <nav class="course-nav" aria-label="수업 메뉴"><a href="#opening">도입</a><a href="#practice">실습</a><a href="#verify">검증</a><button type="button" id="open-deck" class="btn" hidden>발표 모드</button></nav>
+    <nav class="course-nav" aria-label="수업 메뉴"><a href="#opening">도입</a><a href="#setup">준비</a><a href="#practice">워크플로우</a><a href="#connect">연결 실습</a><button type="button" id="open-deck" class="btn" hidden>발표 모드</button></nav>
   </div></header>
   <main id="main">
     <section class="lesson-cover" aria-labelledby="lesson-title" data-slide data-title="내 업무 도구 만들기">
-      <div class="wrap cover-layout cover-reading">
+      <div class="wrap cover-layout editorial-cover">
         <div class="cover-copy">
-          <p class="cover-session">4회차 <span>·</span> <time datetime="2026-11-26">11월 26일(목)</time> <span>·</span> 13:30–17:30</p>
+          <p class="cover-session">허그 실무 AI 교육 <span>·</span> 4회차</p>
           <h1 id="lesson-title">내 업무를 처리하는<br>프로그램 만들기</h1>
-          <p class="cover-summary">수학의 주장과 증명을 어떻게 검증하는지 살펴봅니다. 이어서 파일 구조, 워크플로우 실행기, AI 모델과 도구가 데이터를 주고받는 원리를 배우고 각자 자기 프로그램에 적용합니다.</p>
-          <a class="btn primary" href="#opening">교재 시작</a>
+          <p class="cover-summary">AI가 수학의 난제에 어떻게 기여했는지 살펴봅니다. 파일에서 시작한 데이터가 코드, 도구, 모델을 거쳐 결과가 되는 과정을 직접 실행합니다.</p>
+          <div class="cover-actions"><a class="btn primary" href="#opening">수업 시작</a><a class="btn" href="#setup">실습 환경 준비</a></div>
+          <p class="cover-date"><time datetime="2026-11-26">11월 26일(목)</time> <span>13:30–17:30</span></p>
         </div>
+        <figure class="cover-system">
+          <div class="cover-system-head"><strong>워크플로우</strong><span>데이터가 지나가는 순서</span></div>
+          <ol class="cover-stages">
+            <li><span>내 자료</span><strong>입력</strong></li>
+            <li><span>실행기</span><strong>규칙과 도구</strong></li>
+            <li><span>모델</span><strong>추론</strong></li>
+            <li><span>내 프로그램</span><strong>검사와 저장</strong></li>
+          </ol>
+        </figure>
       </div>
     </section>
     <div class="wrap lesson-layout">
       <div class="lesson-reading">
         <details id="schedule" class="lesson-disclosure schedule-disclosure">
-          <summary><strong>수업 일정</strong><span>14:10 첫 요청 · 15:10 첫 실행</span></summary>
+          <summary><strong>수업 일정</strong><span>14:10 첫 요청 · 14:50 첫 실행</span></summary>
           <dl class="lesson-agenda">
             <div><dt>13:30–13:55</dt><dd>수학 난제, AGI, 반례 실습</dd></div>
-            <div><dt>13:55–14:10</dt><dd>Team 계정 연결 확인, 세 줄로 설계하고 첫 요청</dd></div>
+            <div><dt>13:55–14:10</dt><dd>설치와 Team 연결 확인, 입력·처리·결과 설계</dd></div>
             <div><dt>14:10–14:40</dt><dd>내 도구 첫 버전 만들기</dd></div>
             <div><dt>14:40–14:50</dt><dd>휴식</dd></div>
             <div><dt>14:50–15:10</dt><dd>내 입력으로 첫 실행</dd></div>
             <div><dt>15:10–15:35</dt><dd>파일 트리, 워크플로우, AI 호출 따라가기</dd></div>
-            <div><dt>15:35–16:25</dt><dd>기능 개선 또는 API·MCP·CPU 모델 중 선택</dd></div>
+            <div><dt>15:35–16:25</dt><dd>통합 실습 · API 응답 읽기, MCP 도구 호출, CPU 모델 추론, 결과 대조</dd></div>
             <div><dt>16:25–16:35</dt><dd>휴식</dd></div>
             <div><dt>16:35–17:05</dt><dd>새 입력과 오류 입력으로 검증</dd></div>
             <div><dt>17:05–17:30</dt><dd>저장하고 다시 열어 실행</dd></div>
@@ -50,8 +62,23 @@
         </details>
 
         <div class="opening-deck" id="opening">
+          <section class="visual-slide discovery" id="discovery" data-slide data-title="왜 리만 가설이 다시 뉴스가 됐나">
+            <header class="chapter-heading"><p>13:30–13:55 · 도입</p><h2>왜 리만 가설이 다시 뉴스가 됐나</h2></header>
+            <div class="discovery-grid">
+              <div class="discovery-lead">
+                <p>2026년 11월 20일, 수학자 <strong>레벤트 알푀게(Levent Alpöge)</strong>는 <strong>Claude와 함께 리만 가설의 증명을 얻었다</strong>고 발표했습니다. 알푀게는 단순한 경우에 성립한 두 아이디어를 결합할 방향을 잡았고, Claude가 이를 더 일반적인 경우에 적용하는 데 필요한 중간 결과의 구성을 제안했다고 설명했습니다.</p>
+                <p>이 발표가 주목받은 데에는 두 가지 이유가 있습니다. 1859년에 나온 리만 가설은 소수 분포의 오차를 설명하는 오래된 문제입니다. 게다가 공개된 결과는 컴퓨터가 검사할 수 있는 <strong>약 1,700만 줄의 Lean 증명 코드</strong>였습니다. 어떤 정리를 실제로 증명했는지, 그 증명 데이터를 독립된 검사기가 받아들이는지 확인할 수 있었습니다.</p>
+              </div>
+              <ol class="discovery-dates" aria-label="리만 가설 발표와 검증">
+                <li><time datetime="1859">1859</time><div><strong>가설 제시</strong><p>베른하르트 리만이 제타 함수의 영점과 소수 분포를 연결했습니다.</p></div></li>
+                <li><time datetime="2026-11-20">11.20</time><div><strong>증명 공개</strong><p>알푀게가 Claude와 작업한 결과를 Lean 라이브러리로 공개했습니다.</p></div></li>
+                <li><time datetime="2026-11-21">11.21</time><div><strong>독립 형식 검증 발표</strong><p>Lean·Mathlib 팀은 고전적 리만 가설의 명제와 증명을 확인했다고 발표했습니다.</p></div></li>
+              </ol>
+            </div>
+            <p class="editorial-note"><strong>확인 범위</strong> · 11월 25일 확인한 Clay 수학연구소의 공식 문제 페이지에는 <code>Active</code>가 표시됐습니다. 아래에서 원래 명제와 검증 과정을 각각 살펴봅니다.</p>
+          </section>
           <section class="visual-slide" id="riemann" data-slide data-title="리만 가설">
-            <header class="chapter-heading"><p>13:30–13:55 · AI와 수학</p><h2>리만 가설은 무엇을 묻는가</h2><p>소수의 개수를 어림하는 문제에서 시작해, 복소평면에 놓인 영점이 왜 중요한지 연결합니다.</p></header>
+            <header class="chapter-heading"><p>리만 가설 · 명제</p><h2>리만 가설은 무엇을 묻는가</h2><p>소수의 개수를 어림하는 문제에서 시작해, 복소평면에 놓인 영점이 왜 중요한지 연결합니다.</p></header>
             <div class="theory-with-figure">
               <div class="theory-notes">
                 <h3>제타 함수와 소수가 만나는 지점</h3>
@@ -85,7 +112,7 @@
                 <p>큰 정리는 앞서 성립한 작은 정리를 참조합니다. 오른쪽 원본 지도는 Jonathan Epstein이 공개한 상위 경로입니다. 정리 이름을 따라 내려가면 최종 결론에 어떤 중간 결과가 필요한지 볼 수 있습니다. 각 연결을 정확히 알려면 해당 선언의 가정과 결론을 Lean 소스에서 읽습니다.</p>
                 <h3>최종 논증에서는 어떤 관계를 쓰나</h3>
                 <p>비자명한 영점은 임계선의 양쪽에서 대칭입니다. 따라서 임계선 오른쪽에 영점이 없음을 보이면, 왼쪽에 영점이 있을 가능성도 배제됩니다. 공개 자료의 상위 경로에는 이 영점 배제에서 일반화 리만 가설과 고전적 리만 가설의 결론으로 가는 연결이 나옵니다.</p>
-                <p>알푀게는 단순한 경우에서 나온 두 아이디어를 결합할 방향을 잡고, 더 일반적인 상황에서 Claude가 핵심 중간 단계의 구성을 제안했다고 기록했습니다. 이 작업의 결과가 11월 20일 약 1,700만 줄의 Lean 코드로 공개됐습니다.</p>
+                <p>수학적 아이디어를 찾은 뒤에는 가정과 결론을 정확히 적고, 사이에 필요한 정리를 이어 붙이는 작업이 남습니다. 그래서 검증팀은 공개한 소스의 규모와 별개로 정확한 명제와 추출한 증명 데이터를 따로 검사했습니다.</p>
               </div>
               <figure class="slide-figure source-figure">
                 <a href="assets/math/epstein-lean-proof-spine.svg" aria-label="Jonathan Epstein의 Lean 증명 지도 크게 보기"><img src="assets/math/epstein-lean-proof-spine.svg" alt="Jonathan Epstein이 공개한 알푀게의 고전적·일반화 리만 가설 Lean 증명 상위 정리들의 의존성 지도." width="846" height="1058" loading="lazy"></a>
@@ -257,6 +284,38 @@
           </section>
         </div>
 
+        <section class="lesson-section visual-slide course-setup" id="setup" data-slide data-title="실습 환경 준비">
+          <header class="chapter-heading"><p>수업 전 설치 · 13:55 연결 확인</p><h2>실습을 시작하기 전에 도구를 준비합니다</h2><p>PowerShell에서 명령을 실행합니다. Python은 실습 프로그램을 실행하고, Claude Code는 Team 계정으로 작업 폴더에서 도구를 만들고 수정하는 데 사용합니다.</p></header>
+              <div class="setup-cli">
+                <p>Windows PowerShell에서 Python과 Claude Code를 설치합니다. 아래 명령은 Python 3.12 기준입니다.</p>
+                <pre><code>winget --version
+winget install --id Python.Python.3.12 --exact --source winget
+winget install --id Anthropic.ClaudeCode --exact --source winget</code></pre>
+                <p>Git으로 변경 이력을 확인하거나 Claude Code에서 Git Bash를 사용할 때는 <code>winget install --id Git.Git --exact --source winget</code>을 실행합니다. 설치 뒤 PowerShell을 다시 열고 버전을 확인합니다.</p>
+                <pre><code>py -3.12 --version
+claude --version
+claude auth status --text</code></pre>
+                <p>로그인이 필요하면 <code>claude auth login</code>으로 공식 로그인 화면을 열어 본인 Team 계정을 선택합니다. 설치는 <code>claude --version</code>, 계정 연결은 <code>claude auth status</code>, 실제 응답은 요청을 한 번 보내 각각 확인합니다.</p>
+                <div class="cli-guide">
+                  <h3>Claude Code의 CLI 옵션</h3>
+                  <div class="table-wrap"><table><thead><tr><th scope="col">명령 또는 옵션</th><th scope="col">하는 일</th></tr></thead><tbody>
+                    <tr><td><code>claude</code></td><td>현재 폴더에서 대화형 제작 세션을 엽니다.</td></tr>
+                    <tr><td><code>-p</code></td><td>요청을 처리하고 출력을 남긴 뒤 종료합니다.</td></tr>
+                    <tr><td><code>--output-format json</code></td><td><code>result</code>와 오류 여부를 프로그램이 읽을 수 있게 반환합니다.</td></tr>
+                    <tr><td><code>--json-schema</code></td><td>프로그램이 받을 필드와 자료형을 지정합니다. 형식과 내용은 각각 확인합니다.</td></tr>
+                    <tr><td><code>--max-turns 2</code></td><td>한 요청에서 에이전트가 이어서 작업하는 턴의 수를 제한합니다.</td></tr>
+                  </tbody></table></div>
+                  <pre><code>$instruction = Read-Host '요청을 입력하세요'
+claude -p --output-format json --max-turns 2 -- "$instruction"</code></pre>
+                </div>
+                <h3>수업 전에 연결 실습 파일을 준비합니다</h3>
+                <p><a href="downloads/hug4-connections.zip" download>연결 실습 ZIP</a>을 풀고 <code>requirements.txt</code>가 있는 폴더에서 PowerShell을 엽니다. 첫 줄은 실습 전용 Python 환경을 만들고, 둘째 줄은 그 환경에 MCP 라이브러리를 설치합니다.</p>
+                <pre id="setup-venv-command"><code>py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt</code></pre><button type="button" class="btn copy-command" data-copy="setup-venv-command">명령 복사</button>
+                <p><a href="models.html#download">Windows CPU 실행기와 Qwen2.5 0.5B 모델</a>을 별도 폴더에 준비합니다. <code>llama-server.exe</code>와 약 491MB인 <code>.gguf</code> 파일을 같은 폴더에 둡니다.</p>
+              </div>
+        </section>
+
         <section class="lesson-section visual-slide lab lab-embedded" id="practice" data-slide data-title="워크플로우 실습" aria-labelledby="practice-title">
           <header class="chapter-heading">
             <h2 id="practice-title">워크플로우 실습</h2>
@@ -277,7 +336,7 @@
             </div>
             <div class="panel lab-sequence">
               <h3>실행 순서</h3>
-              <p class="lab-help">노드를 추가하거나 순서를 바꾼 뒤 다시 실행할 수 있습니다.</p>
+                <p class="lab-help">자기 텍스트로 한 번 실행합니다. 필터를 추가해 결과 표시 앞으로 옮긴 뒤 다시 실행하고, 필터의 받은 값과 내보낸 값을 비교합니다.</p>
               <ol class="graph" id="graph" aria-label="노드 실행 순서"></ol>
               <div class="options"><label for="kind">추가할 노드</label><select id="kind"></select><button class="btn" id="add" type="button">노드 추가</button></div>
             </div>
@@ -308,14 +367,13 @@
             <li id="prepare"><h3>작업 폴더를 열고 연결을 확인합니다</h3>
               <p>탐색기에서 나만의 작업 폴더를 열고 주소 표시줄에 <code>powershell</code>을 입력합니다. 현재 터미널의 위치가 Claude Code가 처음 작업하는 폴더가 됩니다.</p>
               <pre><code>Get-Location
-claude --version
-claude auth status</code></pre>
-              <p>선택한 폴더 경로, CLI 설치, 로그인 상태를 순서대로 봅니다. Claude 연결이 필요하면 <code>claude auth login</code>으로 공식 로그인 화면을 열어 본인 Team 계정을 선택합니다.</p>
+claude</code></pre>
+              <p>표시된 경로가 내가 작업할 폴더인지 확인합니다. 설치와 계정 상태는 <a href="#setup">실습 환경 준비</a>에서 확인합니다.</p>
             </li>
             <li id="brief"><h3>5분 동안 입력·처리·결과를 적습니다</h3>
               <p>평소 받는 자료와 최종적으로 확인하는 값 하나를 고릅니다. 세 줄을 채운 뒤 공개 또는 가상 자료로 실제 투입할 입력 하나를 준비합니다.</p>
               <dl class="task-brief"><div><dt>입력</dt><dd>프로그램이 받을 자료와 그 형식</dd></div><div><dt>처리</dt><dd>반복하던 일 가운데 자동으로 처리할 규칙</dd></div><div><dt>결과</dt><dd>받고 싶은 값과 결과가 맞는지 판단할 기준</dd></div></dl>
-              <p>터미널에서 <code>claude</code>를 연 뒤 첫 요청을 보냅니다.</p>
+              <p>앞서 연 Claude Code 세션에 이 세 가지를 담은 첫 요청을 보냅니다.</p>
               <details class="lesson-disclosure"><summary>첫 요청 예문</summary>
                 <pre id="first-prompt"><code>이 폴더에서 아래 업무를 처리하는 도구를 만들어줘.
 입력은 [입력], 처리는 [처리], 결과는 [결과]야.
@@ -327,22 +385,55 @@ claude auth status</code></pre>
             </li>
             <li id="first-run"><h3>결과가 저장되는 데까지 실행합니다</h3>
               <p>Claude Code가 알려준 명령으로 내 도구를 실행합니다. 출력 화면과 저장한 파일을 열어, 내가 적은 성공 기준과 하나씩 대조합니다. 터미널을 닫았다가 다시 열 때도 같은 폴더와 명령으로 시작할 수 있게 적어둡니다.</p>
-              <p>값이 예상과 다르면 실제 입력, 나온 값, 예상했던 값을 함께 주고 그 값이 처음 달라진 단계를 수정합니다. 설치가 제한된 경우에는 <a href="#practice">본문 실습기</a>에서 자기 입력으로 흐름을 만들고 JSON으로 저장합니다.</p>
+              <p>값이 예상과 다르면 실제 입력, 나온 값, 예상했던 값을 함께 주고 그 값이 처음 달라진 단계를 수정합니다.</p>
             </li>
           </ol>
         </section>
 
         <section class="lesson-section visual-slide" id="backend" data-slide data-title="실행 버튼의 뒷단">
           <header class="chapter-heading"><p>15:10–15:35</p><h2>실행기는 어떻게 다음 단계로 넘어가는가</h2><p>파일 트리는 코드와 자료가 있는 위치를 알려줍니다. 워크플로우는 실행 순서와 단계 사이에서 이동하는 값을 보여줍니다.</p></header>
+          <figure class="sys-diagram sys-workflow" aria-labelledby="sys-workflow-title">
+            <figcaption><strong id="sys-workflow-title">값이 달라지면 실행 경로도 달라집니다</strong><span>본문 실습기의 텍스트 필터 예시</span></figcaption>
+            <div class="sys-workflow-pipe">
+              <div class="sys-node">
+                <strong>입력 읽기</strong>
+                <samp>회의 자료<br>모델 비교</samp>
+              </div>
+              <span class="sys-arrow" aria-hidden="true"></span>
+              <div class="sys-node">
+                <strong>포함된 줄만 남기기</strong>
+                <code>keyword = "자료"</code>
+                <code>rows = [{"text":"회의 자료"}]</code>
+              </div>
+              <span class="sys-arrow" aria-hidden="true"></span>
+              <div class="sys-node sys-decision">
+                <strong>결과가 있는가?</strong>
+                <code>rows.length &gt; 0</code>
+              </div>
+              <ul class="sys-branch">
+                <li class="sys-pass"><span>1건 이상</span><strong>결과 표시 실행</strong><small>상태 · 완료</small></li>
+                <li class="sys-empty"><span>0건</span><strong>0건 안내 표시</strong><small>상태 · 정상 분기</small></li>
+              </ul>
+            </div>
+            <div class="sys-workflow-error"><strong>필수 값이 비어 있으면</strong><span><code>keyword = ""</code></span><span class="sys-inline-arrow" aria-hidden="true">→</span><span>필터 단계 실패</span><span class="sys-inline-arrow" aria-hidden="true">→</span><span>이후 단계 실행 생략</span></div>
+            <p class="sys-reading-key">같은 원문에 <code>설치</code>를 넣으면 <code>rows = []</code>이 됩니다. 실행 기록에서는 노드에 들어온 값, 내보낸 값, 상태를 함께 읽습니다.</p>
+          </figure>
           <div class="theory-notes">
             <h3>파일 트리와 워크플로우가 알려주는 것</h3>
             <p>파일 트리의 선은 <strong>폴더 안에 무엇이 들어 있는지</strong> 나타냅니다. 워크플로우의 선은 <strong>어느 단계가 먼저 값을 만들어야 하는지</strong> 나타냅니다. 실행 순서를 바꾸는 일, 한 단계의 처리 방식을 고치는 일, 지난 실행을 찾아보는 일에는 각각 다른 파일이나 화면을 엽니다.</p>
-            <dl class="file-tree">
-              <div><dt>워크플로우 설정</dt><dd>노드의 이름과 실행 순서를 기록합니다. 본문 실습기에서 저장하는 <code>hug-workflow.json</code>에는 버전과 노드 순서가 담깁니다.</dd></div>
-              <div><dt>실행기 코드</dt><dd>설정을 읽고, 각 이름에 맞는 처리 함수를 찾아, 단계가 끝나면 다음 단계에 값을 넘깁니다.</dd></div>
-              <div><dt>단계별 코드</dt><dd>입력 읽기, 값 확인, 변환, 모델 호출, 출력 저장 같은 규칙이 실제로 실행되는 위치입니다.</dd></div>
-              <div><dt>입력·출력·실행 기록</dt><dd>실행에 쓴 자료, 저장한 결과, 각 단계에서 받은 값과 내보낸 값을 확인합니다.</dd></div>
-            </dl>
+            <figure class="course-files" aria-labelledby="course-files-title">
+              <figcaption id="course-files-title">연결 실습 ZIP을 풀면 열리는 폴더</figcaption>
+              <div class="course-files-root"><code>hug4-connections/</code></div>
+              <ul>
+                <li><code>input.txt</code><span>세 단계에 넣는 실습 입력</span></li>
+                <li><code>input_source.py</code><span>API와 MCP가 함께 쓰는 파일 읽기 함수</span></li>
+                <li><code>api_server.py</code><span>HTTP 주소에서 입력을 돌려주는 서버</span></li>
+                <li><code>mcp_server.py</code><span>같은 함수를 MCP로 공개하는 서버</span></li>
+                <li><code>run_cpu.py</code><span>API의 값을 받아 모델에 보내는 실행기</span></li>
+                <li><code>requirements.txt</code><span>실습용 Python 라이브러리 목록</span></li>
+              </ul>
+            </figure>
+            <p>이 폴더에서 입력을 바꿀 때는 <code>input.txt</code>, API와 MCP의 공통 읽기 규칙을 바꿀 때는 <code>input_source.py</code>를 엽니다. 위 워크플로우의 노드 순서는 본문 실습기에서 <code>hug-workflow.json</code>으로 따로 저장합니다.</p>
             <h3>실행 버튼을 한 번 눌렀을 때</h3>
             <ol class="mechanism-list">
               <li><strong>입력을 읽고 실행 상태를 만듭니다.</strong> 화면의 텍스트나 파일을 읽고, 실행에 필요한 값에 이름을 붙입니다. 앞 단계가 어떤 형식으로 값을 반환하고 다음 단계가 어떤 형식으로 읽을지 맞춰야 합니다.</li>
@@ -376,24 +467,176 @@ claude auth status</code></pre>
               <li><strong>응답 처리</strong><span>종료 상태와 형식 확인</span></li>
               <li><strong>업무 검증</strong><span>원문 대조, 저장 또는 확인 보류</span></li>
             </ol>
-            <p><strong>추론</strong>은 저장된 가중치로 이번 요청에 대한 결과를 계산합니다. 지시문이나 참고 자료를 추가하면 이번 요청의 컨텍스트가 달라집니다. 대화 기록을 이어 쓰는 앱은 저장한 내용을 다시 전달할 수 있습니다. <strong>학습</strong>은 별도의 과정에서 예시에 맞춰 가중치나 어댑터를 조정합니다. 결과가 흔들릴 때는 필요한 근거와 출력 조건이 실제 요청에 들어갔는지 먼저 확인할 수 있습니다.</p>
+            <p>지시문이나 참고 자료를 추가하면 이번 요청의 컨텍스트가 달라집니다. 대화 기록을 이어 쓰는 앱은 저장한 내용을 다시 전달할 수 있습니다. <strong>학습</strong>은 예시에 맞춰 가중치나 어댑터를 조정하는 과정입니다. 추론 결과가 흔들릴 때는 필요한 근거와 출력 조건이 실제 요청에 들어갔는지 먼저 확인합니다.</p>
           </div>
         </section>
 
-        <section class="lesson-section visual-slide" id="connect" data-slide data-title="API·MCP·CPU 모델 연결">
-          <header class="chapter-heading"><p>15:35–16:25</p><h2>API, MCP, CPU 모델은 어디에 붙는가</h2><p>연결이 필요한 경우 각자 자기 도구의 한 단계에 붙입니다. 나머지 단계가 주고받는 값은 이미 정한 기준으로 확인합니다.</p></header>
-          <div class="theory-notes">
-            <h3>API · 프로그램이 자료를 요청하는 방법</h3>
-            <p>API는 다른 프로그램에 무슨 작업을 요청할 수 있고 어떤 값이 돌아오는지를 정한 약속입니다. 웹 API의 요청에는 주소, 방식, 필요한 값이 들어가고 HTTP로 전달합니다. 응답이 JSON이라면 프로그램은 필요한 값만 이름으로 읽습니다. 받은 형식이 내 도구가 읽는 형식과 다르면 이 단계에서 맞춰 다음 노드에 넘깁니다.</p>
-            <p>서버와 연결됐는지, 요청이 처리됐는지, 응답에 사용할 자료가 있는지를 각각 확인합니다. <code>200</code>과 빈 목록은 정상 처리 결과일 수 있고, 시간 초과는 정해진 시간 안에 응답을 받지 못한 상태입니다. 실습에서는 응답의 값이 다음 단계의 입력으로 들어왔는지 확인합니다. <a href="local.html#api">API 호출 실습</a></p>
-            <h3>MCP · 모델이 쓸 도구의 목록과 호출 규칙</h3>
-            <p>내 기능을 MCP 서버에 도구로 등록할 때는 이름, 설명, 받을 인자와 자료형을 함께 제공합니다. Claude Code 같은 호스트의 MCP 클라이언트는 <code>tools/list</code>로 목록과 입력 규격을 받습니다. 모델이 도구 호출을 요청하면 호스트가 권한을 확인하고 <code>tools/call</code>로 서버에 이름과 인자를 보냅니다. 서버가 실행한 결과를 받으면 호스트가 모델의 다음 요청에 그 결과를 포함할 수 있습니다.</p>
-            <p>같은 PC에서 실행하는 서버는 표준 입력과 출력으로 연결할 수 있고, 떨어진 서버와는 HTTP 같은 방식을 씁니다. MCP 도구 안에는 파일 조회, 코드 처리, 다른 HTTP API 호출을 넣을 수 있습니다. 함수에 인자를 직접 줬을 때와 MCP로 호출했을 때 같은 값이 돌아오는지 확인해 연결을 시험합니다. <a href="local.html#mcp">MCP 서버 만들기</a></p>
-            <h3>CPU 모델 · 추론을 내 PC에서 실행하기</h3>
-            <p>Hugging Face에서 받는 모델 파일에는 학습된 숫자 가중치와 실행에 필요한 정보가 들어 있습니다. <code>GGUF</code>는 이를 저장하는 형식입니다. <code>llama.cpp</code> 같은 실행기는 파일을 읽고, 입력을 토큰으로 바꾸고, 다음 토큰을 계산합니다. CPU용 실행기로 로컬 서버를 켜면 내 프로그램은 그 PC의 주소로 자료를 보내고 응답을 받습니다.</p>
-            <p>양자화는 가중치를 나타내는 비트 수를 줄이는 방법입니다. 4비트라면 가중치 하나를 나타내는 데 대략 반 바이트가 필요하지만, 실제 파일에는 보조 정보와 다른 정밀도를 쓰는 값도 들어갑니다. 실행할 때는 파일 크기 외에 입력과 이전 토큰의 계산 결과를 보관할 메모리도 필요합니다. 입력을 처음 읽고 계산하는 데 걸린 시간과, 그 뒤 토큰을 하나씩 생성하는 속도를 나눠 보면 병목을 찾기 쉽습니다. <a href="models.html">모델 파일과 실행 방법</a></p>
-          </div>
+        <section class="lesson-section visual-slide lab-sheet" id="connect" data-slide data-title="실습 · API로 자료 읽기">
+          <header class="chapter-heading"><p>15:35–15:47 · 12분</p><h2>실습 1 · API로 내 입력을 읽습니다</h2><p>50분 동안 같은 <code>input.txt</code>를 HTTP와 MCP로 읽고, 그 데이터를 모델에 넘겨 내 프로그램이 쓸 결과로 바꿉니다.</p></header>
+          <ol class="lab-route" aria-label="50분 연결 실습 구성">
+            <li><time>15:35–15:47</time><a href="#connect">API · 자료 읽기</a></li>
+            <li><time>15:47–16:02</time><a href="#mcp-lab">MCP · 도구 호출</a></li>
+            <li><time>16:02–16:20</time><a href="#cpu-lab">CPU · 모델 호출</a></li>
+            <li><time>16:20–16:25</time><a href="#connection-check">연결 결과 확인</a></li>
+          </ol>
+          <div class="lab-action"><a class="btn primary" href="downloads/hug4-connections.zip" download>연결 실습 파일 받기</a><a href="#setup">설치와 초기 설정</a></div>
+          <p>API는 다른 프로그램에 <strong>무슨 일을 어떤 형식으로 요청할 수 있는지</strong> 정하는 약속입니다. HTTP API에서는 <code>GET</code>으로 자료를 받고, 이 실습의 생성 요청처럼 내용을 보낼 때 <code>POST</code>와 JSON 본문을 사용합니다. 주소에서 포트는 받을 프로세스를, 경로는 그 안에서 맡을 기능을 가리킵니다.</p>
+          <ol class="guided-steps">
+            <li><h3>준비한 내 입력을 엽니다</h3><p>압축을 푼 <code>hug4-connections</code>에 있는 <code>input.txt</code>에 자기 도구의 실습용 텍스트를 400자 이내로 입력하고 UTF-8로 저장합니다. 원문에서 모델이 찾아야 할 내용이나 기대하는 결과도 한 문장으로 적어 둡니다.</p></li>
+            <li><h3>PowerShell 1에서 API 서버를 켭니다</h3><p>실습 폴더를 탐색기로 열고 주소 표시줄에 <code>powershell</code>을 입력합니다. 아래 명령 실행 후 8766번 주소가 나오면 창을 켜 둡니다.</p>
+              <pre id="start-input-api"><code>py -3.12 api_server.py</code></pre><button type="button" class="btn copy-command" data-copy="start-input-api">명령 복사</button></li>
+            <li><h3>같은 폴더의 PowerShell 2에서 응답을 읽습니다</h3><p>첫째 줄은 실습용 호출 코드입니다. 둘째 줄은 PowerShell에서 같은 HTTP 요청을 직접 보내 응답을 확인하는 명령입니다.</p>
+              <pre id="read-input-api"><code>py -3.12 inspect_api.py
+Invoke-RestMethod -Uri 'http://127.0.0.1:8766/input'</code></pre><button type="button" class="btn copy-command" data-copy="read-input-api">명령 복사</button></li>
+          </ol>
+          <div class="lab-evidence"><strong>확인할 값</strong><p><code>GET /input</code>의 HTTP <code>200</code>은 서버가 요청을 처리했다는 뜻입니다. JSON의 <code>status</code>가 <code>ok</code>이면 <code>text</code>를 원문과 대조합니다. <code>empty</code>나 <code>missing</code>이면 실습 폴더와 파일 내용을 확인합니다. 연결 오류가 나면 PowerShell 1이 열려 있는지 봅니다.</p></div>
+          <figure class="sys-diagram sys-api" aria-labelledby="sys-api-title">
+            <figcaption><strong id="sys-api-title">HTTP 요청 한 번에 무엇이 오가나요?</strong><span>한 PC에 열린 두 개의 주소</span></figcaption>
+            <div class="sys-api-get">
+              <strong>원문 읽기</strong>
+              <code>GET http://127.0.0.1:8766/input</code>
+              <span>파이썬 서버가 반환한 JSON에서 <code>status</code>가 <code>ok</code>이면 <code>text</code>를 읽습니다.</span>
+            </div>
+            <div class="sys-endpoints">
+              <div><strong>Python 실행기</strong><small>HTTP 요청을 보냄</small></div>
+              <div><strong>llama.cpp 서버</strong><small><code>127.0.0.1:8081</code></small></div>
+            </div>
+            <div class="sys-api-exchange">
+              <div class="sys-wire"><span>실행기에서 모델 서버로</span><span class="sys-arrow" aria-hidden="true"></span></div>
+              <dl class="sys-http-message sys-request" aria-label="HTTP 요청의 주요 필드">
+                <div><dt>방식 · 경로</dt><dd><code>POST /v1/chat/completions</code></dd></div>
+                <div><dt>헤더</dt><dd><code>Content-Type: application/json; charset=utf-8</code></dd></div>
+                <div><dt>JSON 본문 일부</dt><dd><code>{"messages":[{"role":"user","content":"요청\n한 줄 요약\n\n원문\n회의 자료 준비와 모델 비교를 진행합니다."}],"max_tokens":120}</code></dd></div>
+              </dl>
+              <div class="sys-wire sys-wire-back"><span>모델 서버에서 실행기로</span><span class="sys-arrow" aria-hidden="true"></span></div>
+              <dl class="sys-http-message sys-response" aria-label="HTTP 성공 응답의 주요 필드">
+                <div><dt>상태 코드</dt><dd><code>200 OK</code></dd></div>
+                <div><dt>헤더</dt><dd><code>Content-Type: application/json</code></dd></div>
+                <div><dt>JSON 본문 일부</dt><dd><code>{"choices":[{"message":{"content":"회의 자료를 준비하고 모델을 비교합니다."}}]}</code></dd></div>
+              </dl>
+            </div>
+            <p class="sys-reading-key">실행기는 성공 상태를 받은 뒤 <code>choices[0].message.content</code>에 있는 값을 읽습니다. 상태 코드는 HTTP 처리 결과를 알려줍니다. 답의 형식과 내용은 실행기가 다음 단계에서 검사합니다.</p>
+          </figure>
+          <p class="lab-bridge">같은 HTTP 방식으로 AI 서비스에도 요청할 수 있습니다. Claude Messages API는 <code>POST /v1/messages</code>로 <code>model</code>, <code>messages</code>, <code>max_tokens</code> 등을 받습니다. 서비스 인증은 Team 로그인 상태와 별도로 설정합니다. 오늘은 Team 계정으로 Claude Code를 열고, 직접 조립하는 HTTP 요청은 아래 CPU 모델에서 실행합니다.</p>
         </section>
+
+        <section class="lesson-section visual-slide lab-sheet lab-mcp" id="mcp-lab" data-slide data-title="실습 · MCP 도구 호출">
+          <header class="chapter-heading"><p>15:47–16:02 · 15분</p><h2>실습 2 · 내 함수를 MCP 도구로 엽니다</h2><p>먼저 도구 목록과 입력 규격을 받습니다. 그 목록에서 <code>read_input</code>을 찾아 호출하고, 반환된 값을 API의 값과 대조합니다.</p></header>
+          <figure class="sys-diagram sys-mcp" aria-labelledby="sys-mcp-title">
+            <figcaption><strong id="sys-mcp-title">MCP로 도구를 알아내고 실행합니다</strong><span>연결 초기화가 끝난 뒤의 메시지 흐름</span></figcaption>
+            <div class="sys-endpoints">
+              <div><strong>Claude Code 호스트</strong><small>내부 MCP 클라이언트</small></div>
+              <div><strong>별도 MCP 서버</strong><small><code>read_input</code> 도구 제공</small></div>
+            </div>
+            <ol class="sys-sequence" aria-label="도구 목록 조회와 실행의 순서">
+              <li>
+                <strong class="sys-msg-label">목록 요청 <code>tools/list</code></strong>
+                <span class="sys-arrow" aria-hidden="true"></span>
+                <span class="sys-sequence-detail">서버의 <code>stdin</code>으로 도구 목록을 요청합니다.</span>
+              </li>
+              <li class="sys-msg-back">
+                <strong class="sys-msg-label">목록 응답</strong>
+                <span class="sys-arrow" aria-hidden="true"></span>
+                <span class="sys-sequence-detail">서버의 <code>stdout</code>으로 도구의 이름, 설명, 입력 규격을 받습니다.</span>
+              </li>
+              <li class="sys-msg-call">
+                <strong class="sys-msg-label">실행 요청 <code>tools/call</code></strong>
+                <span class="sys-arrow" aria-hidden="true"></span>
+                <span class="sys-sequence-detail">호스트가 도구 실행 요청과 권한을 확인해 <code>read_input</code> 이름과 빈 인자 <code>{}</code>를 보냅니다.</span>
+              </li>
+              <li class="sys-msg-back">
+                <strong class="sys-msg-label">실행 결과</strong>
+                <span class="sys-arrow" aria-hidden="true"></span>
+                <span class="sys-sequence-detail">서버가 <code>input.txt</code>를 읽고 <code>status</code>와 <code>text</code>를 보냅니다. 호스트는 받은 값을 모델의 다음 요청에 넣을 수 있습니다.</span>
+              </li>
+            </ol>
+            <p class="sys-reading-key">이 실습에서는 별도 포트 없이 <code>stdio</code>를 사용합니다. 서버는 표준 출력에 MCP 메시지를 쓰고, 진단 로그는 표준 오류(<code>stderr</code>)에 남깁니다.</p>
+          </figure>
+          <ol class="guided-steps">
+            <li><h3>PowerShell 2의 MCP 클라이언트를 실행합니다</h3>
+              <p><code>inspect_mcp.py</code>가 서버 프로그램을 자식 프로세스로 띄웁니다. 두 프로세스는 <code>stdio</code>로 메시지를 주고받습니다. PowerShell 2에 목록과 호출 결과가 차례로 뜹니다.</p>
+              <pre id="inspect-mcp-command"><code>.\.venv\Scripts\python.exe inspect_mcp.py</code></pre><button type="button" class="btn copy-command" data-copy="inspect-mcp-command">명령 복사</button></li>
+            <li><h3>목록과 호출의 차이를 찾습니다</h3><p><code>tools/list</code>에서 도구의 이름, 설명, <code>inputSchema</code>를 찾습니다. <code>read_input</code>은 서버가 정해 둔 파일을 읽으므로 호출 인자가 <code>{}</code>입니다. <code>tools/call</code> 아래의 <code>text</code>를 원문과 맞춰 봅니다.</p></li>
+            <li><h3>파일을 고치고 같은 도구를 다시 호출합니다</h3><p><code>input.txt</code>에서 한 단어를 고친 뒤 저장합니다. API와 MCP 명령을 각각 다시 실행해 두 응답에서 수정된 단어를 찾습니다. <code>mcp_server.py</code>를 열어 <code>@server.tool()</code>과 실제 파일을 읽는 함수를 찾습니다.</p></li>
+            <li><h3>Claude Code에 방금 만든 도구를 등록합니다</h3><p>같은 폴더에서 서버를 등록하고 목록에서 <code>hug4-input</code>을 확인합니다. <code>--scope local</code>은 이 폴더의 내 설정에 등록합니다. <code>claude</code>를 열어 <code>/mcp</code>로 연결을 확인하고, <code>read_input</code>을 인수 없이 호출해 달라고 요청합니다.</p>
+              <pre id="register-mcp-command"><code>$mcpPython = (Resolve-Path .\.venv\Scripts\python.exe).Path
+$mcpServer = (Resolve-Path .\mcp_server.py).Path
+claude mcp add --transport stdio --scope local hug4-input -- "$mcpPython" "$mcpServer"
+claude mcp get hug4-input</code></pre><button type="button" class="btn copy-command" data-copy="register-mcp-command">명령 복사</button></li>
+          </ol>
+          <div class="lab-evidence"><strong>확인할 값</strong><p>도구 목록에 <code>read_input</code>이 있고, 호출 결과와 API의 <code>text</code>가 같습니다. MCP 모듈을 찾지 못하면 <a href="#setup">준비에서 만든 <code>.venv</code></a>의 Python과 설치 상태를 확인합니다.</p></div>
+          <p class="lab-bridge">Claude Code 같은 호스트는 도구의 이름과 규격을 모델에 알려줄 수 있습니다. 모델이 사용할 도구와 인자를 제안하면 호스트가 권한을 확인하고 MCP 클라이언트로 호출합니다. 호스트는 도구의 결과를 모델의 다음 입력에 포함할 수 있습니다. 여기서는 그중 목록 조회와 실제 호출을 검사기로 직접 실행했습니다.</p>
+        </section>
+
+        <section class="lesson-section visual-slide lab-sheet lab-cpu" id="cpu-lab" data-slide data-title="실습 · CPU로 모델 추론">
+          <header class="chapter-heading"><p>16:02–16:20 · 18분</p><h2>실습 3 · 같은 자료로 CPU 모델을 호출합니다</h2><p>실행기는 입력 API의 JSON에서 <code>text</code>를 꺼내 내 지시와 묶습니다. 그 요청을 같은 PC 안의 모델 서버에 보내고 생성된 답을 읽습니다.</p></header>
+          <figure class="sys-diagram sys-inference" aria-labelledby="sys-inference-title">
+            <figcaption><strong id="sys-inference-title">언어 모델은 다음 토큰을 하나씩 만듭니다</strong><span>llama.cpp에서 GGUF 가중치로 실행하는 추론</span></figcaption>
+            <div class="sys-infer-top">
+              <div class="sys-node">
+                <strong>모델 입력 만들기</strong>
+                <span><code>messages</code>를 모델이 받는 대화 형식으로 바꿉니다.</span>
+              </div>
+              <span class="sys-arrow" aria-hidden="true"></span>
+              <div class="sys-node">
+                <strong>토큰화</strong>
+                <span>문자열을 토큰 ID의 열로 바꿉니다.</span>
+                <div class="sys-token-tray" aria-label="토큰 ID 세 개를 표시한 도식"><code>ID₁</code><code>ID₂</code><code>ID₃</code><span>…</span></div>
+              </div>
+              <span class="sys-arrow" aria-hidden="true"></span>
+              <div class="sys-node">
+                <strong>입력 처리 · Prefill</strong>
+                <span>입력 토큰을 계산해 이전 문맥에 쓸 K/V와 첫 토큰의 후보 점수를 만듭니다.</span>
+              </div>
+            </div>
+            <div class="sys-infer-passage"><span class="sys-arrow" aria-hidden="true"></span><span>초기 KV 캐시와 첫 토큰 후보 점수</span></div>
+            <div class="sys-decode">
+              <div class="sys-loop-entry">
+                <div><strong>다음 토큰 후보 점수</strong><small>어휘에 있는 각 토큰의 점수</small></div>
+                <span class="sys-arrow" aria-hidden="true"></span>
+                <div><strong>토큰 선택</strong><small>설정한 선택 규칙에 따라 하나를 고름</small></div>
+              </div>
+              <div class="sys-inference-branches">
+                <div class="sys-feedback">
+                  <strong>계속 생성할 때</strong>
+                  <span>이전 K/V를 재사용하고, 고른 토큰의 K/V를 계산해 추가합니다. 다음 토큰의 후보 점수를 내고 토큰 선택을 반복합니다.</span>
+                  <div class="sys-token-tray sys-cache-tray" aria-label="기존 KV에 현재 토큰의 KV를 추가">
+                    <code>K₁,V₁</code><code>K₂,V₂</code><span>…</span><code>+ K<sub>새</sub>,V<sub>새</sub></code>
+                  </div>
+                  <span class="sys-loop-return"><b aria-hidden="true">↶</b> 다음 토큰 후보 점수로</span>
+                </div>
+                <div class="sys-decode-out">
+                  <strong>생성이 끝날 때</strong>
+                  <span>종료 토큰에 도달하거나 길이 제한을 채우면 생성을 멈춥니다.</span>
+                  <span>생성한 ID를 문자열로 바꿔 응답에 돌려줍니다.</span>
+                </div>
+              </div>
+            </div>
+            <p class="sys-reading-key">KV 캐시는 앞서 처리한 토큰과의 관계를 계산할 때 다시 쓰는 값입니다. 추론 중에 캐시와 출력은 바뀌고, 모델 가중치는 고정됩니다.</p>
+          </figure>
+          <p><code>GGUF</code>는 학습된 가중치와 실행에 필요한 정보를 담는 파일 형식입니다. 실습의 Qwen2.5 0.5B 파일은 약 491MB입니다. <code>Q4_K_M</code>은 가중치를 여러 정밀도로 압축하는 양자화 방식입니다. 실행 중에는 가중치 외에도 현재 입력과 이전 토큰의 계산값을 메모리에 둡니다. 입력 길이를 늘리면 처음 계산하는 일과 캐시 크기가 함께 늘어납니다.</p>
+          <ol class="guided-steps">
+            <li><h3>PowerShell 3에서 모델을 띄웁니다</h3><p><code>llama-server.exe</code>와 <code>.gguf</code> 파일이 함께 있는 폴더에서 PowerShell을 엽니다. <code>-ngl 0</code>은 GPU에 모델 레이어를 올리지 않도록 하고, <code>-c 2048</code>은 사용할 컨텍스트 크기, <code>-t 4</code>는 CPU 스레드 설정입니다. 로딩이 끝날 때까지 기다립니다.</p>
+              <pre id="start-cpu-server"><code>.\llama-server.exe -m .\qwen2.5-0.5b-instruct-q4_k_m.gguf --host 127.0.0.1 --port 8081 -ngl 0 -c 2048 -t 4</code></pre><button type="button" class="btn copy-command" data-copy="start-cpu-server">명령 복사</button></li>
+            <li><h3>PowerShell 2에서 자기 업무의 결과를 요청합니다</h3><p>PowerShell 1의 입력 API를 켜 둔 상태에서 실행합니다. <code>입력 상태 · ok</code>가 나오면 앞에서 정한 결과를 입력합니다.</p>
+              <pre id="run-cpu-command"><code>py -3.12 run_cpu.py</code></pre><button type="button" class="btn copy-command" data-copy="run-cpu-command">명령 복사</button></li>
+            <li><h3>요청을 구성한 코드와 실제 답을 대조합니다</h3><p><code>run_cpu.py</code>에서 입력을 읽는 부분과 <code>messages</code>를 만드는 부분을 찾습니다. 실행 결과의 <code>choices[0].message.content</code> 아래 문장에서, 원문의 필수 정보가 남았는지와 내가 요구한 형식을 따랐는지 확인합니다. 빠진 값이 있으면 찾아야 할 항목을 지시에 추가하고 다시 실행합니다.</p></li>
+          </ol>
+          <div class="lab-evidence"><strong>확인할 값</strong><p>이 실습은 <code>8766</code>에서 원문을 읽고 <code>8081</code>에서 답을 생성합니다. <code>HTTP 503</code>이나 8081번 연결 오류가 나면 PowerShell 3에서 파일 위치와 로딩 상태를 확인합니다.</p></div>
+        </section>
+
+        <section class="lesson-section visual-slide lab-sheet" id="connection-check" data-slide data-title="실습 · 연결 결과 확인">
+          <header class="chapter-heading"><p>16:20–16:25 · 5분</p><h2>실습 결과를 대조하고 서버를 닫습니다</h2><p>정상 데이터와 빈 데이터를 각각 시험해, 값이 어느 단계에서 생성되고 어디서 중단되는지 확인합니다.</p></header>
+          <figure class="lesson-shot lab-run-capture"><a href="assets/captures/connections-run.png" target="_blank" rel="noopener"><img src="assets/captures/connections-run.png" alt="같은 입력 파일에 대한 API 응답, MCP 도구 목록과 호출 결과, CPU 모델의 실제 출력이 나란히 표시된 화면" width="1500" height="780" loading="lazy"></a><figcaption>실제 실행 출력 세 건을 모았습니다. API와 MCP가 같은 원문을 반환하고, CPU 모델이 그 값으로 답을 생성합니다. 이미지에서 확대해 읽을 수 있습니다.</figcaption></figure>
+          <div class="table-wrap"><table><thead><tr><th scope="col">확인할 단계</th><th scope="col">기록할 결과</th></tr></thead><tbody>
+            <tr><td>HTTP 응답</td><td><code>status: ok</code>일 때 <code>text</code>가 내가 저장한 값과 일치합니다.</td></tr>
+            <tr><td>MCP 도구 호출</td><td><code>tools/list</code>에서 확인한 <code>read_input</code>을 호출하면 같은 <code>text</code>를 받습니다.</td></tr>
+            <tr><td>CPU 모델 답변</td><td>요청한 형식을 따랐는지, 원문에 없는 내용이 있는지 표시합니다.</td></tr>
+            <tr><td>빈 입력</td><td>원문을 다른 곳에 복사해 둔 뒤 <code>input.txt</code>를 비워 저장합니다. API가 <code>empty</code>를 돌려주고 <code>run_cpu.py</code>가 모델을 호출하기 전에 멈추는지 봅니다.</td></tr>
+          </tbody></table></div>
+          <p class="lab-bridge">원문을 복구하고 PowerShell 1과 3에서 각각 <kbd>Ctrl</kbd>+<kbd>C</kbd>를 눌러 서버를 종료합니다. 자기 프로그램에서 자료 가져오기와 결과 생성에 해당하는 단계가 어느 파일에 있는지 표시해 둡니다.</p>
+        </section>
+
 
         <section class="lesson-section visual-slide" id="verify" data-slide data-title="새 입력에서 검증">
           <header class="chapter-heading"><p>16:35–17:30</p><h2>새 입력으로 시험하고 다시 엽니다</h2><p>처음 성공한 입력을 보관합니다. 조건이 다른 입력과 값이 빠진 입력을 넣기 전에, 각각 어떤 결과가 나와야 하는지 적습니다.</p></header>
@@ -418,6 +661,8 @@ claude auth status</code></pre>
             <li>P 대 NP · <a href="https://www.claymath.org/millennium/p-vs-np/">Clay의 미해결 문제</a>, <a href="https://www.claymath.org/wp-content/uploads/2022/06/pvsnp.pdf">Stephen Cook의 문제 정의</a></li>
             <li>AI 능력의 수준 · <a href="https://arxiv.org/html/2311.02462v5#S4">Morris 외의 AGI 평가 틀</a>, <a href="https://ntrs.nasa.gov/api/citations/19940022856/downloads/19940022856.pdf">버너 빈지의 특이점 논문</a></li>
             <li>모델 요청 · <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works">Claude의 도구 호출</a>, <a href="https://platform.claude.com/docs/en/build-with-claude/context-windows">컨텍스트</a>, <a href="https://code.claude.com/docs/en/headless">CLI 구조화 응답</a>, <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 연결 방식</a>, <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a></li>
+            <li>설치와 CLI · <a href="https://docs.python.org/3.12/using/windows.html">Python Windows 안내</a>, <a href="https://code.claude.com/docs/en/quickstart">Claude Code 설치</a>, <a href="https://code.claude.com/docs/en/cli-reference">CLI 명령과 옵션</a></li>
+            <li>연결 실습 · <a href="https://platform.claude.com/docs/en/api/messages">Claude Messages API 요청 규격</a>, <a href="https://code.claude.com/docs/en/mcp">Claude Code 도구 등록</a>, <a href="https://modelcontextprotocol.io/specification/2025-11-25/server/tools">MCP 도구 목록과 호출 규격</a>, <a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/transports">MCP 전송 방식</a>, <a href="https://github.com/ggml-org/llama.cpp/blob/b12387/tools/server/README.md">llama.cpp 서버 경로와 옵션</a>, <a href="https://huggingface.co/docs/transformers/en/cache_explanation">추론과 KV 캐시</a></li>
           </ul>
           <p>실행 화면 캡처에는 확인용 텍스트를 사용했습니다.</p>
         </details>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="허그 4회차 개인 실습. 내 작업 폴더에서 Claude Code를 실행하고 필요한 API 또는 MCP를 연결합니다.">
+  <meta name="description" content="허그 4회차 연결 실습. Python과 Claude Code를 설치하고 자기 입력으로 HTTP API, MCP, CPU 모델을 차례로 실행합니다.">
   <title>내 도구 실행과 연결 · HUG 4회차</title>
   <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -17,121 +17,113 @@
   </header>
   <main id="main">
     <header class="page-title"><div class="wrap">
-      <p class="kicker">Windows 개인 실습</p>
+      <p class="kicker">15:35–16:25 · 연결 실습</p>
       <h1>내 도구 실행과 연결</h1>
-      <p>직접 고른 입력을 처리하고, 결과에 필요한 경우 Claude Code, 공개 API, MCP를 연결합니다.</p>
-      <nav class="jump" aria-label="실행과 연결 목차"><a href="#start">첫 실행</a><a href="#claude">Claude 연결</a><a href="#api">공개 API</a><a href="#mcp">MCP 도구</a><a href="models.html#cpu">CPU 모델</a></nav>
+      <p>하나의 입력으로 HTTP API를 만들고, MCP 도구를 연결하고, CPU에서 모델 응답을 받습니다.</p>
+      <nav class="jump" aria-label="실행과 연결 목차"><a href="#install">설치</a><a href="#start">작업 폴더</a><a href="#claude">Claude Code</a><a href="#api">HTTP API</a><a href="#mcp">MCP</a><a href="models.html#cpu">CPU 모델</a></nav>
     </div></header>
 
+    <section class="wrap section" id="install">
+      <h2>수업 전에 Python과 Claude Code를 설치합니다</h2>
+      <p class="reading">Windows PowerShell에서 아래 명령을 실행합니다. 교재는 Python 3.12를 기준으로 안내합니다. 현재 설치된 도구는 버전 확인부터 합니다.</p>
+      <pre class="reading"><code>winget --version
+winget install --id Python.Python.3.12 --exact --source winget
+winget install --id Anthropic.ClaudeCode --exact --source winget</code></pre>
+      <p class="reading">Git으로 변경 이력을 보거나 Claude Code에서 Git Bash가 필요하면 <code>winget install --id Git.Git --exact --source winget</code>으로 Git for Windows를 설치합니다. 그 뒤 PowerShell을 다시 열고 아래 결과에서 버전을 확인합니다.</p>
+      <pre class="reading"><code>py -3.12 --version
+claude --version</code></pre>
+      <p class="reading">WinGet을 사용할 수 없는 PC에서는 하단의 공식 설치 안내를 확인합니다. CPU 단계에 쓸 <a href="models.html#download">Windows CPU 실행기와 Qwen2.5 0.5B GGUF</a>도 수업 전에 받습니다.</p>
+    </section>
+
     <section class="wrap section" id="start">
-      <h2>내 작업 폴더에서 시작합니다</h2>
+      <h2>연결 실습 파일과 내 입력을 준비합니다</h2>
+      <div class="actions"><a class="btn primary" href="downloads/hug4-connections.zip" download>연결 실습 ZIP 받기</a></div>
       <ol class="lesson-steps reading" id="prepare">
-        <li><strong>탐색기에서 작업 폴더를 엽니다.</strong> 주소 표시줄에 <code>powershell</code>을 입력한 뒤 아래 명령으로 현재 위치를 확인합니다.
-          <pre><code>Get-Location</code></pre></li>
-        <li><strong>입력과 기대 결과를 준비합니다.</strong> 직접 고른 공개 자료나 가상 텍스트를 필요하면 <code>input.txt</code>로 저장합니다. 어떤 값이 어떤 형식으로 나와야 성공인지 적어둡니다.</li>
-        <li><strong>실행 결과를 원문과 대조합니다.</strong> 값이 다르면 실행 기록에서 입력 확인, 처리, 저장 중 어느 단계에서 달라졌는지 먼저 찾습니다.</li>
+        <li>ZIP을 풀어 <code>api_server.py</code>와 <code>input.txt</code>가 있는 <code>hug4-connections</code> 폴더를 엽니다. 탐색기 주소 표시줄에 <code>powershell</code>을 입력합니다.</li>
+        <li><code>input.txt</code>에 직접 고른 공개 자료나 가상 텍스트를 400자 이내로 쓰고 UTF-8로 저장합니다. 모델에 요청할 결과를 한 문장으로 정합니다.</li>
+        <li><strong>수업 전에 Python 전용 환경을 준비합니다.</strong> 이 폴더에 <code>.venv</code>를 만들고 MCP 라이브러리를 설치합니다.
+          <pre><code>py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt</code></pre></li>
       </ol>
-      <p class="reading"><a href="index.html#practice">수업의 워크플로우 실습 열기</a></p>
     </section>
 
     <div class="paper"><section class="wrap section" id="claude">
-      <p class="kicker">제작과 실행에 쓰는 두 가지 요청</p>
-      <h2>Claude Code를 연결하고 응답을 확인합니다</h2>
+      <h2>Claude Code에 로그인하고 실제 응답을 확인합니다</h2>
       <div class="split">
         <ol class="lesson-steps">
-          <li><strong>설치와 계정 연결 상태를 각각 확인합니다.</strong>
-            <pre><code>claude --version
-claude auth status --text</code></pre>
-            <p>버전이 표시되고 Team 계정으로 연결되어 있다면 다음으로 넘어갑니다. 로그인이 필요한 경우 <code>claude auth login</code>으로 공식 로그인 화면을 열어 본인 Team 계정을 선택합니다.</p>
+          <li><strong>계정 연결 상태를 봅니다.</strong>
+            <pre><code>claude auth status --text</code></pre>
+            <p>로그인이 필요하면 <code>claude auth login</code>을 실행해 공식 로그인 화면에서 본인 Team 계정을 선택합니다. 연결을 해제하려면 <code>claude auth logout</code>을 실행합니다.</p>
           </li>
-          <li><strong>도구를 만들 때는 작업 폴더에서 <code>claude</code>를 엽니다.</strong> 입력, 처리, 결과 세 줄을 설명하고 바뀐 파일과 실행 방법을 확인합니다.</li>
-          <li><strong>도구가 모델을 부를 때는 한 번 요청하고 결과를 받습니다.</strong>
+          <li><strong>내 프로젝트를 만드는 세션을 엽니다.</strong> 작업 폴더에서 <code>claude</code>를 실행하고, 어떤 입력을 넣어 어떤 결과를 낼지 설명합니다.</li>
+          <li><strong>명령형 호출로 응답을 읽습니다.</strong> 같은 공개 텍스트로 요청을 만든 뒤 결과를 JSON으로 받습니다.
             <pre><code>$sourceText = Get-Content -LiteralPath .\input.txt -Raw -Encoding UTF8
 $instruction = Read-Host '이 입력으로 만들 결과를 적으세요'
 $taskPrompt = $instruction + [Environment]::NewLine + $sourceText
-claude -p $taskPrompt --output-format json</code></pre>
-            <p><code>-p</code>는 답을 한 번 출력하고 종료합니다. JSON 응답에서 <code>result</code>와 <code>is_error</code>를 확인합니다. 이 PC의 Claude Code 연결을 해제하려면 <code>claude auth logout</code>을 실행합니다.</p>
+claude -p --output-format json --max-turns 2 -- "$taskPrompt"</code></pre>
           </li>
         </ol>
-        <div>
-          <figure class="screenshot">
-            <a href="assets/captures/claude.png"><img src="assets/captures/claude.png" alt="Claude Code 버전과 미로그인 상태를 표시한 실제 명령 출력" loading="lazy"></a>
-            <figcaption>CLI 버전 확인과 미로그인 상태를 확인한 실제 화면입니다.</figcaption>
-          </figure>
-        </div>
+        <figure class="screenshot">
+          <a href="assets/captures/claude.png"><img src="assets/captures/claude.png" alt="Claude Code 버전과 미로그인 상태를 표시한 실제 명령 출력" loading="lazy"></a>
+          <figcaption>CLI 설치 여부와 계정 연결 상태를 출력에서 각각 확인합니다.</figcaption>
+        </figure>
       </div>
-      <p class="result-check reading"><strong>확인할 곳</strong> · <code>claude auth status</code>로 계정 연결을 확인한 뒤 실제 요청도 한 번 보냅니다. 응답이 오면 원문과 기대 결과에 맞는지 확인합니다. 오류가 나오면 응답에 표시된 계정, 사용량, 네트워크 상태를 살펴봅니다.</p>
+      <div class="table-wrap"><table><thead><tr><th scope="col">명령 또는 옵션</th><th scope="col">쓰임</th></tr></thead><tbody>
+        <tr><td><code>claude auth status</code></td><td>계정 연결 상태를 JSON으로 반환합니다. <code>--text</code>는 사람이 읽을 문장으로 표시합니다.</td></tr>
+        <tr><td><code>-p</code> · <code>--output-format json</code></td><td>요청을 한 번 처리한 뒤 종료합니다. 출력 JSON의 <code>result</code>와 <code>is_error</code>를 읽습니다.</td></tr>
+        <tr><td><code>--json-schema</code></td><td>받을 필드와 자료형을 지정합니다. <code>structured_output</code>이 있는지 확인한 뒤 원문과 대조합니다.</td></tr>
+        <tr><td><code>--max-turns 2</code></td><td>한 요청에서 에이전트가 이어서 작업할 수 있는 턴 수를 제한합니다.</td></tr>
+      </tbody></table></div>
+      <p class="result-check reading">상태 검사에 연결이 표시돼도 실제 요청의 응답까지 확인합니다. 오류가 나오면 메시지와 종료 상태를 읽습니다.</p>
     </section></div>
 
     <section class="wrap section" id="api">
-      <p class="kicker">선택 실습 · 외부에서 값을 받기</p>
-      <h2>공개 API에서 받은 한 값을 내 도구에 넣습니다</h2>
-      <p class="reading">Open-Meteo의 <strong>API</strong>는 어떤 값으로 예보를 요청하고 어떤 항목을 받을지 정합니다. 위도·경도와 받고 싶은 항목을 <strong>HTTP</strong>로 보내면 예보가 <strong>JSON</strong> 형식으로 돌아옵니다.</p>
-      <div class="diagram" aria-label="공개 API 실습 흐름"><b>좌표와 요청 항목 지정</b><span aria-hidden="true">→</span><b>공개 API</b><span aria-hidden="true">→</span><b>JSON에서 필요한 값 선택</b><span aria-hidden="true">→</span><b>도구의 입력으로 전달</b></div>
+      <h2>만든 HTTP API를 호출합니다</h2>
+      <p class="reading"><code>api_server.py</code>는 <code>GET /input</code> 요청을 받아 <code>input.txt</code>의 상태와 텍스트를 JSON으로 돌려줍니다. 하나의 PowerShell에 서버를 열고, 같은 폴더의 다른 PowerShell에서 요청을 보냅니다.</p>
       <ol class="lesson-steps reading">
-        <li><strong>PowerShell에서 한 번 요청합니다.</strong> <code>Invoke-RestMethod</code>는 응답 JSON을 PowerShell에서 읽을 수 있는 값으로 바꿉니다.
-          <pre><code>$latitude = Read-Host '위도'
-$longitude = Read-Host '경도'
-$forecastUrl = "https://api.open-meteo.com/v1/forecast?latitude=$latitude&amp;longitude=$longitude&amp;hourly=precipitation_probability&amp;timezone=Asia%2FSeoul&amp;forecast_days=1"
-$weather = Invoke-RestMethod -Uri $forecastUrl -TimeoutSec 15 -ErrorAction Stop
-$weather.hourly.time[0]
-$weather.hourly.precipitation_probability[0]</code></pre>
-        </li>
-        <li><strong>입력 형식을 정합니다.</strong> 첫 줄은 예보 시각, 둘째 줄은 같은 시각의 강수확률입니다. 자신의 도구에서 쓰려면 <code>time</code>과 <code>precipitation_probability</code> 중 필요한 항목을 정하고, 어떤 단계가 그 값을 사용할지 연결합니다.</li>
-        <li><strong>같은 구조로 다른 좌표를 넣습니다.</strong> 결과에서 시각과 값이 같은 순번으로 짝지어지는지 확인합니다. 비어 있는 데이터는 값 없음으로, 명령에 연결 오류가 나오면 요청 실패로 기록합니다. 강수확률 <code>0</code>은 정상적으로 받은 숫자입니다.</li>
+        <li><strong>서버를 켭니다.</strong> <code>http://127.0.0.1:8766/input</code>이 표시되면 CPU 실습이 끝날 때까지 이 창을 열어둡니다.
+          <pre><code>py -3.12 api_server.py</code></pre></li>
+        <li><strong>클라이언트를 실행합니다.</strong> HTTP 상태와 응답 본문의 <code>status</code>를 각각 봅니다. <code>status: ok</code>이면 <code>text</code>에 내 입력이 들어 있습니다.
+          <pre><code>py -3.12 inspect_api.py</code></pre></li>
+        <li><code>input.txt</code> 한 줄을 바꾸고 다시 호출합니다. 입력을 비웠을 때는 HTTP 200과 <code>status: empty</code>를 확인합니다. 다음 단계 전에 입력을 복구합니다.</li>
       </ol>
     </section>
 
     <div class="paper"><section class="wrap section" id="mcp">
-      <p class="kicker">선택 실습 · 내 기능을 도구로 공개하기</p>
-      <h2>내가 바꾼 규칙을 MCP로 호출합니다</h2>
-      <p class="reading">독자 유형에 따라 글쓰기 규칙을 돌려주는 MCP 서버입니다. <code>style_server.py</code>가 도구를 제공하고 <code>call_style.py</code>가 그 도구를 호출합니다. <code>tools/list</code>는 도구 이름과 입력 스키마를 반환합니다. 스키마에서 <code>audience</code>에 어떤 값을 넣을 수 있는지 확인한 뒤, <code>tools/call</code>로 값을 보내 실제 규칙을 받습니다.</p>
-      <div class="diagram" aria-label="MCP 실습에서 일어나는 일"><b>클라이언트 실행</b><span aria-hidden="true">→</span><b>서버 시작</b><span aria-hidden="true">→</span><b>도구 이름과 입력 규칙 받기</b><span aria-hidden="true">→</span><b>도구 호출</b></div>
-      <div class="split">
-        <ol class="lesson-steps">
-          <li><strong><a href="downloads/hug4-mcp.zip" download>MCP 실습 파일을 받습니다.</a></strong> ZIP을 풀고 <code>requirements.txt</code>가 있는 폴더에서 PowerShell을 엽니다. 이 폴더만 사용하는 Python 환경을 준비합니다.
-            <pre><code>py -3 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt</code></pre>
-          </li>
-          <li><strong>서버의 도구를 한 번 호출합니다.</strong>
-            <pre><code>.\.venv\Scripts\python.exe call_style.py children</code></pre>
-            <p><code>tools/list</code> 아래에서 도구 이름과 <code>audience</code> 허용값을 찾습니다. <code>tools/call</code> 다음의 <code>rule</code>이 호출 결과입니다.</p>
-          </li>
-          <li><strong>내가 고른 규칙으로 바꿉니다.</strong> <code>style_server.py</code>의 <code>"children"</code> 값을 자신의 규칙 문장으로 수정한 뒤 같은 요청을 다시 보냅니다.</li>
-        </ol>
-        <figure class="screenshot">
-          <a href="assets/captures/mcp.png"><img src="assets/captures/mcp.png" alt="MCP 서버에 연결해 tools/list와 tools/call을 수행한 실제 실행 로그" loading="lazy"></a>
-          <figcaption><code>inputSchema</code>에는 클라이언트가 넣을 값의 형식, <code>rule</code>에는 서버가 실제로 돌려준 값이 보입니다.</figcaption>
-        </figure>
-      </div>
-      <p class="result-check reading"><strong>확인</strong> · <code>rule</code>이 내가 지정한 문장인지 확인합니다. 새 함수를 등록할 때는 입력값과 기대 출력을 먼저 정합니다.</p>
-
-      <h3>같은 서버를 Claude Code에서 호출합니다</h3>
-      <p class="reading">Python 호출이 끝났다면, 같은 MCP 서버를 Claude Code에 연결합니다. <code>--scope local</code>은 현재 작업 폴더의 개인 설정에 등록합니다.</p>
+      <h2>같은 입력을 MCP 도구로 읽습니다</h2>
+      <p class="reading">같은 파일을 읽는 기능을 <code>mcp_server.py</code>가 도구로 제공합니다. <code>inspect_mcp.py</code>가 표준 입력과 출력으로 연결해 <code>tools/list</code>로 도구 이름과 입력 규칙을 받고, <code>tools/call</code>로 도구를 실행합니다.</p>
+      <ol class="lesson-steps reading">
+        <li><a href="#start">앞에서 준비한 Python 환경</a>으로 검사기를 실행합니다. 검사기가 서버를 시작하므로 별도의 MCP 서버 창은 필요 없습니다.
+          <pre><code>.\.venv\Scripts\python.exe inspect_mcp.py</code></pre>
+        </li>
+        <li><code>tools/list</code>에서 <code>read_input</code>을 확인합니다. <code>tools/call read_input {}</code>로 실행한 결과의 상태와 텍스트를 HTTP API의 값과 대조합니다.</li>
+      </ol>
+      <h3>Claude Code에서도 같은 서버를 등록합니다</h3>
+      <p class="reading">같은 폴더에서 다음 명령으로 등록합니다. <code>--scope local</code>은 현재 프로젝트에서 쓰는 개인 설정을 뜻합니다.</p>
       <pre class="reading"><code>$mcpPython = (Resolve-Path .\.venv\Scripts\python.exe).Path
-$mcpServer = (Resolve-Path .\style_server.py).Path
-claude mcp add --transport stdio --scope local hug-card -- "$mcpPython" "$mcpServer"
-claude mcp get hug-card</code></pre>
-      <p class="reading">이 폴더에서 <code>claude</code>를 열고 <code>/mcp</code>로 연결을 확인합니다. <q>get_card_style 도구를 audience=children으로 호출해서 rule 값을 보여줘.</q>라고 입력한 뒤, 호출 표시와 Python 실행에서 받은 규칙을 대조합니다. 등록을 해제하려면 같은 폴더에서 <code>claude mcp remove --scope local hug-card</code>를 실행합니다.</p>
-      <details class="reading"><summary>도구 목록이 나오기 전에 멈췄어요</summary><p><code>Test-Path .\.venv\Scripts\python.exe</code>의 결과를 확인합니다. <code>No module named mcp</code>가 보이면 설치와 실행 모두 같은 가상환경 Python을 사용했는지 봅니다. 규칙 수정 직후의 오류라면 <code>style_server.py</code>의 따옴표와 쉼표를 확인합니다.</p></details>
+$mcpServer = (Resolve-Path .\mcp_server.py).Path
+claude mcp add --transport stdio --scope local hug4-input -- "$mcpPython" "$mcpServer"
+claude mcp get hug4-input</code></pre>
+      <p class="reading"><code>claude</code>를 열고 <code>/mcp</code>에서 연결 상태를 확인합니다. <code>read_input</code> 도구를 인수 없이 호출해 결과를 보여달라고 요청합니다. 입력 파일과 응답을 대조합니다. 등록을 해제할 때는 <code>claude mcp remove --scope local hug4-input</code>을 실행합니다.</p>
     </section></div>
 
     <section class="wrap section" id="local-flow">
-      <h2>내 도구에서 연결을 확인합니다</h2>
+      <h2>CPU 모델에 같은 입력을 보내고 결과를 비교합니다</h2>
       <ol class="lesson-steps reading">
-        <li>연결한 단계에 실제로 들어간 값과 나온 값을 각각 확인합니다.</li>
-        <li>같은 입력으로 실행한 뒤 예상 출력과 대조합니다. 외부 요청이 실패한 경우 어느 단계에 기록이 남는지도 확인합니다.</li>
-        <li>다른 입력을 넣고 같은 실행 순서로 처리되는지 확인합니다.</li>
+        <li><a href="models.html#start">CPU 모델 서버를 시작합니다.</a> API와 CPU 모델 서버 창을 열어둔 채 연결 실습 폴더에서 실행합니다.
+          <pre><code>py -3.12 run_cpu.py</code></pre></li>
+        <li><code>입력 상태 · ok</code>를 확인하고 만들 결과를 입력합니다. API가 반환한 <code>text</code>와 내 요청이 모델 입력으로 쓰입니다. 모델 응답을 API·MCP에서 확인한 원문과 대조합니다.</li>
+        <li>원본을 보관한 뒤 입력을 비우고 세 경로를 다시 실행합니다. API와 MCP에서 <code>empty</code>가 보이고, 모델 호출은 요청을 보내기 전에 멈춥니다. 입력을 복구하고 서버 창에서 각각 <strong>Ctrl+C</strong>를 눌러 종료합니다.</li>
       </ol>
-      <div class="actions"><a class="btn" href="models.html#request">CPU 모델 호출하기</a><a class="btn" href="index.html#practice">수업 실습으로 돌아가기</a></div>
+      <p class="reading"><a href="index.html#practice">수업 실습으로 돌아가기</a></p>
     </section>
     <div class="wrap">
       <details class="sources-drawer">
         <summary>공식 문서와 설치 안내</summary>
         <ul>
-          <li>설치 및 계정 연결 · <a href="https://www.python.org/downloads/windows/">Windows용 Python</a> · <a href="https://code.claude.com/docs/en/quickstart">Claude Code 설치</a> · <a href="https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan">Team 계정 연결</a></li>
-          <li>프로그램 호출 · <a href="https://code.claude.com/docs/en/headless">Claude Code 명령형 실행</a> · <a href="https://open-meteo.com/en/docs">Open-Meteo 예보 API</a></li>
-          <li>도구 연결 · <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 아키텍처</a> · <a href="https://code.claude.com/docs/en/mcp">Claude Code의 MCP 연결</a></li>
+          <li>설치 · <a href="https://www.python.org/downloads/windows/">Windows용 Python</a> · <a href="https://docs.python.org/3.12/library/venv.html">Python 전용 실행 환경</a> · <a href="https://git-scm.com/install/windows">Git for Windows</a></li>
+          <li>Claude Code · <a href="https://code.claude.com/docs/en/setup">Windows 설치</a> · <a href="https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan">Team 계정 연결</a> · <a href="https://code.claude.com/docs/en/cli-reference">CLI 명령과 옵션</a></li>
+          <li>MCP · <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 아키텍처</a> · <a href="https://code.claude.com/docs/en/mcp">Claude Code의 MCP 연결</a></li>
         </ul>
       </details>
     </div>

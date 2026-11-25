@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="허그 4회차 CPU 로컬 모델 실습. Hugging Face에서 GGUF를 받고 Windows에서 llama.cpp로 실행합니다.">
-  <title>모델 받기 · HUG 4회차</title>
+  <meta name="description" content="허그 4회차 연결 실습. Qwen2.5 GGUF와 Windows용 llama.cpp를 준비해 내 PC의 CPU로 모델을 실행합니다.">
+  <title>CPU 모델 받기와 실행 · HUG 4회차</title>
   <link rel="stylesheet" href="assets/site.css">
 </head>
 <body class="guide-page">
@@ -17,101 +17,66 @@
   </header>
   <main id="main">
     <header class="page-title" id="cpu"><div class="wrap">
-      <p class="kicker">선택 실습 · CPU 로컬 모델</p>
-      <h1>내 PC에서 모델을 한 번 돌립니다</h1>
-      <p>Hugging Face에서 모델 파일을 받고 llama.cpp로 실행합니다. 직접 고른 입력으로 응답을 받아 원하는 내용과 형식인지 확인합니다.</p>
-      <nav class="jump" aria-label="모델 실습 목차"><a href="#select">모델 고르기</a><a href="#download">파일 받기</a><a href="#start">Windows에서 실행</a><a href="#compare">응답 확인</a><a href="#request">내 프로그램에서 호출</a></nav>
+      <p class="kicker">15:35–16:25 · 연결 실습</p>
+      <h1>CPU에서 로컬 모델 실행하기</h1>
+      <p>수업 전에 실행기와 모델 파일을 받아둡니다. 수업에서는 API가 반환한 텍스트와 내 지시를 모델에 보냅니다.</p>
+      <nav class="jump" aria-label="모델 실습 목차"><a href="#select">모델 정보</a><a href="#download">수업 전 다운로드</a><a href="#start">CPU 서버 시작</a><a href="#request">모델 호출</a><a href="#compare">응답 확인</a></nav>
     </div></header>
 
     <section class="wrap section" id="select">
-      <h2>짧은 지시를 시험할 모델 하나를 고릅니다</h2>
-      <p class="reading">모델 카드는 어떤 입력을 받고 어떤 조건으로 쓸 수 있는지 설명합니다. 오늘 받는 파일은 학습된 <strong>가중치</strong>를 담은 <code>GGUF</code>입니다. 별도로 받는 실행기인 llama.cpp가 그 파일을 열어 CPU로 응답을 계산합니다. 아래는 <code>Q4_K_M</code> 파일의 다운로드 크기입니다. 실행할 때는 문맥을 처리할 작업 메모리도 필요합니다.</p>
-      <div class="columns section-guide">
-        <article class="panel model-card">
-          <h3>Qwen2.5 0.5B Instruct</h3><p><strong>약 491 MB</strong> · Apache 2.0</p>
-          <p>세 후보 중 다운로드 파일이 가장 작습니다. 짧은 지시를 한 번 보내고 첫 응답을 받을 때 쓰기 좋습니다.</p>
-          <p><a class="btn" href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/blob/main/qwen2.5-0.5b-instruct-q4_k_m.gguf">0.5B 모델 파일 받기</a></p>
-        </article>
-        <article class="panel model-card">
-          <h3>Qwen2.5 1.5B Instruct</h3><p><strong>약 1.12 GB</strong> · Apache 2.0</p>
-          <p>같은 Qwen 계열에서 가중치 수가 더 많은 모델입니다. 0.5B와 같은 질문으로 한국어 지시와 출력 형식을 얼마나 잘 지키는지 비교합니다.</p>
-          <p><a class="btn" href="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/blob/main/qwen2.5-1.5b-instruct-q4_k_m.gguf">1.5B 모델 파일 받기</a></p>
-        </article>
-        <article class="panel model-card">
-          <h3>Gemma 3 1B IT</h3><p><strong>약 806 MB</strong> · Gemma 이용 조건</p>
-          <p>Google의 지시형 모델입니다. 같은 입력을 다른 모델 계열에도 주고, 응답 시간과 원문 보존을 비교할 수 있습니다.</p>
-          <p><a class="btn" href="https://huggingface.co/ggml-org/gemma-3-1b-it-GGUF/blob/main/gemma-3-1b-it-Q4_K_M.gguf">Gemma 모델 파일 받기</a></p>
-        </article>
-      </div>
+      <h2>실습 모델과 실행기</h2>
+      <p class="reading"><strong>Qwen2.5 0.5B Instruct</strong>는 지시문을 받고 텍스트를 생성하는 다국어 모델입니다. 교재에서 받는 <code>Q4_K_M</code> GGUF 파일은 약 491 MB이고 이용 조건은 Apache 2.0입니다.</p>
+      <p class="reading">GGUF는 학습된 가중치와 실행에 필요한 정보를 담습니다. llama.cpp가 이 파일을 열어 CPU로 다음 토큰을 계산합니다. 실행할 때는 가중치와 입력 문맥을 처리할 작업 메모리가 필요합니다.</p>
     </section>
 
     <div class="paper"><section class="wrap section" id="download">
-      <h2>모델 파일과 실행기를 받습니다</h2>
+      <h2>수업 전에 파일 두 개를 받습니다</h2>
       <ol class="lesson-steps reading">
-        <li><strong>고른 모델의 파일 페이지에서 다운로드합니다.</strong> 파일명이 <code>.gguf</code>로 끝나는지 확인합니다. <code>Q4_K_M</code>은 가중치를 적은 메모리에 담도록 표현 정밀도를 줄인 방식입니다.</li>
-        <li><strong>Windows용 CPU 실행기를 받습니다.</strong> <a href="https://github.com/ggml-org/llama.cpp/releases/tag/b12387">llama.cpp b12387의 Assets</a>에서 Intel·AMD 64비트 Windows는 <code>cpu-x64</code>, Windows on ARM은 <code>cpu-arm64</code> ZIP을 선택합니다. Windows <strong>설정 → 시스템 → 정보</strong>에서 시스템 종류를 확인합니다.</li>
-        <li><strong>실행기 ZIP을 풀고 모델을 같은 폴더에 둡니다.</strong> <code>llama-server.exe</code>와 <code>.gguf</code> 파일이 보이는 폴더의 탐색기 주소 표시줄에 <code>powershell</code>을 입력합니다.</li>
+        <li><strong>모델 파일을 받습니다.</strong> Hugging Face 파일 페이지에서 Download를 누릅니다. 파일명은 <code>qwen2.5-0.5b-instruct-q4_k_m.gguf</code>입니다.
+          <div class="actions"><a class="btn primary" href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/blob/main/qwen2.5-0.5b-instruct-q4_k_m.gguf">Qwen2.5 모델 파일 받기</a></div></li>
+        <li><strong>Windows용 llama.cpp CPU ZIP을 받습니다.</strong> Windows의 <strong>설정 → 시스템 → 정보</strong>에서 시스템 종류를 확인하고 해당 실행기를 받습니다.
+          <div class="actions"><a class="btn" href="https://github.com/ggml-org/llama.cpp/releases/download/b12387/llama-b12387-bin-win-cpu-x64.zip">Intel·AMD x64 CPU ZIP</a><a class="btn" href="https://github.com/ggml-org/llama.cpp/releases/download/b12387/llama-b12387-bin-win-cpu-arm64.zip">Windows ARM64 CPU ZIP</a></div></li>
+        <li>실행기 ZIP을 풀고 <code>llama-server.exe</code>가 있는 폴더에 모델 파일을 넣습니다.</li>
       </ol>
     </section></div>
 
     <section class="wrap section" id="start">
-      <h2>CPU에서 서버를 켜고 첫 응답을 받습니다</h2>
-      <div class="diagram" aria-label="CPU 로컬 모델 실행 흐름"><b>내 브라우저 또는 도구</b><span aria-hidden="true">→</span><b>내 PC의 8081번 포트</b><span aria-hidden="true">→</span><b>llama.cpp와 모델 파일</b><span aria-hidden="true">→</span><b>응답</b></div>
-      <div class="split">
-        <div>
-          <ol class="lesson-steps">
-            <li><strong>실행기와 모델 파일이 보이는지 확인합니다.</strong> 첫 줄 결과가 <code>True</code>이고 다음 줄에서 받은 모델 파일명이 보이는지 확인합니다.
-              <pre><code>Test-Path .\llama-server.exe
-Get-ChildItem -File *.gguf</code></pre>
-            </li>
-            <li><strong>모델 파일 이름을 지정해 시작합니다.</strong> 아래 첫 줄은 Qwen2.5 0.5B를 골랐을 때의 예입니다. 다른 모델은 받은 파일 이름으로 교체합니다.
-              <pre><code>$modelFile = '.\qwen2.5-0.5b-instruct-q4_k_m.gguf'
-.\llama-server.exe -m $modelFile --host 127.0.0.1 --port 8081 -ngl 0 -c 2048 -t 4</code></pre>
-              <p><code>-ngl 0</code>은 GPU에 올릴 모델 레이어를 0으로 두고, <code>-c 2048</code>은 이 실습의 문맥 크기, <code>-t 4</code>는 CPU 스레드 설정입니다.</p>
-            </li>
-            <li><strong>서버 창을 열어둔 채 로컬 주소를 엽니다.</strong> 모델 로딩이 끝나면 <a href="http://127.0.0.1:8081/">http://127.0.0.1:8081/</a>에 접속합니다. <code>127.0.0.1</code>은 내 PC를 가리킵니다. 모델을 바꾸거나 종료할 때는 실행한 PowerShell 창에서 <strong>Ctrl+C</strong>를 누릅니다.</li>
-          </ol>
-        </div>
-        <figure class="screenshot">
-          <a href="assets/captures/llama-ui.png"><img src="assets/captures/llama-ui.png" alt="Qwen3 0.6B를 연 llama.cpp 로컬 웹 화면" loading="lazy"></a>
-          <figcaption>Windows에서 실제로 연 llama.cpp 로컬 화면입니다. 이 실행 기록에 사용한 모델은 Qwen3 0.6B입니다.</figcaption>
-        </figure>
-      </div>
-      <p class="reading">준비한 공개 텍스트와 원하는 결과를 입력합니다. 같은 입력으로 다시 실행할 수 있도록 사용한 문장과 조건을 남깁니다.</p>
-      <details class="reading"><summary>브라우저가 연결되지 않아요</summary><p>PowerShell에 모델을 찾을 수 없다는 메시지가 있는지 먼저 봅니다. 모델 이름과 확장자를 <code>Get-ChildItem</code> 출력과 대조합니다. 포트가 이미 사용 중이면 명령의 <code>--port</code> 번호와 브라우저 주소의 번호를 함께 바꿉니다.</p></details>
+      <h2>CPU에서 모델 서버를 시작합니다</h2>
+      <div class="diagram" aria-label="CPU 로컬 모델 실행 흐름"><b>내 프로그램</b><span aria-hidden="true">→</span><b>내 PC의 8081번 포트</b><span aria-hidden="true">→</span><b>llama.cpp와 Qwen2.5</b><span aria-hidden="true">→</span><b>응답</b></div>
+      <ol class="lesson-steps reading">
+        <li>탐색기에서 모델과 실행기가 있는 폴더를 열고 주소 표시줄에 <code>powershell</code>을 입력합니다.</li>
+        <li>파일 두 개가 모두 있는지 확인한 뒤 서버를 실행합니다. 첫 두 줄은 각각 <code>True</code>를 출력해야 합니다.
+          <pre><code>Test-Path .\llama-server.exe
+Test-Path .\qwen2.5-0.5b-instruct-q4_k_m.gguf
+.\llama-server.exe -m .\qwen2.5-0.5b-instruct-q4_k_m.gguf --host 127.0.0.1 --port 8081 -ngl 0 -c 2048 -t 4</code></pre>
+          <p><code>-ngl 0</code>은 GPU에 올릴 레이어를 0으로, <code>-c 2048</code>은 문맥 크기를 2,048토큰으로, <code>-t 4</code>는 CPU 스레드 수를 4로 설정합니다.</p></li>
+        <li>서버 창을 열어둔 채 <a href="http://127.0.0.1:8081/">http://127.0.0.1:8081/</a>를 엽니다. <code>127.0.0.1</code>은 내 PC를 가리킵니다. 종료할 때는 서버를 켠 PowerShell에서 <strong>Ctrl+C</strong>를 누릅니다.</li>
+      </ol>
     </section>
 
-    <div class="paper"><section class="wrap section" id="compare">
-      <h2>내가 정한 기준으로 응답을 확인합니다</h2>
-      <p class="reading">서버가 응답하면 내용도 확인합니다. 필요한 항목과 형식이 맞는지, 원문 근거가 유지되는지 봅니다. 같은 입력에서 지시문 한 줄을 바꿔 다시 실행하면 어떤 변화가 생겼는지 비교할 수 있습니다.</p>
-      <p class="reading">다운로드한 가중치로 응답을 만드는 것을 <strong>추론</strong>이라고 합니다. 지시문을 바꾸면 이번에 모델이 참고하는 내용이 달라집니다. <strong>추가 학습</strong>에서는 예시 데이터를 사용해 가중치나 어댑터를 업데이트합니다.</p>
+    <div class="paper"><section class="wrap section" id="request">
+      <h2>프로그램에서 내 입력을 모델로 보냅니다</h2>
+      <p class="reading"><a href="local.html#start">연결 실습 폴더</a>의 <code>input.txt</code>에 같은 공개 또는 가상 입력을 저장합니다. <a href="local.html#api">입력 API</a>와 CPU 모델 서버를 둘 다 켜둔 채 연결 실습 폴더의 PowerShell에서 아래 명령을 실행합니다.</p>
+      <pre class="reading"><code>py -3.12 run_cpu.py</code></pre>
+      <p class="reading"><code>입력 상태 · ok</code>가 보이면 어떤 결과를 만들지 입력합니다. Enter만 누르면 한 문장 요약을 요청합니다. <code>run_cpu.py</code>는 입력 API가 돌려준 <code>text</code>에 지시를 붙여 <code>POST /v1/chat/completions</code>로 보냅니다. 모델이 작성한 문장은 응답의 <code>choices[0].message.content</code>에 들어 있습니다.</p>
     </section></div>
 
-    <section class="wrap section" id="request">
-      <h2>내 프로그램이 모델로 보낼 값을 확인합니다</h2>
-      <p class="reading">서버를 켜둔 채 입력 파일 <code>input.txt</code>가 있는 자신의 작업 폴더에서 PowerShell을 엽니다. <code>messages</code>로 값과 지시를 보내고 응답의 <code>content</code>를 읽습니다.</p>
-      <pre class="reading"><code>$sourceText = Get-Content -LiteralPath .\input.txt -Raw -Encoding UTF8
-$instruction = Read-Host '이 입력으로 만들 결과를 적으세요'
-$modelRequest = @{
-  messages = @(@{
-    role = 'user'
-    content = $instruction + [Environment]::NewLine + $sourceText
-  })
-  temperature = 0
-  max_tokens = 80
-} | ConvertTo-Json -Depth 5
-$utf8Body = [System.Text.Encoding]::UTF8.GetBytes($modelRequest)
-$reply = Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:8081/v1/chat/completions' -ContentType 'application/json; charset=utf-8' -Body $utf8Body -TimeoutSec 120
-$reply.choices[0].message.content</code></pre>
-      <p class="result-check reading"><strong>내 도구에 적용할 때</strong> · 앞 단계가 만든 값을 <code>content</code>에 넣고 모델 응답을 결과 검사로 넘깁니다. 응답을 받지 못하면 호출 단계에 오류를 남기고 이미 확인한 입력은 보관합니다.</p>
-      <div class="actions"><a class="btn" href="local.html#local-flow">내 도구에서 연결 확인하기</a><a class="btn" href="index.html">수업으로 돌아가기</a></div>
+    <section class="wrap section" id="compare">
+      <h2>모델 응답을 원문과 대조합니다</h2>
+      <ol class="lesson-steps reading">
+        <li>연결이 성공했다면 응답에 필요한 정보와 형식이 있는지 봅니다. 모델이 추가한 문장은 원문에 근거가 있는지 확인합니다.</li>
+        <li>입력을 바꿔 <code>run_cpu.py</code>를 다시 실행합니다. 결과가 새 입력을 반영하는지 확인합니다.</li>
+        <li>8766번 포트 연결 오류는 API 서버를 확인합니다. 8081번 포트 오류나 HTTP 503은 CPU 서버 창에서 모델 로딩과 주소를 확인합니다.</li>
+      </ol>
+      <p class="reading">준비된 가중치로 응답을 계산하는 과정은 <strong>추론</strong>입니다. 입력이나 지시를 고치면 모델이 참고하는 문맥이 달라집니다. <strong>추가 학습</strong>에서는 예시 데이터로 가중치나 어댑터를 업데이트합니다.</p>
+      <div class="actions"><a class="btn" href="local.html#local-flow">세 연결 결과 확인하기</a><a class="btn" href="index.html">수업으로 돌아가기</a></div>
     </section>
     <div class="wrap">
       <details class="sources-drawer">
         <summary>모델 정보와 공식 문서</summary>
         <ul>
-          <li>모델의 용도와 이용 조건 · <a href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF">Qwen2.5 0.5B 카드</a> · <a href="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF">Qwen2.5 1.5B 카드</a> · <a href="https://gemma.ai/models/gemma-3/">Gemma 3 카드</a></li>
-          <li>파일과 실행기 · <a href="https://github.com/ggml-org/ggml/blob/master/docs/gguf.md">GGUF 파일 형식</a> · <a href="https://github.com/ggml-org/llama.cpp/tree/master/tools/server">llama.cpp 서버와 HTTP 호출</a></li>
+          <li>모델과 파일 · <a href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF">Qwen2.5 0.5B Instruct 모델 카드</a> · <a href="https://github.com/ggml-org/ggml/blob/master/docs/gguf.md">GGUF 파일 형식</a></li>
+          <li>실행 및 호출 · <a href="https://github.com/ggml-org/llama.cpp/releases/tag/b12387">llama.cpp b12387 배포 파일</a> · <a href="https://github.com/ggml-org/llama.cpp/blob/b12387/tools/server/README.md">llama.cpp 서버와 HTTP 호출</a></li>
         </ul>
       </details>
     </div>
