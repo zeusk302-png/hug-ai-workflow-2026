@@ -13,6 +13,7 @@ Windows에서 Chrome으로 실습을 실행하고 캡처했습니다. 로그 뷰
 |---|---|
 | `example-lean-release.png` | [Lean FRO·Mathlib Initiative 공동 발표](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)에서 제목, 작성자, 게시일이 보이는 부분을 Chrome에서 캡처했습니다. |
 | `example-early-cli.png`, `example-early-folder.png` | 공식 CLI에서 Python·Claude Code 버전과 별도 비로그인 환경의 상태를 확인했습니다. 새로 푼 실습 ZIP에서 Python 3.12 가상 환경을 만들고 자료와 실행기 파일을 확인했습니다. |
+| `example-claude-login.png` | Windows의 별도 비로그인 프로필에서 Claude Code 2.1.323을 시작하고 테마를 선택한 뒤 최초 로그인 방식 선택 화면을 캡처했습니다. Team이 포함된 구독 계정 항목이 보입니다. |
 | `example-early-workflow.png`, `example-early-workflow-mobile.png` | 교재의 실습기에 서울창구 7·인천창구 5·서울창구 3을 넣고 ‘서울’ 필터를 실행했습니다. 데스크톱 전체 패널과 모바일 결과 패널입니다. |
 | `example-early-first-files.png`, `example-early-first-run.png` | 동일한 창구 자료를 처리하는 개인 프로젝트에서 파일 트리를 열고 Windows Python으로 집계를 실행했습니다. 저장한 JSON을 다시 열어 서울 10건·인천 5건·합계 15건을 대조했습니다. |
 | `example-api.png`, `example-mcp.png`, `example-cpu.png` | 배포 ZIP의 실제 검사기와 실행기를 Windows에서 실행했습니다. API는 중복 줄까지 돌려줍니다. MCP 화면은 실제 출력에서 도구 이름·호출·본문이 있는 행을 선별했습니다. CPU 모델은 한 문장 요약 요청에 ‘접수 문서 3건, 검토 대기 5건’을 반환했습니다. |

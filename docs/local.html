@@ -73,6 +73,7 @@ claude -p --output-format json --max-turns 2 -- "$taskPrompt"</code></pre>
           <figcaption>CLI 설치 여부와 계정 연결 상태를 출력에서 각각 확인합니다.</figcaption>
         </figure>
       </div>
+      <figure class="course-example"><a href="assets/captures/example-claude-login.png"><img src="assets/captures/example-claude-login.png" width="1196" height="806" alt="Claude Code가 표시한 실제 최초 로그인 방법 선택 화면. 첫 번째 항목에 Individual, Team, or Enterprise가 적혀 있습니다." loading="lazy"></a><figcaption>Claude Code 2.1.323을 처음 열고 테마를 고른 다음 나온 화면입니다. 수업용 Team 계정은 첫 번째 <strong>Claude account with subscription</strong>에서 연결합니다.</figcaption></figure>
       <div class="table-wrap"><table><thead><tr><th scope="col">명령 또는 옵션</th><th scope="col">쓰임</th></tr></thead><tbody>
         <tr><td><code>claude auth status</code></td><td>계정 연결 상태를 JSON으로 반환합니다. <code>--text</code>는 사람이 읽을 문장으로 표시합니다.</td></tr>
         <tr><td><code>-p</code> · <code>--output-format json</code></td><td>요청을 한 번 처리한 뒤 종료합니다. 출력 JSON의 <code>result</code>와 <code>is_error</code>를 읽습니다.</td></tr>
