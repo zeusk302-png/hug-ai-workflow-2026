@@ -41,7 +41,7 @@ previousSlide.addEventListener("click", () => goToSlide(position - 1));
 nextSlide.addEventListener("click", () => goToSlide(position + 1));
 
 document.addEventListener("keydown", (event) => {
-  if (deckControls.hidden || event.altKey || event.ctrlKey || event.metaKey) return;
+  if (deckControls.hidden || document.querySelector("dialog[open]") || event.altKey || event.ctrlKey || event.metaKey) return;
   if (event.key === "Escape") {
     stopDeck();
     return;

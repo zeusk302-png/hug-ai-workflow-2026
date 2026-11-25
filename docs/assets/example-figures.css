@@ -1,0 +1,34 @@
+.course-example { margin: 1.3rem auto; max-width: 56rem; }
+.course-example a:has(img) { display: block; cursor: zoom-in; }
+.course-example img { display: block; max-width: 100%; height: auto; border: 1px solid #ccd8e3; border-radius: .45rem; }
+.course-example figcaption { color: #354c5f; margin-top: .5rem; line-height: 1.55; font-size: .96rem; text-wrap: pretty; }
+.guide-page .course-example { max-width: min(51rem, 100%); margin: 1.2rem 0; }
+.release-figure img { padding: .65rem; background: white; }
+.token-example { margin: 1.25rem 0; padding: clamp(1rem, 3vw, 1.8rem); background: #f4f7fa; border: 1px solid #ccdae6; border-radius: .6rem; }
+.token-example figcaption { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .4rem 1rem; color: #163751; font-weight: 780; font-size: 1.25rem; }
+.token-example .token-body { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 3vw, 2.5rem); margin: 1rem 0; }
+.token-example h4 { margin: 0 0 .5rem; font-size: 1.02rem; color: #23475d; }
+.token-example p { margin: .7rem 0 0; }
+.token-pieces, .token-bars { list-style: none; padding: 0; margin: 0; }
+.token-pieces { display: flex; flex-wrap: wrap; gap: .28rem; }
+.token-pieces li { display: grid; justify-items: center; padding: .3rem .4rem; border-radius: .3rem; border: 1px solid #a9c1d3; background: white; }
+.token-pieces b { font-size: 1.02rem; }
+.token-pieces small { color: #465d71; font: .78rem/1.5 Consolas, monospace; }
+.token-bars li { display: grid; grid-template-columns: 2em 1fr 4em; align-items: center; gap: .5rem; font-size: .94rem; }
+.token-bars i { height: .58rem; background: #e0e6eb; border-radius: 2px; overflow: hidden; }
+.token-bars i::after { display: block; content: ""; width: var(--share); height: 100%; background: #788c9e; }
+.token-bars li:first-child i::after { background: #11755b; }
+.token-bars span { text-align: right; font-variant-numeric: tabular-nums; }
+.token-example .token-conclusion { border-top: 1px solid #c4d0da; padding-top: .7rem; }
+@media (max-width: 700px) { .token-example .token-body { grid-template-columns: 1fr; } }
+#example-viewer { max-width: none; width: min(94vw, 88rem); max-height: 92dvh; padding: 0; border: 1px solid #becbd8; border-radius: .65rem; color: #17354b; background: white; }
+#example-viewer[open] { display: flex; flex-direction: column; }
+#example-viewer::backdrop { background: rgb(10 23 38 / 78%); }
+.viewer-tools { display: flex; gap: .5rem; align-items: center; padding: .6rem .85rem; border-bottom: 1px solid #d3dde6; }
+.viewer-tools strong { margin-right: auto; }
+.viewer-tools button { cursor: pointer; min-height: 38px; }
+.viewer-image { min-height: 0; overflow: auto; overscroll-behavior: contain; background: #edf2f5; }
+.viewer-image img { display: block; width: 100%; height: auto; max-height: 70dvh; object-fit: contain; }
+.viewer-image.at-original-size img { width: auto; height: auto; max-width: none; max-height: none; margin-inline: auto; }
+.viewer-caption { margin: 0; padding: .65rem .85rem; font-size: .95rem; line-height: 1.5; max-height: 15dvh; overflow: auto; }
+@media print { #example-viewer { display: none !important; } }

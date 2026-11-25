@@ -6,6 +6,8 @@
   <meta name="description" content="허그 4회차 연결 실습. Python과 Claude Code를 설치하고 내 프로그램에 입력 API, MCP 문서 검색, CPU 모델 초안 생성을 연결합니다.">
   <title>내 도구 실행과 연결 · HUG 4회차</title>
   <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/example-figures.css">
+  <script src="assets/example-viewer.js" defer></script>
 </head>
 <body class="guide-page">
   <a class="skip" href="#main">본문으로</a>
@@ -34,6 +36,7 @@ winget install --id Anthropic.ClaudeCode --exact --source winget</code></pre>
       <pre class="reading"><code>py -3.12 --version
 claude --version</code></pre>
       <p class="reading">WinGet을 사용할 수 없다면 <a href="index.html#setup">교재의 실제 Python 설치 화면</a>을 따라 설치합니다. <a href="models.html#download">Windows CPU 실행기와 Qwen2.5 0.5B GGUF</a>도 수업 전에 받습니다.</p>
+      <figure class="course-example"><a href="assets/captures/python-312-installer.png"><img src="assets/captures/python-312-installer.png" width="656" height="405" alt="검증 PC에서 실제 실행한 Windows용 Python 3.12 설치 화면. 이미 설치된 버전의 업데이트 메뉴가 보입니다." loading="lazy"></a><figcaption>Windows 설치 프로그램을 연 화면입니다. 이 PC에는 기존 버전이 있어 업데이트 메뉴가 보입니다. 설치가 끝나면 새 PowerShell에서 버전을 확인합니다.</figcaption></figure>
     </section>
 
     <section class="wrap section" id="start">
@@ -46,6 +49,7 @@ claude --version</code></pre>
           <pre><code>py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt</code></pre></li>
       </ol>
+      <figure class="course-example"><a href="assets/captures/example-early-folder.png" target="_blank" rel="noopener"><img src="assets/captures/example-early-folder.png" width="858" height="364" alt="압축을 푼 hug4-connections에서 input.txt와 requirements.txt, evidence 안의 기준 문서 두 개를 확인하고 전용 Python을 실행한 Windows 화면." loading="lazy"></a><figcaption>실습 ZIP을 새 폴더에 풀고 전용 환경을 만든 화면입니다. <code>requirements.txt</code>와 <code>input.txt</code>가 함께 보이는 위치에서 작업합니다. 마지막 줄은 이 폴더의 Python 버전입니다.</figcaption></figure>
     </section>
 
     <div class="paper"><section class="wrap section" id="claude">
@@ -90,6 +94,7 @@ claude -p --output-format json --max-turns 2 -- "$taskPrompt"</code></pre>
           <pre><code>py -3.12 inspect_api.py</code></pre></li>
         <li><code>input.txt</code> 한 줄을 바꾼 뒤 다시 요청해 <code>text</code>가 바뀌는지 봅니다. 원문을 보관한 뒤 파일을 비우면 <code>HTTP 200</code>과 <code>status: empty</code>가 함께 나옵니다. 서버는 요청에 응답했고, 응답의 내용은 “파일이 비었습니다”입니다. 다음 단계 전에 원문을 복구합니다.</li>
       </ol>
+      <figure class="course-example"><a href="assets/captures/example-api.png"><img src="assets/captures/example-api.png" width="1066" height="286" alt="입력 API가 반환한 JSON에 status ok와 접수 문서 3건, 검토 대기 5건, 반복된 접수 문서 3건이 들어 있습니다." loading="lazy"></a><figcaption>실제 <code>GET /input</code> 응답입니다. <code>status</code>에서 파일을 읽었는지 보고 <code>text</code>에서 내용을 확인합니다. 화면의 <code>\n</code>은 원래 파일의 줄바꿈입니다. 중복 줄도 이 단계까지는 그대로 들어옵니다.</figcaption></figure>
     </section>
 
     <div class="paper"><section class="wrap section" id="mcp">
@@ -111,6 +116,7 @@ $mcpServer = (Resolve-Path .\mcp_server.py).Path
 claude mcp add --transport stdio --scope local hug4-input -- "$mcpPython" "$mcpServer"
 claude mcp get hug4-input</code></pre>
       <p class="reading"><code>claude</code>를 열고 <code>/mcp</code>에서 연결 상태를 확인합니다. <code>read_input</code> 도구를 인수 없이 호출해 결과를 보여달라고 요청합니다. 입력 파일과 응답을 대조합니다. 등록을 해제할 때는 <code>claude mcp remove --scope local hug4-input</code>을 실행합니다.</p>
+      <figure class="course-example"><a href="assets/captures/example-mcp.png"><img src="assets/captures/example-mcp.png" width="1222" height="442" alt="도구 목록에 이름 세 개가 있고, 아래에는 원문을 읽는 호출과 검토 기준을 읽는 호출의 서로 다른 응답이 보입니다." loading="lazy"></a><figcaption>실제 검사기 출력에서 도구 이름과 반환한 글만 추려 보았습니다. <code>tools/list</code> 아래에서 이름을 찾고, <code>tools/call read_review_rules</code> 아래에서 모델에 보낼 작성 기준을 읽습니다.</figcaption></figure>
     </section></div>
 
     <section class="wrap section" id="local-flow">
@@ -124,6 +130,7 @@ claude mcp get hug4-input</code></pre>
 .\.venv\Scripts\python.exe my_program.py --connected</code></pre></li>
       </ol>
       <p class="reading"><a href="index.html#connection-check">전후 워크플로우 그림과 실제 결과 보기</a></p>
+      <figure class="course-example"><a href="assets/captures/integration-before-after.png"><img src="assets/captures/integration-before-after.png" width="1560" height="897" alt="같은 업무 규칙을 파일 입력과 API 입력으로 실행한 전후 결과입니다." loading="lazy"></a><figcaption>두 실행 모두 업무 결과는 접수 문서 3건과 검토 대기 5건입니다. 연결 실행에 추가된 초안은 항목명과 기한을 원문과 대조해야 합니다.</figcaption></figure>
     </section>
     <div class="paper"><section class="wrap section" id="local-rag">
       <h2>질문에 맞는 문단을 찾아 같은 CPU 모델에 보냅니다</h2>
@@ -135,11 +142,13 @@ Get-Content -LiteralPath .\output\rag.json -Encoding UTF8</code></pre></li>
         <li><code>rows</code>는 프로그램이 정리한 업무 결과, <code>evidence</code>는 검색된 문단, <code>draft</code>는 모델이 작성한 초안입니다. <code>evidence/01-intake.txt</code>의 첫 문단을 열고 초안이 항목 이름과 숫자를 정확하게 옮겼는지 확인합니다.</li>
       </ol>
       <p class="reading"><a href="index.html#rag-lab">다른 질문과 실제 실행 화면으로 대조하기</a></p>
+      <figure class="course-example"><a href="assets/captures/rag-terminal.png"><img src="assets/captures/rag-terminal.png" width="949" height="338" alt="접수 문서를 찾은 실제 콘솔에서 2점과 1점인 문단이 모델로 전달되고 초안이 저장됩니다." loading="lazy"></a><figcaption>도구 이름 <code>search_evidence</code> 다음에 파일명·문단·일치 점수가 나옵니다. <code>output/rag.json</code>을 열어 모델이 받은 문단과 최종 초안을 대조합니다.</figcaption></figure>
     </section></div>
     <section class="wrap section" id="apply-to-project">
       <h2>앞에서 만든 내 프로그램에 붙입니다</h2>
       <p class="reading">서버는 켜 둔 채 <code>workflow_links.py</code>와 <code>local_http.py</code>를 내가 만든 실행 파일 옆으로 복사합니다. 실습 폴더의 <code>evidence/</code>에 내 작성 기준을 넣습니다. 내 프로그램에서 업무 값을 계산한 직후 문단 검색을 호출하고, 찾은 문단과 그 업무 값으로 초안을 작성해 함께 저장합니다.</p>
       <p class="reading"><a class="btn primary" href="index.html#integrate">내 파일 트리에서 연결할 위치 찾기</a></p>
+      <figure class="course-example"><a href="assets/captures/example-rag-transfer.png"><img src="assets/captures/example-rag-transfer.png" width="1248" height="545" alt="창구별 7건, 5건, 3건을 집계하는 개인 앱과 작성 기준을 둔 실습 폴더. 전체 15건 옆에 검색 근거가 함께 저장됩니다." loading="lazy"></a><figcaption>창구 집계 도구를 선택한 경우의 배치입니다. 왼쪽 폴더에서 연결 함수 파일 두 개를 오른쪽으로 복사하고, 작성 기준은 왼쪽 <code>evidence/</code>에 둡니다. 다른 주제를 고른 경우에도 같은 위치에서 검색을 연결합니다.</figcaption></figure>
     </section>
     <div class="wrap">
       <details class="sources-drawer">
