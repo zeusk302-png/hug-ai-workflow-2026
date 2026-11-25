@@ -7,6 +7,7 @@
   <title>내 도구 실행과 연결 · HUG 4회차</title>
   <link rel="stylesheet" href="assets/site.css">
   <link rel="stylesheet" href="assets/example-figures.css">
+  <link rel="stylesheet" href="assets/principles.css">
   <script src="assets/example-viewer.js" defer></script>
 </head>
 <body class="guide-page">
@@ -54,6 +55,12 @@ claude --version</code></pre>
 
     <div class="paper"><section class="wrap section" id="claude">
       <h2>Claude Code에 로그인하고 실제 응답을 확인합니다</h2>
+      <figure class="principle-plate">
+        <a href="assets/principles/account.webp" aria-label="로그인과 파일 수정은 서로 다른 확인을 거칩니다 그림 확대"><img src="assets/principles/account.webp" width="1320" height="676" loading="lazy" decoding="async" alt="왼쪽은 계정 카드를 확인하는 서비스이고, 오른쪽은 작업 폴더의 잠금 장치를 여는 손입니다."></a>
+        <figcaption><small>AI 생성 원리 삽화</small> <strong>로그인과 파일 수정은 서로 다른 확인을 거칩니다</strong>
+          <p>왼쪽 카드는 Claude 서비스가 어느 계정의 요청인지 확인하는 과정입니다. 오른쪽 잠금 장치는 내 PC에서 허용한 작업 범위를 나타냅니다. Team 계정으로 연결한 뒤에도 파일을 읽거나 수정할 때는 작업 폴더와 도구 권한이 적용됩니다.</p>
+        </figcaption>
+      </figure>
       <div class="split">
         <ol class="lesson-steps">
           <li><strong>계정 연결 상태를 봅니다.</strong>
@@ -87,6 +94,12 @@ claude -p --output-format json --max-turns 2 -- "$taskPrompt"</code></pre>
       <h2>API로 업무 원문을 요청합니다</h2>
       <p class="reading">평소에는 내가 파일을 열고 문장을 복사했습니다. 이번에는 내 프로그램이 다른 프로그램에 “현재 원문을 주세요”라고 요청합니다. <strong>어떤 기능을 어떻게 요청하면 어떤 결과를 받는지 정해 둔 약속</strong>을 API라고 합니다. 이 실습은 HTTP라는 통신 규칙으로 요청을 보냅니다.</p>
       <p class="reading">요청을 보내는 프로그램이 <strong>클라이언트</strong>, 요청을 기다렸다가 처리해 주는 프로그램이 <strong>서버</strong>입니다. 여기서는 둘 다 내 PC에서 실행합니다. 요청을 받을 프로그램을 첫 창에서 계속 켜 두고, 둘째 창에서 요청을 보냅니다.</p>
+      <figure class="principle-plate">
+        <a href="assets/principles/api.webp" aria-label="어디에 무엇을 요청하면 어떤 값이 돌아올까요? 그림 확대"><img src="assets/principles/api.webp" width="1280" height="853" loading="lazy" decoding="async" alt="단말기에서 자료함으로 요청 카드가 건너가고, 반대 방향 화살표로 원문과 같은 표식의 자료 카드가 돌아옵니다."></a>
+        <figcaption><small>AI 생성 원리 삽화</small> <strong>어디에 무엇을 요청하면 어떤 값이 돌아올까요?</strong>
+          <p>위쪽은 내 프로그램이 보내는 GET /input 요청입니다. 서버는 정해진 파일을 읽고 아래쪽 길로 응답을 돌려줍니다. 프로그램은 응답 안의 text를 다음 업무 규칙의 입력으로 씁니다.</p>
+        </figcaption>
+      </figure>
       <div class="diagram" aria-label="입력 API에서 원문을 받는 순서"><b>내 프로그램이 원문을 요청</b><span aria-hidden="true">→</span><b>서버가 input.txt 읽기</b><span aria-hidden="true">→</span><b>내 프로그램이 원문을 받음</b></div>
       <ol class="lesson-steps reading">
         <li><strong>서버를 켭니다.</strong> 표시된 주소 <code>http://127.0.0.1:8766/input</code>에서 <code>127.0.0.1</code>은 내 PC, <code>8766</code>은 그 PC에서 요청을 받을 프로그램을 찾는 번호(포트)입니다. 연결 실습 동안 이 창을 열어 둡니다.
@@ -101,6 +114,12 @@ claude -p --output-format json --max-turns 2 -- "$taskPrompt"</code></pre>
     <div class="paper"><section class="wrap section" id="mcp">
       <h2>MCP로 검토 기준을 읽는 도구를 찾아 씁니다</h2>
       <p class="reading">이번에는 “항목 이름과 숫자를 그대로 적으세요”라는 검토 기준이 필요합니다. 이 기준을 찾아 읽는 기능을 Claude Code와 내 프로그램이 함께 쓰게 해보겠습니다. <strong>MCP(Model Context Protocol)</strong>는 프로그램들이 사용 가능한 도구의 이름과 사용법을 알아보고, 정해진 형식으로 도구 실행을 요청할 수 있게 해 주는 공통 규칙입니다.</p>
+      <figure class="principle-plate">
+        <a href="assets/principles/mcp.webp" aria-label="도구 목록에서 하는 일을 고르고 결과를 받습니다 그림 확대"><img src="assets/principles/mcp.webp" width="1280" height="853" loading="lazy" decoding="async" alt="도구 목록에서 책 모양을 고르면 같은 표식의 도구가 보관된 기준 문서에 연결됩니다."></a>
+        <figcaption><small>AI 생성 원리 삽화</small> <strong>도구 목록에서 하는 일을 고르고 결과를 받습니다</strong>
+          <p>왼쪽 목록에서 도구의 이름과 입력 형식을 확인합니다. 내 프로그램이 read_review_rules를 호출하면 MCP 서버가 오른쪽의 작성 기준을 읽고 그 내용을 돌려줍니다. 도구를 조회하는 호출과 자료를 읽는 호출은 각각 따로 일어납니다.</p>
+        </figcaption>
+      </figure>
       <div class="diagram" aria-label="MCP로 검토 기준을 요청하는 순서"><b>어떤 도구가 있나요?</b><span aria-hidden="true">→</span><b>목록에서 기준 읽기 찾기</b><span aria-hidden="true">→</span><b>이름으로 호출해 기준 받기</b></div>
       <p class="reading">앞에서 원문을 요청할 때는 프로그램이 <code>/input</code>이라는 경로를 알고 있었습니다. 이번에는 검사기 <code>inspect_mcp.py</code>가 <code>tools/list</code>로 이름과 사용법을 받고, <code>tools/call</code>에 이름을 넣어 기준 읽기를 요청합니다. 실제로 파일을 여는 쪽은 <code>mcp_server.py</code>입니다. MCP로 공개한 도구가 내부에서 또 다른 API를 호출할 수도 있습니다. <a href="index.html#connection-principles">같은 자료로 API와 MCP의 역할 따라가기</a></p>
       <ol class="lesson-steps reading">
@@ -136,6 +155,12 @@ claude mcp get hug4-input</code></pre>
     <div class="paper"><section class="wrap section" id="local-rag">
       <h2>질문에 맞는 문단을 찾아 같은 CPU 모델에 보냅니다</h2>
       <p class="reading">앞에서는 언제나 같은 검토 기준을 읽었습니다. 기준이 여러 파일에 나뉘어 있으면, 질문과 관련된 부분을 먼저 골라 이번 요청에 붙일 수 있습니다. 이렇게 찾아온 자료로 답을 쓰는 방식을 RAG(검색 증강 생성)라고 합니다. <a href="index.html#rag">질문을 바꿔 검색 결과 비교하기</a></p>
+      <figure class="principle-plate">
+        <a href="assets/principles/rag.webp" aria-label="질문과 함께 보낸 두 문단이 초안의 근거가 됩니다 그림 확대"><img src="assets/principles/rag.webp" width="1672" height="941" loading="lazy" decoding="async" alt="원문 가운데 청록색과 노란색 문단 두 개가 선택됩니다. 두 발췌문과 질문 카드가 모델에 함께 들어가고 오른쪽 초안에서 같은 색으로 출처를 추적합니다."></a>
+        <figcaption><small>AI 생성 원리 삽화</small> <strong>질문과 함께 보낸 두 문단이 초안의 근거가 됩니다</strong>
+          <p>왼쪽에서 표시한 두 문단을 꺼내 가운데의 질문과 한 요청에 담습니다. 모델이 초안을 쓰면 저장해 둔 파일명과 문단 번호로 원문을 다시 엽니다. 같은 색 표시는 이 경로를 보여줍니다. 초안에 쓴 문장이 근거와 맞는지는 직접 대조합니다.</p>
+        </figcaption>
+      </figure>
       <ol class="lesson-steps reading">
         <li>두 서버 창을 열어 두고 실습 폴더에서 실행합니다.
           <pre><code>.\.venv\Scripts\python.exe my_program.py --rag "접수 문서"
@@ -149,6 +174,12 @@ Get-Content -LiteralPath .\output\rag.json -Encoding UTF8</code></pre></li>
       <h2>앞에서 만든 내 프로그램에 붙입니다</h2>
       <p class="reading">서버는 켜 둔 채 <code>workflow_links.py</code>와 <code>local_http.py</code>를 내가 만든 실행 파일 옆으로 복사합니다. 실습 폴더의 <code>evidence/</code>에 내 작성 기준을 넣습니다. 내 프로그램에서 업무 값을 계산한 직후 문단 검색을 호출하고, 찾은 문단과 그 업무 값으로 초안을 작성해 함께 저장합니다.</p>
       <p class="reading"><a class="btn primary" href="index.html#integrate">내 파일 트리에서 연결할 위치 찾기</a></p>
+      <figure class="principle-plate">
+        <a href="assets/principles/integration.webp" aria-label="기존 집계 도구에 검색과 초안을 어디에 붙일까요? 그림 확대"><img src="assets/principles/integration.webp" width="1320" height="676" loading="lazy" decoding="async" alt="위아래 두 경로에 같은 남색 계단 모양 처리기가 있습니다. 아래 경로에서는 결과표 옆에 근거 표시와 초안이 추가됩니다."></a>
+        <figcaption><small>AI 생성 원리 삽화</small> <strong>기존 집계 도구에 검색과 초안을 어디에 붙일까요?</strong>
+          <p>두 줄에서 같은 남색 블록은 원래 쓰던 집계 함수입니다. 아래 줄에서 입력을 API로 받아도 이 함수가 서울 10건과 인천 5건을 계산합니다. 그 뒤에 검색한 기준과 AI 초안을 붙이면, 마지막에는 집계 값과 초안을 따로 대조할 수 있습니다.</p>
+        </figcaption>
+      </figure>
       <figure class="course-example"><a href="assets/captures/example-rag-transfer.png"><img src="assets/captures/example-rag-transfer.png" width="1248" height="545" alt="창구별 7건, 5건, 3건을 집계하는 개인 앱과 작성 기준을 둔 실습 폴더. 전체 15건 옆에 검색 근거가 함께 저장됩니다." loading="lazy"></a><figcaption>창구 집계 도구를 선택한 경우의 배치입니다. 왼쪽 폴더에서 연결 함수 파일 두 개를 오른쪽으로 복사하고, 작성 기준은 왼쪽 <code>evidence/</code>에 둡니다. 다른 주제를 고른 경우에도 같은 위치에서 검색을 연결합니다.</figcaption></figure>
     </section>
     <div class="wrap">

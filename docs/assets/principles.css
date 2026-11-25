@@ -1,0 +1,51 @@
+.principle-plate {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(14rem, 1fr);
+  align-items: center;
+  gap: clamp(1rem, 3.2vw, 2.6rem);
+  margin: clamp(1.2rem, 3vw, 2rem) 0;
+  padding-block: 1rem;
+  border-block: 1px solid #d8dfe4;
+}
+.principle-plate > a {
+  display: block;
+  min-width: 0;
+  cursor: zoom-in;
+  border-radius: .35rem;
+}
+.principle-plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
+}
+.principle-plate figcaption { min-width: 0; margin: 0; text-align: start; }
+.principle-plate figcaption small {
+  display: block;
+  margin-bottom: .52rem;
+  color: #52685e;
+  font-size: .82rem;
+  font-weight: 650;
+}
+.principle-plate figcaption strong {
+  display: block;
+  color: #203b46;
+  font-size: clamp(1.12rem, 1.8vw, 1.46rem);
+  line-height: 1.42;
+  word-break: keep-all;
+}
+.principle-plate figcaption p {
+  margin: .55rem 0 0;
+  color: #2e4655;
+  font-size: 1.02rem;
+  line-height: 1.72;
+  text-wrap: pretty;
+}
+.guide-page .principle-plate { max-width: 60rem; }
+@media (max-width: 740px) {
+  .principle-plate { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
+  .principle-plate figcaption small { margin-bottom: .18rem; }
+}
+@media print {
+  .principle-plate { break-inside: avoid; }
+}

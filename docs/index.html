@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="assets/example-early.css">
   <link rel="stylesheet" href="assets/example-rag.css">
   <link rel="stylesheet" href="assets/example-figures.css">
+  <link rel="stylesheet" href="assets/principles.css">
   <script src="assets/example-viewer.js" defer></script>
 </head>
 <body class="lesson course-editorial">
@@ -88,6 +89,12 @@
           </section>
           <section class="visual-slide" id="riemann" data-slide data-title="리만 가설">
             <header class="chapter-heading"><p>리만 가설 · 명제</p><h2>리만 가설은 무엇을 묻는가</h2><p>소수의 개수를 어림하는 문제에서 시작해, 복소평면에 놓인 영점이 왜 중요한지 연결합니다.</p></header>
+            <figure class="principle-plate">
+              <a href="assets/principles/riemann.webp" aria-label="같은 지점에서 소수를 센 값과 어림한 값을 비교합니다 그림 확대"><img src="assets/principles/riemann.webp" width="1360" height="765" loading="lazy" decoding="async" alt="불규칙한 간격으로 올라가는 남색 계단과 부드러운 청록색 곡선 사이의 세로 거리가 노란 화살표로 표시돼 있습니다."></a>
+              <figcaption><small>AI 생성 원리 삽화</small> <strong>같은 지점에서 소수를 센 값과 어림한 값을 비교합니다</strong>
+                <p>수를 작은 것부터 세면 소수를 만날 때마다 남색 계단이 한 칸 올라갑니다. 같은 위치에서 청록색 추정선까지 잰 간격이 오차입니다. 리만 가설이 참일 때 이 오차가 커지는 속도에 강한 한계를 줄 수 있습니다. 계단과 곡선은 이 관계를 보여주는 모식도입니다.</p>
+              </figcaption>
+            </figure>
             <div class="theory-with-figure">
               <div class="theory-notes">
                 <h3>제타 함수와 소수가 만나는 지점</h3>
@@ -114,6 +121,12 @@
 
           <section class="visual-slide" id="lean" data-slide data-title="Lean 증명 지도">
             <header class="chapter-heading"><p>리만 가설 · 형식 검증</p><h2>Lean은 증명을 어떻게 검사하는가</h2><p>증명할 문장, 그 문장을 뒷받침하는 논리적 증거, 검사 프로그램이 서로 다른 역할을 합니다.</p></header>
+            <figure class="principle-plate">
+              <a href="assets/principles/lean.webp" aria-label="앞에서 확인한 정리로 다음 정리의 증명을 구성합니다 그림 확대"><img src="assets/principles/lean.webp" width="1360" height="765" loading="lazy" decoding="async" alt="세 가지 모양의 작은 카드가 한 증명 카드로 모이고, 투명한 검사 틀을 지나 확인 표시가 붙은 카드가 됩니다."></a>
+              <figcaption><small>AI 생성 원리 삽화</small> <strong>앞에서 확인한 정리로 다음 정리의 증명을 구성합니다</strong>
+                <p>왼쪽 카드 세 장은 앞에서 증명한 정리입니다. 가운데에서 이 정리들을 논리 규칙에 맞춰 결합합니다. Lean의 커널은 그 조합으로 목표 명제의 증명이 완성되는지 검사합니다. 아래의 실제 증명 지도에서도 한 정리를 뒷받침하는 정리들을 선으로 따라갈 수 있습니다.</p>
+              </figcaption>
+            </figure>
             <div class="theory-with-figure lean-explainer">
               <div class="theory-notes">
                 <h3>자연어 문장을 검사 가능한 증명으로</h3>
@@ -146,6 +159,12 @@
               <p>범용 인공지능(AGI)은 다양한 종류의 인지 과제에서 사람에 견줄 만한 능력을 보이는 시스템을 가리킵니다. 연구마다 그 기준은 다릅니다. Morris 등의 연구는 두 가지 질문을 제안합니다. 한 과제를 얼마나 잘하나요? 그 수준을 얼마나 다양한 과제에서 유지하나요?</p>
             </header>
 
+            <figure class="principle-plate">
+              <a href="assets/principles/agi.webp" aria-label="과제의 종류와 과제별 성능을 함께 읽습니다 그림 확대"><img src="assets/principles/agi.webp" width="1360" height="765" loading="lazy" decoding="async" alt="책, 퍼즐, 지도가 놓인 세 사다리에 핀이 서로 다른 높이에 있고, 가로 괄호가 세 과제를 함께 묶습니다."></a>
+              <figcaption><small>AI 생성 원리 삽화</small> <strong>과제의 종류와 과제별 성능을 함께 읽습니다</strong>
+                <p>책·퍼즐·지도는 언어·추론·계획처럼 서로 다른 과제를 뜻합니다. 세로의 핀 높이는 그 과제에서 보인 성능, 가로로 펼친 과제들은 평가한 범위를 나타냅니다. 한 과제의 높은 성과가 다른 과제에서도 이어지는지는 각각 측정해야 합니다.</p>
+              </figcaption>
+            </figure>
             <div class="agi-visual">
               <figure class="math-card agi-performance">
                 <figcaption>
@@ -214,6 +233,12 @@
               <p>후보는 A, B, C, D, E입니다. 같은 팀에 둘 수 없는 쌍은 <strong>A–B, B–D, C–E</strong>입니다. “이 조건을 만족하는 세 명이 있습니까?”처럼 결과를 예 또는 아니오로 정하는 질문을 <strong>결정 문제</strong>라고 부릅니다.</p>
             </div>
 
+            <figure class="principle-plate">
+              <a href="assets/principles/p-np.webp" aria-label="조건에 맞는 팀을 찾을 때와 한 팀을 검사할 때 그림 확대"><img src="assets/principles/p-np.webp" width="1360" height="765" loading="lazy" decoding="async" alt="왼쪽에는 서로 다른 도형 세 개를 묶은 여러 후보 카드가 있고, 오른쪽에는 한 카드의 세 도형 사이를 세 선으로 연결해 확인한 모습이 있습니다."></a>
+              <figcaption><small>AI 생성 원리 삽화</small> <strong>조건에 맞는 팀을 찾을 때와 한 팀을 검사할 때</strong>
+                <p>색과 모양 하나를 한 사람으로 읽어 보세요. 왼쪽은 가능한 팀 중 일부이고, 오른쪽은 누군가 제안한 한 팀입니다. 오른쪽 세 선은 금지 목록과 대조해야 할 세 쌍입니다. 이 차이가 해답을 찾는 일과 주어진 답을 확인하는 일을 구별하는 출발점입니다.</p>
+              </figcaption>
+            </figure>
             <div class="pnp-process">
               <div class="math-card">
                 <h3>조건을 만족하는 팀 찾기</h3>
@@ -279,6 +304,12 @@
 
           <section class="visual-slide" id="counterexample" data-slide data-title="반례 하나 찾기">
             <header class="chapter-heading"><p>5분 실습</p><h2>반례 하나면 추측이 바뀝니다</h2></header>
+            <figure class="principle-plate">
+              <a href="assets/principles/counterexample.webp" aria-label="‘모두 통과한다’는 말을 시험하려면 그림 확대"><img src="assets/principles/counterexample.webp" width="1320" height="676" loading="lazy" decoding="async" alt="원형 조각들이 같은 틀을 차례로 통과하지만 마지막 삼각형은 모서리가 걸립니다."></a>
+              <figcaption><small>AI 생성 원리 삽화</small> <strong>‘모두 통과한다’는 말을 시험하려면</strong>
+                <p>앞선 네 번의 검사에서 원이 통과해도 ‘모든 조각이 통과한다’는 말은 아직 확인되지 않았습니다. 마지막 조각 하나가 걸리면 그 주장은 틀립니다. 아래 수식에서도 ‘항상 소수가 나온다’는 주장에 맞지 않는 입력을 하나 찾아보세요.</p>
+              </figcaption>
+            </figure>
             <div class="slide-split counter-slide">
               <div class="slide-copy"><h3>에르되시의 단위거리</h3><p>점 네 개를 정사각형으로 놓으면 거리가 1인 쌍은 네 변에서 나옵니다. OpenAI 모델은 점 수를 계속 늘렸을 때 단위거리 쌍의 수가 기존 추측보다 더 빨리 늘어나는 구성을 제시했습니다. 연구자들이 그 반례를 검토했습니다.</p>
                 <figure class="unit-diagram" aria-label="한 변이 1인 정사각형에서 길이가 1인 네 쌍"><div class="distance-square" aria-hidden="true"><i></i><i></i><i></i><i></i><b>1</b><span></span></div><figcaption>점 4개 중 길이 1인 쌍은<br>네 변에 하나씩 있습니다.</figcaption></figure>
@@ -314,6 +345,12 @@ claude auth status --text</code></pre><button type="button" class="btn copy-comm
                 <figure class="lesson-shot setup-terminal"><a href="assets/captures/python-312-verify.png"><img src="assets/captures/python-312-verify.png" alt="PowerShell의 Python 3.12와 실습 폴더 가상환경 확인 실제 출력" loading="lazy"></a><figcaption>실제 명령 출력에서 설치 대상인 3.12.10과 검증 PC에 이미 설치된 3.12.7을 확인할 수 있습니다.</figcaption></figure>
                 <p>로그인이 필요하면 <code>claude auth login</code>으로 공식 로그인 화면을 열어 본인 Team 계정을 선택합니다. 설치는 <code>claude --version</code>, 계정 연결은 <code>claude auth status</code>, 실제 응답은 요청을 한 번 보내 각각 확인합니다.</p>
                 <figure class="lesson-shot setup-terminal"><a href="assets/captures/example-early-cli.png" target="_blank" rel="noopener"><img src="assets/captures/example-early-cli.png" width="715" height="312" alt="Windows 명령 프롬프트에서 Python 3.12.7과 Claude Code 2.1.323은 실행되고, 별도 로그인 정보가 없는 환경에서는 Not logged in이 표시됩니다." loading="lazy"></a><figcaption>설치와 로그인은 따로 확인합니다. 이 검증 화면에서는 두 버전이 보이지만, 계정을 연결하지 않은 실습 환경의 마지막 줄은 <code>Not logged in</code>입니다.</figcaption></figure>
+                <figure class="principle-plate">
+                  <a href="assets/principles/account.webp" aria-label="로그인과 파일 수정은 서로 다른 확인을 거칩니다 그림 확대"><img src="assets/principles/account.webp" width="1320" height="676" loading="lazy" decoding="async" alt="왼쪽은 계정 카드를 확인하는 서비스이고, 오른쪽은 작업 폴더의 잠금 장치를 여는 손입니다."></a>
+                  <figcaption><small>AI 생성 원리 삽화</small> <strong>로그인과 파일 수정은 서로 다른 확인을 거칩니다</strong>
+                    <p>왼쪽 카드는 Claude 서비스가 어느 계정의 요청인지 확인하는 과정입니다. 오른쪽 잠금 장치는 내 PC에서 허용한 작업 범위를 나타냅니다. Team 계정으로 연결한 뒤에도 파일을 읽거나 수정할 때는 작업 폴더와 도구 권한이 적용됩니다.</p>
+                  </figcaption>
+                </figure>
                 <figure class="course-example"><a href="assets/captures/example-claude-login.png"><img src="assets/captures/example-claude-login.png" width="1196" height="806" alt="Claude Code가 표시한 실제 최초 로그인 방법 선택 화면. 첫 번째 항목에 Individual, Team, or Enterprise가 적혀 있습니다." loading="lazy"></a><figcaption>Claude Code 2.1.323을 처음 열고 테마를 고른 다음 나온 화면입니다. 수업용 Team 계정은 첫 번째 <strong>Claude account with subscription</strong>에서 연결합니다.</figcaption></figure>
                 <div class="cli-guide">
                   <h3>Claude Code의 CLI 옵션</h3>
@@ -337,6 +374,12 @@ claude -p --output-format json --max-turns 2 -- "$instruction"</code></pre>
                 <h3>4. Hugging Face에서 모델 파일을 받습니다</h3>
                 <p>Hugging Face는 모델을 배포하는 사이트입니다. 여기서 받는 파일에는 모델이 학습한 숫자들이 들어 있습니다. 내 PC의 계산 장치인 CPU에서 그 숫자로 문장을 생성하도록 실행하는 프로그램이 <code>llama.cpp</code>입니다. 그래서 모델 파일과 실행기를 함께 준비합니다.</p>
                 <p><a href="models.html#download">Windows CPU 실행기와 Qwen2.5 0.5B 다운로드</a> 안내에서 실행기 ZIP을 풉니다. Hugging Face의 Qwen 공식 저장소에서는 <strong>Files → qwen2.5-0.5b-instruct-q4_k_m.gguf → Download</strong> 순서로 누릅니다. 받은 약 491MB의 모델 파일을 <code>llama-server.exe</code>와 같은 폴더에 둡니다.</p>
+                <figure class="principle-plate">
+                  <a href="assets/principles/quantization.webp" aria-label="비슷한 가중치를 더 적은 비트로 표현합니다 그림 확대"><img src="assets/principles/quantization.webp" width="1320" height="660" loading="lazy" decoding="async" alt="많은 색조가 펼쳐진 왼쪽 견본에서 비슷한 색을 모으면 오른쪽에 더 적은 색조의 견본이 남습니다."></a>
+                  <figcaption><small>AI 생성 원리 삽화</small> <strong>비슷한 가중치를 더 적은 비트로 표현합니다</strong>
+                    <p>촘촘한 색조 몇 개를 가까운 대표색 하나로 기록하는 모습입니다. 모델의 양자화도 많은 가중치를 제한된 정밀도로 표현해 파일 크기를 줄입니다. 수업에서 받는 Q4_K_M은 이런 방식으로 만든 파일이고, 세밀한 값의 차이는 줄어들 수 있습니다.</p>
+                  </figcaption>
+                </figure>
                 <div class="setup-visuals">
                   <figure class="lesson-shot"><a href="assets/captures/hugging-face-qwen25-files.png"><img src="assets/captures/hugging-face-qwen25-files.png" alt="Hugging Face의 Qwen 공식 저장소에 여러 GGUF 파일이 표시된 목록" loading="lazy"></a><figcaption>① 여러 GGUF 파일 가운데 <code>q4_k_m.gguf</code>로 끝나는 파일을 엽니다.</figcaption></figure>
                   <figure class="lesson-shot"><a href="assets/captures/hugging-face-qwen25-download.png"><img src="assets/captures/hugging-face-qwen25-download.png" alt="Hugging Face의 Qwen 공식 모델 파일 페이지에 표시된 파일명과 Download 버튼, 491MB 크기" loading="lazy"></a><figcaption>② 파일 크기 약 491MB를 확인하고 <strong>Download</strong>를 누릅니다.</figcaption></figure>
@@ -349,6 +392,12 @@ claude -p --output-format json --max-turns 2 -- "$instruction"</code></pre>
             <h2 id="practice-title">워크플로우 실습</h2>
             <p>워크플로우는 자료를 처리하는 순서이고, 그 안의 한 단계를 ‘노드’라고 부릅니다. 직접 고른 텍스트를 넣고 실행한 뒤 노드를 눌러 보세요. 그 단계가 받은 값과 다음 단계로 보낸 값이 보입니다.</p>
           </header>
+          <figure class="principle-plate">
+            <a href="assets/principles/workflow.webp" aria-label="같은 규칙은 다음 입력에도 그대로 적용됩니다 그림 확대"><img src="assets/principles/workflow.webp" width="1280" height="853" loading="lazy" decoding="async" alt="섞여 있는 원형·삼각형 표식 카드가 분류기를 통과해 두 상자로 나뉩니다."></a>
+            <figcaption><small>AI 생성 원리 삽화</small> <strong>같은 규칙은 다음 입력에도 그대로 적용됩니다</strong>
+              <p>왼쪽 카드는 입력 한 건씩입니다. 가운데에서 표식을 읽고 같은 표식끼리 오른쪽 상자에 모읍니다. 창구 기록에서도 표식 자리에 창구명을 놓으면 같은 규칙으로 자료를 묶을 수 있습니다.</p>
+            </figcaption>
+          </figure>
           <noscript><p class="class-note">이 실습에서는 JavaScript로 워크플로우를 실행합니다.</p></noscript>
           <div class="bench" id="bench">
             <div class="panel lab-controls">
@@ -432,6 +481,12 @@ steps/process.py에 업무 규칙, steps/output.py에 결과 저장을 두거나
         <section class="lesson-section visual-slide lab-sheet" id="connection-principles" data-slide data-title="API · 다른 프로그램에 자료 요청하기">
           <header class="chapter-heading"><p>15:10–15:16 · 프로그램 사이의 요청</p><h2>사람이 누르던 ‘조회’를 프로그램은 어떻게 할까요?</h2><p>현황표를 정리할 때 담당자는 접수 화면을 열고 두 줄을 복사합니다. ‘접수 문서 3건’, ‘검토 대기 5건’. 내 프로그램이 이 일을 맡으려면 자료를 가진 쪽에 무엇을 보내야 하고, 답에서 어디를 읽어야 할까요?</p></header>
           <p><strong>API</strong>(Application Programming Interface)는 다른 소프트웨어가 쓸 수 있도록 열어 둔 기능과 그 사용법입니다. 자료를 제공하는 쪽이 ‘이 주소로 조회를 요청하면 이 형식으로 답을 주겠다’고 정해 두면, 내 프로그램은 그 약속에 맞춰 자료를 받을 수 있습니다. 실습에서는 파일 하나를 읽는 작은 프로그램이 접수 시스템 역할을 맡습니다. 나중에 그 프로그램이 자료를 데이터베이스에서 읽도록 바뀌어도 주소와 응답 형식이 같으면 호출하는 코드는 그대로 쓸 수 있습니다.</p>
+          <figure class="principle-plate">
+            <a href="assets/principles/api.webp" aria-label="어디에 무엇을 요청하면 어떤 값이 돌아올까요? 그림 확대"><img src="assets/principles/api.webp" width="1280" height="853" loading="lazy" decoding="async" alt="단말기에서 자료함으로 요청 카드가 건너가고, 반대 방향 화살표로 원문과 같은 표식의 자료 카드가 돌아옵니다."></a>
+            <figcaption><small>AI 생성 원리 삽화</small> <strong>어디에 무엇을 요청하면 어떤 값이 돌아올까요?</strong>
+              <p>위쪽은 내 프로그램이 보내는 GET /input 요청입니다. 서버는 정해진 파일을 읽고 아래쪽 길로 응답을 돌려줍니다. 프로그램은 응답 안의 text를 다음 업무 규칙의 입력으로 씁니다.</p>
+            </figcaption>
+          </figure>
           <figure class="beginner-exchange" aria-labelledby="beginner-http-title">
             <figcaption id="beginner-http-title">실습의 ‘현황 원문 조회’를 한 번 따라가 봅니다</figcaption>
             <div class="beginner-message"><span>요청 <b aria-hidden="true">→</b></span><div><strong>내 프로그램이 “현재 원문을 주세요”라고 보냅니다.</strong><code>GET http://127.0.0.1:8766/input</code></div></div>
@@ -447,6 +502,12 @@ steps/process.py에 업무 규칙, steps/output.py에 결과 저장을 두거나
         <section class="lesson-section visual-slide lab-sheet lab-mcp" id="mcp-principles" data-slide data-title="MCP · 도구 발견과 실행">
           <header class="chapter-heading"><p>15:16–15:22 · 도구의 발견과 실행</p><h2>Claude Code는 우리 부서의 ‘검토 기준 읽기’를 어떻게 알까요?</h2><p>현황 두 줄은 받았습니다. 이제 ‘원래 항목 이름과 숫자를 그대로 쓴다’는 검토 기준을 초안에 적용하려 합니다. 이 기준은 내 PC의 파일에 있습니다. 모델에 두 줄만 보내면 어느 파일을 열어야 할지 알 수 없습니다.</p></header>
           <p>‘검토 기준 파일을 읽어서 내용을 돌려준다’는 기능을 하나 만듭니다. 이렇게 프로그램이 호출할 수 있게 이름을 붙인 기능을 <strong>도구</strong>라고 합니다. <strong>MCP</strong>(Model Context Protocol)는 AI를 사용하는 앱 등이 외부 기능이나 자료를 이용할 때 서로 따르는 공통 통신 규칙입니다. 이 수업에서 쓰는 부분은 <strong>어떤 도구가 있는지 묻고, 사용법을 받아, 이름을 지정해 실행하는 절차</strong>입니다.</p>
+          <figure class="principle-plate">
+            <a href="assets/principles/mcp.webp" aria-label="도구 목록에서 하는 일을 고르고 결과를 받습니다 그림 확대"><img src="assets/principles/mcp.webp" width="1280" height="853" loading="lazy" decoding="async" alt="도구 목록에서 책 모양을 고르면 같은 표식의 도구가 보관된 기준 문서에 연결됩니다."></a>
+            <figcaption><small>AI 생성 원리 삽화</small> <strong>도구 목록에서 하는 일을 고르고 결과를 받습니다</strong>
+              <p>왼쪽 목록에서 도구의 이름과 입력 형식을 확인합니다. 내 프로그램이 read_review_rules를 호출하면 MCP 서버가 오른쪽의 작성 기준을 읽고 그 내용을 돌려줍니다. 도구를 조회하는 호출과 자료를 읽는 호출은 각각 따로 일어납니다.</p>
+            </figcaption>
+          </figure>
           <figure class="sys-diagram sys-mcp" aria-labelledby="sys-mcp-title">
             <figcaption><strong id="sys-mcp-title">“무엇을 할 수 있나요?”에서 “이 기준을 읽어 주세요”까지</strong><span>연결한 뒤 오가는 메시지</span></figcaption>
             <div class="sys-endpoints">
@@ -566,6 +627,12 @@ steps/process.py에 업무 규칙, steps/output.py에 결과 저장을 두거나
           <div class="theory-notes">
             <h3>파일 트리와 워크플로우가 알려주는 것</h3>
             <p>파일 트리의 선은 <strong>폴더 안에 무엇이 들어 있는지</strong> 나타냅니다. 워크플로우의 선은 <strong>어느 단계가 먼저 값을 만들어야 하는지</strong> 나타냅니다. 실행 순서를 바꾸는 일, 한 단계의 처리 방식을 고치는 일, 지난 실행을 찾아보는 일에는 각각 다른 파일이나 화면을 엽니다.</p>
+            <figure class="principle-plate">
+              <a href="assets/principles/files.webp" aria-label="실행 파일이 폴더에서 필요한 파일을 찾아 씁니다 그림 확대"><img src="assets/principles/files.webp" width="1280" height="853" loading="lazy" decoding="async" alt="큰 프로젝트 폴더에 작은 폴더와 실행 문서가 들어 있고, 손이 문서 한 장을 꺼내 작업대로 옮깁니다."></a>
+              <figcaption><small>AI 생성 원리 삽화</small> <strong>실행 파일이 폴더에서 필요한 파일을 찾아 씁니다</strong>
+                <p>겹친 폴더는 파일을 어디에 두었는지 보여줍니다. 실행할 때는 app.py가 필요한 함수를 불러 입력을 읽고, 처리한 값을 결과 파일에 씁니다. 아래 파일 트리에서는 위치를, 워크플로우에서는 값이 넘어가는 순서를 따라가 보세요.</p>
+              </figcaption>
+            </figure>
             <figure class="course-files" aria-labelledby="course-files-title">
               <figcaption id="course-files-title">연결 실습 ZIP을 풀면 열리는 폴더</figcaption>
               <div class="course-files-root"><code>hug4-connections/</code></div>
@@ -602,6 +669,12 @@ steps/process.py에 업무 규칙, steps/output.py에 결과 저장을 두거나
           <div class="theory-notes">
             <h3>Claude Code가 파일을 바꾸는 과정</h3>
             <p>Claude Code는 터미널에서 실행되는 프로그램입니다. 작업 폴더에서 열면 사용자 요청과 작업에 필요한 맥락을 모델에 보냅니다. 모델은 답변을 만들거나 읽을 파일, 실행할 명령처럼 다음 행동을 이름과 인자로 요청할 수 있습니다. Claude Code는 권한을 확인한 뒤 허용된 작업을 실행하고 그 결과를 모델에 돌려줍니다. 이렇게 행동을 요청하고 돌려받는 과정이 반복돼 파일 읽기, 수정, 테스트가 이어집니다.</p>
+            <figure class="principle-plate">
+              <a href="assets/principles/agent-loop.webp" aria-label="모델이 제안한 작업은 누가 실행할까요? 그림 확대"><img src="assets/principles/agent-loop.webp" width="1320" height="676" loading="lazy" decoding="async" alt="가운데 터미널이 위쪽 모델과 요청을 주고받고, 오른쪽 작업대에서 파일을 다룬 결과가 다시 터미널로 돌아옵니다."></a>
+              <figcaption><small>AI 생성 원리 삽화</small> <strong>모델이 제안한 작업은 누가 실행할까요?</strong>
+                <p>왼쪽 요청이 들어오면 모델이 읽을 파일이나 수정할 내용을 제안합니다. 가운데의 Claude Code가 권한을 확인하고 도구를 실행합니다. 아래로 돌아오는 작업 결과를 받아야 모델도 다음에 무엇을 할지 정할 수 있습니다.</p>
+              </figcaption>
+            </figure>
             <p><strong>계정 인증</strong>은 Claude 서비스가 어떤 계정과 조직으로 요청을 처리하는지 정합니다. <strong>로컬 권한</strong>은 파일을 읽거나 명령을 실행할 수 있는 범위를 정합니다. <code>claude auth status</code>로 로그인 상태를 본 뒤, 짧은 요청을 한 번 보내 서비스를 실제로 사용할 수 있는지 확인합니다.</p>
             <h3>내 프로그램이 모델을 한 번 호출할 때</h3>
             <ol class="mechanism-list">
@@ -610,6 +683,12 @@ steps/process.py에 업무 규칙, steps/output.py에 결과 저장을 두거나
               <li><strong>모델이 토큰을 이어 결과를 만듭니다.</strong> 문자열은 먼저 모델이 다루는 작은 숫자 단위인 토큰으로 바뀝니다. 모델은 이전에 학습한 가중치를 사용해 지시와 자료, 이미 생성한 토큰 사이의 관계를 계산합니다. 다음 토큰에 점수를 매겨 하나를 고르고, 새 토큰까지 포함해 다시 계산하는 과정을 반복합니다. 모델이 이번 요청에서 이용할 수 있는 범위가 <strong>컨텍스트</strong>입니다.</li>
               <li><strong>프로그램이 응답을 읽고 검사합니다.</strong> <code>--output-format json</code>으로 받은 응답에는 결과와 실행 상태가 들어갑니다. 필요한 필드와 자료형은 <code>--json-schema</code>로 지정합니다. 코드에서는 호출 실패 여부와 <code>structured_output</code>이 실제로 있는지 확인합니다. 그 뒤 형식이 맞는 값이 원문에 근거하고 업무 규칙에도 맞는지 검사합니다.</li>
             </ol>
+            <figure class="principle-plate">
+              <a href="assets/principles/inference.webp" aria-label="별 한 조각을 붙이면 다음 계산의 입력이 달라집니다 그림 확대"><img src="assets/principles/inference.webp" width="1672" height="941" loading="lazy" decoding="async" alt="동그라미·빗금·네모 순서가 모델로 들어갑니다. 후보 세 개 중 별을 고르면 별까지 이어진 네 조각이 다시 모델 쪽으로 돌아갑니다."></a>
+              <figcaption><small>AI 생성 원리 삽화</small> <strong>별 한 조각을 붙이면 다음 계산의 입력이 달라집니다</strong>
+                <p>왼쪽 세 조각은 지금까지 읽은 토큰입니다. 모델이 다음 후보 중 별을 고르면 오른쪽처럼 별이 끝에 붙습니다. 다음번에는 그 별까지 포함해 후보를 계산합니다. 아래 실측 예시에서 첫 토큰 ‘3’ 뒤에 ‘건’이 이어지는 과정을 확인해 보세요.</p>
+              </figcaption>
+            </figure>
             <figure class="token-example" id="token-example" aria-labelledby="token-example-title">
               <figcaption><span id="token-example-title">‘접수 문서 3건’은 모델 안에서 어떤 숫자가 될까요?</span><a href="assets/captures/example-inference.png" class="ex-rag-zoom" aria-label="토큰과 다음 답 후보 그림 확대">그림 확대</a></figcaption>
               <div class="token-body">
@@ -753,6 +832,12 @@ claude mcp get hug4-input</code></pre><button type="button" class="btn copy-comm
             <p class="sys-reading-key">KV 캐시는 앞서 처리한 토큰과의 관계를 계산할 때 다시 쓰는 값입니다. 추론 중에 캐시와 출력은 바뀌고, 모델 가중치는 고정됩니다.</p>
           </figure>
           <p><code>GGUF</code>는 학습된 가중치와 실행에 필요한 정보를 담는 파일 형식입니다. 실습의 Qwen2.5 0.5B 파일은 약 491MB입니다. <code>Q4_K_M</code>은 가중치를 여러 정밀도로 압축하는 양자화 방식입니다. 실행 중에는 가중치 외에도 현재 입력과 이전 토큰의 계산값을 메모리에 둡니다. 입력 길이를 늘리면 처음 계산하는 일과 캐시 크기가 함께 늘어납니다.</p>
+          <figure class="principle-plate">
+            <a href="assets/principles/local-cpu.webp" aria-label="한 번 읽어 둔 모델로 내 PC에서 답을 만듭니다 그림 확대"><img src="assets/principles/local-cpu.webp" width="1672" height="941" loading="lazy" decoding="async" alt="노트북 내부 왼쪽의 모델 파일에서 가운데 RAM으로 선이 이어지고, 오른쪽 CPU와 화면의 두 말풍선이 보입니다."></a>
+            <figcaption><small>AI 생성 원리 삽화</small> <strong>한 번 읽어 둔 모델로 내 PC에서 답을 만듭니다</strong>
+              <p>저장장치에 받은 모델 파일을 실행기가 열고, 계산에 필요한 가중치를 메모리에서 이용할 수 있게 준비합니다. 화면에서 요청을 보내면 CPU가 그 가중치로 답을 계산합니다. 서버를 켜 둔 동안 다음 요청도 같은 모델로 처리합니다.</p>
+            </figcaption>
+          </figure>
           <ol class="guided-steps">
             <li><h3>PowerShell 3에서 모델을 띄웁니다</h3><p><code>llama-server.exe</code>와 <code>.gguf</code> 파일이 함께 있는 폴더에서 PowerShell을 엽니다. <code>-ngl 0</code>은 GPU에 모델 레이어를 올리지 않도록 하고, <code>-c 2048</code>은 사용할 컨텍스트 크기, <code>-t 4</code>는 CPU 스레드 설정입니다. 로딩이 끝날 때까지 기다립니다.</p>
               <pre id="start-cpu-server"><code>.\llama-server.exe -m .\qwen2.5-0.5b-instruct-q4_k_m.gguf --host 127.0.0.1 --port 8081 -ngl 0 -c 2048 -t 4</code></pre><button type="button" class="btn copy-command" data-copy="start-cpu-server">명령 복사</button></li>
@@ -800,6 +885,12 @@ Get-Content -LiteralPath .\output\before.json, .\output\connected.json -Encoding
         <section class="lesson-section visual-slide lab-sheet" id="rag" data-slide data-title="RAG · 질문에 맞는 근거 찾기">
           <header class="chapter-heading"><p>16:35–16:41 · 검색과 생성</p><h2>검토 기준이 여러 문서에 흩어져 있다면?</h2><p>담당자가 “보완 요청을 기록할 때 무엇을 함께 적어야 하나요?”라고 묻습니다. 현황표에는 건수만 있습니다. 답을 쓰려면 먼저 작성 안내를 열어 ‘보완 요청은 사유와 함께 기록합니다’라는 문장을 찾아야 합니다.</p></header>
           <p><strong>RAG</strong>(Retrieval-Augmented Generation, 검색 증강 생성)는 프로그램이 질문과 관련된 자료를 찾아 모델에 함께 보내고, 모델이 그 자료를 참고해 답을 생성하는 방식입니다. 앞 실습에서는 항상 같은 파일을 열었습니다. 이제는 질문을 바꾸면 찾아오는 문단도 달라집니다.</p>
+          <figure class="principle-plate">
+            <a href="assets/principles/rag.webp" aria-label="질문과 함께 보낸 두 문단이 초안의 근거가 됩니다 그림 확대"><img src="assets/principles/rag.webp" width="1672" height="941" loading="lazy" decoding="async" alt="원문 가운데 청록색과 노란색 문단 두 개가 선택됩니다. 두 발췌문과 질문 카드가 모델에 함께 들어가고 오른쪽 초안에서 같은 색으로 출처를 추적합니다."></a>
+            <figcaption><small>AI 생성 원리 삽화</small> <strong>질문과 함께 보낸 두 문단이 초안의 근거가 됩니다</strong>
+              <p>왼쪽에서 표시한 두 문단을 꺼내 가운데의 질문과 한 요청에 담습니다. 모델이 초안을 쓰면 저장해 둔 파일명과 문단 번호로 원문을 다시 엽니다. 같은 색 표시는 이 경로를 보여줍니다. 초안에 쓴 문장이 근거와 맞는지는 직접 대조합니다.</p>
+            </figcaption>
+          </figure>
           <ol class="workflow-map" aria-label="질문에서 원문 확인까지 RAG의 네 단계">
             <li><strong>자료 준비</strong><span>작성 안내를 문단으로 나누고 각 문단의 위치를 기록</span></li>
             <li><strong>근거 검색</strong><span>질문과 단어가 겹치는 문단을 MCP 도구로 조회</span></li>
@@ -900,6 +991,12 @@ evidence/01-intake.txt · 1문단
 evidence/02-review.txt · 1문단
 검토 대기 건수는 접수 건수와 분리해 적습니다.</code></pre>
           </details>
+          <figure class="principle-plate">
+            <a href="assets/principles/embedding.webp" aria-label="표현이 다른 두 문단은 어떻게 함께 찾을까요? 그림 확대"><img src="assets/principles/embedding.webp" width="1320" height="743" loading="lazy" decoding="async" alt="물음표 핀이 서류 보완을 나타내는 문서 카드 가까이에 있고, 여행 가방 카드는 멀리 떨어져 있습니다."></a>
+            <figcaption><small>AI 생성 원리 삽화</small> <strong>표현이 다른 두 문단은 어떻게 함께 찾을까요?</strong>
+              <p>그림에서 질문은 ‘서류를 더 내야 하나요?’입니다. 문장의 의미를 숫자 목록인 임베딩으로 나타내면, 같은 단어가 없어도 ‘자료 보완’ 문단과의 유사도를 계산할 수 있습니다. 지도 위 거리는 그 원리를 그린 비유입니다. 이번 실습의 검색 점수는 두 글에 일치한 단어 수로 계산합니다.</p>
+            </figcaption>
+          </figure>
           <details class="lesson-disclosure"><summary>단어가 달라도 뜻이 비슷한 문단을 찾을 수 있나요?</summary><p>이 실습은 ‘요청’과 ‘요청은’도 서로 다른 단어로 셉니다. ‘보충 서류’와 ‘보완 요청’처럼 표현이 다르면 관련 문단을 놓칠 수 있습니다. 문장의 뜻을 여러 숫자로 나타낸 값인 <strong>임베딩</strong>을 만들어 비교하는 방법도 있습니다. 문서가 많으면 미리 만들어 둔 검색용 색인에서 후보를 찾습니다. 어느 방법이든 찾은 문단이 질문에 실제로 답하는지는 원문으로 확인합니다.</p></details>
           <p class="lab-bridge">앞에서 Claude Code에 등록한 MCP 서버에는 <code>search_evidence</code>라는 검색 도구도 있습니다. 내 프로그램은 <strong>API</strong>로 업무 현황을 읽고, <strong>MCP</strong>로 이 도구에 질문을 보냅니다. 검색된 문단을 현황과 함께 CPU 모델에 전달해 초안을 만드는 과정이 <strong>RAG</strong>입니다.</p>
         </section>
@@ -925,6 +1022,12 @@ Get-Content -LiteralPath .\output\rag.json -Encoding UTF8</code></pre><button ty
 
         <section class="lesson-section visual-slide lab-sheet lab-mcp" id="integrate" data-slide data-title="실습 · 내 프로그램에 붙이기">
           <header class="chapter-heading"><p>16:50–17:15 · 25분</p><h2>실습 5 · 앞에서 만든 내 프로그램에 붙입니다</h2><p>앞에서 기록한 명령으로 내 프로그램을 다시 실행합니다. 그 결과를 보관한 뒤 <code>README.md</code>에서 실제 함수 이름을 찾고 같은 프로그램에 연결 모드와 근거 검색을 붙입니다.</p></header>
+          <figure class="principle-plate">
+            <a href="assets/principles/integration.webp" aria-label="기존 집계 도구에 검색과 초안을 어디에 붙일까요? 그림 확대"><img src="assets/principles/integration.webp" width="1320" height="676" loading="lazy" decoding="async" alt="위아래 두 경로에 같은 남색 계단 모양 처리기가 있습니다. 아래 경로에서는 결과표 옆에 근거 표시와 초안이 추가됩니다."></a>
+            <figcaption><small>AI 생성 원리 삽화</small> <strong>기존 집계 도구에 검색과 초안을 어디에 붙일까요?</strong>
+              <p>두 줄에서 같은 남색 블록은 원래 쓰던 집계 함수입니다. 아래 줄에서 입력을 API로 받아도 이 함수가 서울 10건과 인천 5건을 계산합니다. 그 뒤에 검색한 기준과 AI 초안을 붙이면, 마지막에는 집계 값과 초안을 따로 대조할 수 있습니다.</p>
+            </figcaption>
+          </figure>
           <figure class="course-files transfer-tree" aria-labelledby="transfer-tree-title">
             <figcaption id="transfer-tree-title">내 프로그램의 어디를 열어야 하나요?</figcaption>
             <div class="course-files-root"><code>내-업무-도구/</code></div>
@@ -1020,6 +1123,12 @@ $ragQuery = Read-Host '내 문서에서 어떤 기준을 찾을까요?'
 
         <section class="lesson-section visual-slide" id="verify" data-slide data-title="실습 · 내 프로그램 검증">
           <header class="chapter-heading"><p>17:15–17:30 · 15분</p><h2>실습 6 · 내 도구에서 새 입력과 중단을 확인합니다</h2><p>기존 업무 결과, 검색한 근거, 모델이 생성한 초안을 차례로 확인합니다. 통과한 입력과 실행 명령을 함께 남깁니다.</p></header>
+          <figure class="principle-plate">
+            <a href="assets/principles/verify.webp" aria-label="초안에서 사라진 한 줄은 원문과 대조해야 보입니다 그림 확대"><img src="assets/principles/verify.webp" width="1672" height="941" loading="lazy" decoding="async" alt="왼쪽 원문에는 동그라미와 네모 두 행이 있지만 가운데 초안엔 동그라미 한 행만 있습니다. 점선 빈자리를 찾아 오른쪽에 두 행을 복원합니다."></a>
+            <figcaption><small>AI 생성 원리 삽화</small> <strong>초안에서 사라진 한 줄은 원문과 대조해야 보입니다</strong>
+              <p>왼쪽 원문의 두 항목 가운데 노란 네모가 가운데 초안에서 빠졌습니다. 담당자가 빈자리를 찾아 원문 값을 확인하고 오른쪽 결과에 복원합니다. 실습에서는 업무 현황의 항목명과 숫자를 같은 방식으로 한 줄씩 대조합니다.</p>
+            </figcaption>
+          </figure>
           <div class="table-wrap"><table><thead><tr><th scope="col">무엇을 넣을까?</th><th scope="col">어떤 결과가 나와야 할까?</th></tr></thead><tbody>
             <tr><td>4분 · 연결 전후 같은 입력</td><td>기본 결과와 연결 결과의 업무 값을 대조합니다. 초안에서 잘못 바뀐 내용이 있다면 원문과 나란히 표시합니다.</td></tr>
             <tr><td>4분 · 새 근거와 새 입력</td><td>이미 찾아 본 내 근거 문단에 식별할 단어를 하나 추가해 저장하고 <code>input.txt</code>의 값 하나를 바꿉니다. 새 단어로 RAG를 실행해 저장된 업무 값과 검색 원문이 모두 바뀌었는지 봅니다.</td></tr>
@@ -1044,7 +1153,7 @@ $ragQuery = Read-Host '내 문서에서 어떤 기준을 찾을까요?'
             <li>모델 요청 · <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works">Claude의 도구 호출</a>, <a href="https://platform.claude.com/docs/en/build-with-claude/context-windows">컨텍스트</a>, <a href="https://code.claude.com/docs/en/headless">CLI 구조화 응답</a>, <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 연결 방식</a>, <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a></li>
             <li>설치와 CLI · <a href="https://www.python.org/downloads/release/python-31210/#files">Python 설치 파일</a>, <a href="https://docs.python.org/3.12/using/windows.html#installation-steps">Python Windows 설치 절차</a>, <a href="https://code.claude.com/docs/en/quickstart">Claude Code 설치</a>, <a href="https://code.claude.com/docs/en/cli-reference">CLI 명령과 옵션</a>, <a href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/blob/main/qwen2.5-0.5b-instruct-q4_k_m.gguf">Hugging Face Qwen GGUF 파일 화면</a></li>
             <li>연결 원리 · <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_APIs/Introduction">MDN의 API 개념 설명</a>, <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP의 구성과 역할</a></li>
-            <li>검색 증강 생성 · <a href="https://arxiv.org/abs/2005.11401">Lewis 등, Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a>, <a href="https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview">Microsoft의 검색과 생성 구조 설명</a></li>
+            <li>검색 증강 생성 · <a href="https://arxiv.org/abs/2005.11401">Lewis 등, Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a>, <a href="https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview">Microsoft의 검색과 생성 구조 설명</a>, <a href="https://learn.microsoft.com/en-us/azure/search/vector-search-overview">임베딩과 유사도 검색</a></li>
             <li>연결 실습 · <a href="https://platform.claude.com/docs/en/api/messages">Claude Messages API 요청 규격</a>, <a href="https://code.claude.com/docs/en/mcp">Claude Code 도구 등록</a>, <a href="https://modelcontextprotocol.io/specification/2025-11-25/server/tools">MCP 도구 목록과 호출 규격</a>, <a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/transports">MCP 전송 방식</a>, <a href="https://github.com/ggml-org/llama.cpp/blob/b12387/tools/server/README.md">llama.cpp 서버 경로와 옵션</a>, <a href="https://huggingface.co/docs/transformers/en/cache_explanation">추론과 KV 캐시</a></li>
           </ul>
           <p>실행 화면 캡처에는 확인용 텍스트를 사용했습니다.</p>
