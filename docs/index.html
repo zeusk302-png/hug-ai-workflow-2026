@@ -2,93 +2,215 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="허그 4회차 수업. 워크플로와 API, MCP, Claude Code, CPU 로컬 LLM을 직접 연결합니다.">
-  <title>HUG 4회차 · AI 워크플로 실습</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="허그 실무 AI 교육 4회차. Claude Code로 내 업무 도구를 만들고, 파일 트리와 워크플로, 실행 기록을 따라가며 각자 검증합니다.">
+  <title>내 업무를 처리하는 프로그램 만들기 | HUG 실무 AI 교육 4회차</title>
   <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/lesson.css">
+  <script src="assets/lesson.js" defer></script>
 </head>
-<body>
+<body class="lesson">
   <a class="skip" href="#main">본문으로</a>
-  <header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a><nav aria-label="수업 메뉴"><a href="index.html" aria-current="page">수업 안내</a><a href="workbench.html">실습실</a><a href="local.html">로컬 실습</a><a href="models.html">모델 받기</a><a href="theory.html">전공 노트</a></nav></div></header>
+  <header class="top"><div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a>
+    <nav aria-label="수업 메뉴"><a href="index.html" aria-current="page">수업</a><a href="workbench.html">브라우저 실습</a><a href="local.html">PC 실습</a><a href="models.html">모델 받기</a></nav>
+  </div></header>
   <main id="main">
-    <section class="hero" aria-labelledby="lesson-title">
-      <div class="wrap hero-stage">
-        <div class="hero-copy">
-          <p class="kicker lesson-label">4회차 · 반복을 없애기</p>
-          <h1 id="lesson-title">반복 업무를<br><span>AI 워크플로로</span></h1>
-          <p class="hero-lede">자료를 가져오고, 도구와 AI를 연결하고, 내 업무에 맞게 다시 실행할 수 있는 흐름을 만듭니다.</p>
-          <div class="actions"><a class="btn primary" href="workbench.html">첫 실습 시작</a><a class="btn" href="#class">수업 일정 보기</a></div>
-          <p class="lesson-time"><time datetime="2026-11-26">11월 26일 목요일</time><span aria-hidden="true">·</span><span>13:00–18:00</span></p>
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+      <div class="wrap lesson-hero-grid">
+        <div class="lesson-hero-copy">
+          <p class="kicker">허그 실무 AI 교육 · 4회차</p>
+          <h1 id="lesson-title">내 업무를 처리하는<br><em>프로그램 만들기</em></h1>
+          <p class="lesson-intro">반복하는 일 하나를 골라 직접 연결하고 실행합니다. 완성된 결과를 보며 데이터가 어디로 갔는지, AI에 무엇을 맡겼는지 확인합니다.</p>
+          <div class="lesson-date"><time datetime="2026-11-26">11월 26일 목요일</time><span>13:30–17:30</span><span>개인 실습</span></div>
+          <div class="actions"><a class="btn primary" href="#build">내 도구 만들기</a><a class="btn" href="#schedule">수업 순서 보기</a></div>
         </div>
-        <div class="hero-visual">
-          <div class="flow-course">
-            <h2>오늘 만들 작업 흐름</h2>
-            <ol class="hero-path">
-              <li><span>입력</span><strong>자료 가져오기</strong></li>
-              <li><span>처리</span><strong>도구와 AI 연결하기</strong></li>
-              <li><span>출력</span><strong>결과 확인하고 저장하기</strong></li>
+        <figure class="lesson-hero-art">
+          <img src="assets/lesson/workshop.webp" alt="노트북과 인쇄 자료를 놓고 작업 흐름을 검토하는 직장인의 연출 이미지" width="1200" height="800" fetchpriority="high">
+          <figcaption><span>입력</span><i aria-hidden="true"></i><span>처리</span><i aria-hidden="true"></i><span>결과 검증</span></figcaption>
+        </figure>
+      </div>
+    </section>
+    <div class="lesson-anchor-bar"><nav class="wrap" aria-label="본문 실습 순서">
+      <a href="#opening">AI와 검증</a><a href="#build">첫 도구</a><a href="#backend">실행의 뒷단</a><a href="#connect">연결 실습</a><a href="#verify">검증과 저장</a>
+    </nav></div>
+    <section class="wrap lesson-section lesson-schedule" id="schedule">
+      <div><p class="kicker">11월 26일 · 4시간</p><h2>오늘의 실습 순서</h2><p>업무 주제와 결과는 각자 정합니다. 도구를 만들고 난 뒤 새 입력으로도 같은 순서가 돌아가는지 확인합니다.</p></div>
+      <div class="schedule-groups">
+        <section><h3>전반</h3><ol>
+          <li><time>13:30–13:55</time><a href="#opening">AI와 수학, 검증의 역할</a></li>
+          <li><time>13:55–14:05</time><a href="#prepare">Team 연결, 작업 폴더 확인</a></li>
+          <li><time>14:05–14:10</time><a href="#brief">세 줄로 설계하고 첫 요청</a></li>
+          <li><time>14:10–14:40</time><a href="#first-run">개인 도구 만들기</a></li>
+          <li class="break"><time>14:40–14:50</time><span>휴식</span></li>
+          <li><time>14:50–15:10</time><a href="#first-run">내 입력으로 첫 실행</a></li>
+        </ol></section>
+        <section><h3>후반</h3><ol>
+          <li><time>15:10–15:35</time><a href="#backend">구조와 AI 호출 따라가기</a></li>
+          <li><time>15:35–16:25</time><a href="#connect">기능 개선 또는 연결 하나</a></li>
+          <li class="break"><time>16:25–16:35</time><span>휴식</span></li>
+          <li><time>16:35–17:05</time><a href="#verify">새 입력과 오류 입력으로 시험</a></li>
+          <li><time>17:05–17:30</time><a href="#finish">저장하고 다시 열어 실행</a></li>
+        </ol></section>
+      </div>
+    </section>
+    <section class="lesson-band opening-band" id="opening">
+      <div class="wrap lesson-section">
+        <div class="section-heading"><p class="kicker">13:30–13:55 · 도입</p><h2>AI가 답을 내놓으면<br>우리는 무엇을 확인할까</h2><p>수학자의 검증 과정에서 출발해, 오후에 만들 도구에 어떤 확인 단계가 필요한지 생각해 봅니다.</p></div>
+        <div class="opening-grid">
+          <figure class="math-photo">
+            <img src="assets/lesson/chalkboard.webp" alt="기하학적 점과 선이 그려진 칠판의 연출 이미지" width="1200" height="675" loading="lazy">
+            <figcaption>수학 문제를 검토하는 과정을 표현한 연출 이미지</figcaption>
+          </figure>
+          <article class="verification-story">
+            <h3>리만 가설과 세 종류의 기록</h3>
+            <p>소수가 얼마나 규칙적으로 나타나는지를 정밀하게 설명하는 데 연결되는 문제입니다. Lean은 수학 명제와 증명 단계를 컴퓨터가 검사할 수 있게 표현하는 도구입니다.</p>
+            <ol class="evidence-timeline">
+              <li><time datetime="2026-11-20">11.20</time><div><strong>증명 공개</strong><p>레벤트 알푀게가 Claude와 함께 얻은 증명을 Lean 코드로 공개했습니다.</p><a href="https://alpo.ge/remark.pdf">알푀게 공개 원문</a></div></li>
+              <li><time datetime="2026-11-21">11.21</time><div><strong>형식 검증</strong><p>Lean·Mathlib 공동 발표는 코드가 고전적 리만 가설을 정확히 표현했고 증명이 검사를 통과했다고 설명합니다.</p><a href="https://leanprover-community.github.io/blog/posts/riemann-hypothesis/">공동 검증 발표</a></div></li>
+              <li><time datetime="2026-11-25">11.25</time><div><strong>공식 문제 페이지 확인</strong><p>확인한 Clay 수학연구소 페이지의 표기는 <code>Active</code>였습니다.</p><a href="https://www.claymath.org/millennium/riemann-hypothesis/">Clay 문제 페이지</a></div></li>
             </ol>
-          </div>
-          <div class="hero-character-card">
-            <img class="hero-character" src="assets/brand/hug-character-document.png" alt="" width="567" height="738" fetchpriority="high">
-          </div>
+          </article>
+        </div>
+        <div class="opening-grid opening-practice">
+          <article class="lesson-card geometry-card">
+            <h3>반례를 만든 AI</h3>
+            <p>점들을 놓고 거리가 1인 점의 쌍을 셉니다. 에르되시는 점이 늘어날 때 그런 쌍을 얼마나 많이 만들 수 있는지 물었습니다. OpenAI 모델은 그 증가율에 관한 추측을 깨는 구성을 만들었고, 연구자들이 반례를 검토했습니다.</p>
+            <figure class="distance-figure" aria-label="한 변의 길이가 1인 정사각형에서 거리 1인 쌍이 네 개임을 보여주는 도식">
+              <div class="distance-square" aria-hidden="true"><i></i><i></i><i></i><i></i><b>1</b><span></span></div>
+              <figcaption><strong>점 4개, 거리 1인 쌍 4개</strong><br>파란 선만 셉니다. 대각선의 길이는 √2입니다.</figcaption>
+            </figure>
+            <p class="sources"><a href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/">연구 발표</a> <a href="https://arxiv.org/abs/2605.20695">반례 검토 논문</a></p>
+          </article>
+          <article class="lesson-card counter-card">
+            <h3>5분 실습 · 직접 반례 찾기</h3>
+            <p>n이 0, 1, 2이면 아래 식의 값은 41, 43, 47입니다. Claude에 모든 입력에서 소수인지 물어본 뒤, 받은 반례를 여기에 넣어 직접 확인합니다.</p>
+            <form id="counter-form" class="counter-form">
+              <label for="counter-n">n에 넣을 정수</label>
+              <div><input id="counter-n" name="n" type="number" min="0" max="1000" value="2" required><button type="submit" class="btn primary">계산</button></div>
+            </form>
+            <output class="calculation" id="counter-result" for="counter-n" aria-live="polite"><strong>2² + 2 + 41 = 47</strong><span>47은 소수입니다.</span></output>
+            <details><summary>힌트와 확인값</summary><p>n에 40을 넣으면 1,681 = 41 × 41입니다. 몇 번 맞은 기록만으로 모든 입력에서 맞는지 판단할 수 없다는 걸 보여줍니다.</p></details>
+          </article>
+        </div>
+        <div class="capability">
+          <h3>AI 능력을 볼 때 묻는 두 가지</h3>
+          <div class="dimensions"><div><strong>능력의 폭</strong><p>얼마나 다양한 종류의 일을 할 수 있나</p></div><div><strong>각 과제의 성능</strong><p>주어진 일을 얼마나 정확하고 안정적으로 하나</p></div></div>
+          <dl class="capability-types">
+            <div><dt>특화 AI</dt><dd>정해진 과제에서 평가합니다. 예를 들어 정해진 양식의 문서를 얼마나 정확히 분류하는지 봅니다.</dd></div>
+            <div><dt>범용 AI · AGI</dt><dd>다양한 분야에 걸쳐 과제를 할 수 있는지 묻습니다. 폭과 성능을 함께 평가합니다.</dd></div>
+            <div><dt>초지능 · ASI</dt><dd>넓은 영역에서 인간 전문가의 능력을 크게 넘어서는 수준을 가리킵니다.</dd></div>
+            <div><dt>기술적 특이점</dt><dd>그런 능력으로 기술 발전 자체가 가속해 이후 변화를 예측하기 어려워진다는 가설입니다.</dd></div>
+          </dl>
+          <p class="sources"><a href="https://arxiv.org/abs/2311.02462">AGI 평가의 두 축</a> <a href="https://ntrs.nasa.gov/citations/19940022856">특이점 원문</a></p>
         </div>
       </div>
     </section>
-    <nav class="wrap lesson-links" aria-label="실습 바로가기">
-      <a href="workbench.html"><span class="lesson-link-mark">브라우저</span><strong>워크플로 만들기</strong><span class="lesson-link-detail">NASA API · 노드 · 실행 기록</span></a>
-      <a href="local.html"><span class="lesson-link-mark">PC 실습</span><strong>MCP 도구 연결하기</strong><span class="lesson-link-detail">Python · Claude Code</span></a>
-      <a href="models.html"><span class="lesson-link-mark">PC 실습</span><strong>내 PC에서 AI 실행하기</strong><span class="lesson-link-detail">Hugging Face · CPU 모델</span></a>
-    </nav>
-    <section class="wrap section" id="workflow">
-      <div class="split capture-block">
-        <div><p class="kicker">브라우저 실습</p><h2>평소 하던 일을<br>작업 흐름으로 만들기</h2>
-          <p>공개 사진 검색으로 함께 시작합니다. 실습실에서 상자(노드)를 연결하고, 실행 기록에서 자료가 어떻게 이동하는지 확인합니다. 그다음 문서 비교나 관심 자료 수집처럼 각자 해보고 싶은 일을 골라 연결합니다.</p>
-          <p><strong>혼자 확인할 기준</strong> · 결과가 있는 검색, 0건인 검색, 연결 실패 실습이 각각 다른 상태로 나오는지 봅니다.</p>
-          <div class="actions"><a class="btn" href="theory.html#graphs">그래프와 파일 트리</a></div>
+    <section class="wrap lesson-section" id="build">
+      <div class="section-heading"><p class="kicker">13:55–15:10 · 첫 도구 만들기</p><h2>내 일 하나를 골라<br>실행되는 데까지</h2><p>강사 예제는 두 공고의 마감일을 비교합니다. 여러분은 문의 분류, 파일 비교, 회의 메모에서 기한 찾기처럼 자기 일을 고릅니다.</p></div>
+      <div class="build-sequence">
+        <article id="prepare"><time>13:55–14:05</time><h3>내 작업 폴더 열기</h3><p>실습 골격을 내려받아 압축을 풀고 그 폴더에서 터미널을 엽니다. <code>claude auth status</code>로 상태를 확인합니다. 필요한 경우 <code>claude auth login</code>으로 공식 로그인 화면에서 본인 Team 계정을 선택합니다.</p><div class="actions"><a class="btn primary" href="downloads/hug4-starter.zip" download>PC 실습 골격 내려받기</a><a href="local.html#start">압축 풀기와 실행 순서</a></div></article>
+        <article id="brief"><time>14:05–14:10</time><h3>입력·처리·결과를 세 줄로</h3><p>정상 입력 한 개와 예상 결과 한 개를 바로 적을 수 있는 크기로 정합니다. 수업 자료로는 공개 자료나 직접 만든 예제를 사용합니다.</p>
+          <pre><code>입력  — 이전 공고문과 새 공고문, 텍스트 파일 두 개
+처리  — 접수 마감일을 읽고 같은지 비교
+결과  — 이전 날짜, 새 날짜, 원문 위치가 담긴 검토표</code></pre>
+          <details><summary>Claude Code에 보낼 첫 요청</summary><div class="copyable"><pre id="first-prompt"><code>이 폴더에서 아래 업무를 처리하는 도구를 만들어줘.
+입력은 [입력], 처리는 [처리], 저장할 결과는 [결과]야.
+준비된 실행기에서 필요한 단계만 연결해줘. 정상 입력 예시와
+예상 결과를 두고, 열어볼 파일과 실행 명령을 알려줘.
+첫 버전은 내 입력으로 결과가 저장되는 데까지 만들자.</code></pre><button type="button" class="btn copy-command" data-copy="first-prompt">요청 복사</button></div></details>
+        </article>
+        <article id="first-run"><time>14:10–15:10</time><h3>열고, 실행하고, 한 곳 고치기</h3>
+          <ol class="lesson-steps"><li>Claude Code가 작업한 파일과 실행 방법을 확인합니다. 예제부터 돌리고, 그 뒤에 내가 고른 입력을 넣습니다.</li><li>저장된 결과를 엽니다. 예상과 다르면 실행 기록에서 최초로 값이 달라진 단계를 찾습니다.</li><li>실제 입력 한 줄, 예상 결과, 나온 오류를 함께 주고 해당 단계 하나를 고칩니다.</li></ol>
+          <p><strong>PC 환경에서 막혔다면</strong> 브라우저 실습에서 동일한 방식으로 입력을 바꾸고 실행한 뒤 그래프를 저장합니다. 공고·문서·목록·빈 흐름 중 고를 수 있습니다.</p><div class="actions"><a class="btn" href="workbench.html#bench">브라우저 실습 열기</a></div>
+        </article>
+      </div>
+    </section>
+    <section class="lesson-band" id="backend">
+      <div class="wrap lesson-section">
+        <div class="section-heading"><p class="kicker">15:10–15:35 · 구조 읽기</p><h2>실행 버튼 뒤에서<br>어떤 일이 일어날까</h2><p>첫 결과를 만들었던 공고 예제를 열어 파일의 위치, 처리 순서, AI 호출을 하나씩 짚습니다.</p></div>
+        <div class="structure-grid">
+          <article class="lesson-card"><h3>파일 트리로 고칠 곳 찾기</h3><p>어디에 무엇이 있는지 알아야 필요한 파일만 열어서 고칠 수 있습니다.</p>
+            <dl class="file-tree">
+              <div><dt>▾ 실습 폴더</dt><dd>압축을 푼 내 폴더</dd></div>
+              <div><dt>├─ workflow.json</dt><dd>단계 이름과 실행 순서</dd></div>
+              <div><dt>├─ runner.py</dt><dd>설정을 읽어 실행하는 코드</dd></div>
+              <div><dt>├─ steps/</dt><dd>파일 읽기·비교·검사 코드</dd></div>
+              <div><dt>├─ samples/</dt><dd>실습 입력 예제</dd></div>
+              <div><dt>└─ outputs/</dt><dd>결과 파일과 실행 기록</dd></div>
+            </dl>
+            <p class="mini-note"><strong>어디를 열까?</strong> 순서가 문제라면 <code>workflow.json</code>. 실행한 뒤 처음 틀린 값을 찾을 때는 <code>outputs/runs/</code>.</p>
+          </article>
+          <article class="lesson-card"><h3>그래프에서 데이터 따라가기</h3><p>상자는 실행하는 일이고, 연결선은 다음 단계로 넘긴 값입니다.</p>
+            <ol class="node-flow">
+              <li><strong>공고 2개 읽기</strong><span>원문과 줄 번호</span></li>
+              <li><strong>마감일 확인·비교</strong><span>변경 전·후 날짜와 근거</span></li>
+              <li><strong>Claude로 초안 쓰기 <small>선택</small></strong><span>안내 문장</span></li>
+              <li><strong>검사 후 저장</strong><span>검토표 또는 사유와 함께 검토 보류</span></li>
+            </ol>
+            <p class="mini-note">파일을 읽지 못하면 해당 단계가 실패한 이유를 남깁니다. 필요한 입력이 없으므로 뒤는 건너뜁니다.</p>
+          </article>
         </div>
-        <figure class="screenshot featured-shot"><a href="assets/captures/workflow.png"><img src="assets/captures/workflow.png" alt="실시간 NASA 검색에 성공한 워크플로와 카드 결과" loading="lazy"></a><figcaption>실습실 실제 화면 · NASA 공개 API 검색과 결과 카드</figcaption></figure>
+        <div class="capture-grid">
+          <figure class="lesson-shot"><a href="assets/captures/lesson-tree.png"><img src="assets/captures/lesson-tree.png" alt="실제 PC 실습 폴더에서 파일 트리와 실행 기록을 열어본 화면" loading="lazy"></a><figcaption><strong>실제 PC 실습</strong> · 폴더에서 실행에 쓰인 파일 찾기</figcaption></figure>
+          <figure class="lesson-shot"><a href="assets/captures/lesson-workflow.png"><img src="assets/captures/lesson-workflow.png" alt="브라우저 실습에서 마감일 비교를 실행하고 노드가 반환한 값을 열어본 화면" loading="lazy"></a><figcaption><strong>실제 브라우저 실행</strong> · 비교 노드가 돌려준 값 확인</figcaption></figure>
+        </div>
+        <div class="ai-design">
+          <h3>만들 때의 AI와 실행할 때의 AI</h3>
+          <div class="ai-lanes">
+            <article><h4>도구를 만드는 중</h4><ol><li>내가 요구와 작업 폴더를 준다</li><li>모델이 읽기·수정·실행을 요청한다</li><li>Claude Code가 권한에 따라 실행한다</li><li>실행 결과를 바탕으로 다음 작업을 고른다</li></ol></article>
+            <article><h4>완성한 도구를 사용하는 중</h4><ol><li>내 PC의 실행기가 그래프를 읽는다</li><li>코드가 파일과 날짜를 확인한다</li><li>AI 단계에서만 입력을 Claude에 전달한다</li><li>프로그램이 응답을 읽고 검사해 저장한다</li></ol></article>
+          </div>
+          <p>AI 단계에 도달하면 프로그램은 <strong>지시문과 필요한 비교값, 결과 형식</strong>을 묶습니다. Claude의 모델은 현재 맥락과 학습된 가중치로 다음 토큰을 계산해 응답을 이어 만듭니다. 토큰은 글을 모델이 처리하는 작은 단위입니다. 프로그램은 돌아온 필드를 읽고 기준값과 대조합니다.</p>
+          <figure class="runtime-figure">
+            <ol class="ai-exchange" aria-label="내 PC에서 모델로 요청하고 응답을 받아 검사하는 순서">
+              <li><small>내 PC · 실행기</small><strong>필요한 값만 전달</strong><span>접수 마감 2026-12-17<br>안내 문장 요청과 응답 형식</span></li>
+              <li><small>Claude Code → Claude 서버</small><strong>모델이 응답 생성</strong><span>안내 문장<br>프로그램이 읽을 수 있는 날짜 필드</span></li>
+              <li><small>내 PC · 검사 단계</small><strong>원본 값과 비교</strong><span>12월 17일이면 기준값과 일치<br>이전 날짜가 돌아오면 확인 보류</span></li>
+            </ol>
+            <figcaption>실제 Claude 호출을 선택했을 때의 왕복 경로. 브라우저 실습의 파일 비교 및 모의 응답은 PC 안에서 처리합니다.</figcaption>
+          </figure>
+          <p class="sources"><a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works">도구 실행 흐름</a> <a href="https://platform.claude.com/docs/en/build-with-claude/context-windows">모델의 맥락</a> <a href="https://code.claude.com/docs/en/headless">CLI 구조화 응답</a></p>
+        </div>
+        <div class="capture-grid">
+          <figure class="lesson-shot"><a href="assets/captures/lesson-claude.png"><img src="assets/captures/lesson-claude.png" alt="Claude Code가 인증 만료 오류를 반환한 실제 명령 실행 기록" loading="lazy"></a><figcaption><strong>실제 Claude Code 호출 오류</strong> · 상태는 연결로 표시됐고, 요청에서는 <code>is_error: true</code>와 인증 만료 메시지가 나왔습니다.</figcaption></figure>
+          <figure class="lesson-shot"><a href="assets/captures/lesson-review.png"><img src="assets/captures/lesson-review.png" alt="로컬 실습 실행기가 재현용 날짜 불일치 응답을 확인 보류로 저장한 화면" loading="lazy"></a><figcaption><strong>실제 검사 코드 실행</strong> · 날짜가 틀린 모의 응답을 확인 보류로 판정</figcaption></figure>
+        </div>
       </div>
-      <div class="note section-guide"><p><strong>3회차와 이어지는 부분</strong> · 지난 시간에는 AI가 근거를 찾아 답하게 했습니다. 이번에는 <strong>언제 자료를 가져오고, 어떤 조건에서 AI를 쓰고, 어디에 결과를 저장할지</strong>를 내가 정합니다. 검색·분기·저장은 프로그램이 처리하고, 설명 쓰기처럼 필요한 단계에 AI를 붙입니다.</p></div>
     </section>
-    <div class="paper"><section class="wrap section" id="class">
-      <div class="split schedule">
-        <div><p class="kicker">11월 26일 목요일</p><h2>수업 일정</h2><p class="schedule-hours">13:00–18:00</p><p class="footnote">휴식 14:45–14:55, 16:00–16:10</p></div>
-        <ol class="session-list">
-          <li><time>13:00–13:15</time><div><strong>완성된 그래프 실행해보기</strong><p>검색어를 바꾸고 어떤 결과가 나올지 예상합니다.</p></div></li>
-          <li><time>13:15–14:45</time><div><strong>워크플로, API, 파일 트리</strong><p>상자를 연결하고 응답 JSON과 워크플로 파일을 열어봅니다.</p></div></li>
-          <li><time>14:55–16:00</time><div><strong>MCP와 Claude Code</strong><p>도구의 목록과 입력 규칙, CLI 인증과 요청 방식을 확인합니다.</p></div></li>
-          <li><time>16:10–17:15</time><div><strong>CPU 모델과 개인 워크플로</strong><p>작은 모델을 실행하고 자기 주제로 그래프를 조립합니다.</p></div></li>
-          <li><time>17:15–18:00</time><div><strong>다시 실행하고 5회차 준비</strong><p>실패 상황을 확인하고 다음에 적용할 자료와 검증 기준을 적습니다.</p></div></li>
-        </ol>
-      </div>
-    </section></div>
-    <section class="wrap section" id="connections">
-      <p class="kicker">로컬 실습</p><h2>내 PC에서 도구와 AI를 연결합니다</h2>
-      <p class="lede">브라우저 실습에서 확인한 작업을 PC에서 직접 연결합니다. 공개 사진 검색에 작성 규칙을 찾아주는 MCP 도구를 붙이고, 모델에게 받은 초안을 파일로 저장합니다.</p>
-      <div class="columns section-guide">
-        <article class="panel"><h3>MCP 도구 만들기</h3><p>예제 파일에서 규칙 하나를 바꿔 실행합니다. 도구 목록과 호출 결과를 비교해 내가 수정한 문장이 돌아오는지 확인합니다.</p><a href="local.html#mcp">MCP 설치와 호출 순서</a></article>
-        <article class="panel" id="claude"><h3>Claude Code 연결하기</h3><p>Team 계정으로 로그인하고 간단한 응답을 받아봅니다. 같은 MCP 도구를 Claude Code에 연결하는 방법도 다룹니다.</p><a href="local.html#claude">Claude Code 따라하기</a></article>
-        <article class="panel" id="local-flow"><h3>한 흐름으로 실행하기</h3><p>NASA 검색, MCP 작성 규칙, CPU 모델 응답이 어떤 순서로 이어지고 어떤 결과 파일을 남기는지 확인합니다.</p><a href="local.html#local-flow">로컬 워크플로 따라하기</a></article>
+    <section class="wrap lesson-section" id="connect">
+      <div class="section-heading"><p class="kicker">15:35–16:25 · 선택 실습</p><h2>내 도구에 필요한 것<br>하나를 더합니다</h2><p>결과표나 조건을 개선해도 좋습니다. 연결을 해보고 싶다면 아래에서 자기 도구에 맞는 길을 고릅니다.</p></div>
+      <div class="extension-grid">
+        <article class="lesson-card"><h3>공개 API에서 자료 받기</h3><p>HTTP로 요청하고, JSON에서 필요한 값 하나를 찾아 기존 입력으로 넘깁니다.</p><p>현장 방문 준비 도구라면 시간대별 강수확률을 일정표에 넣을 수 있습니다.</p><a href="local.html#api">API 연결 순서</a></article>
+        <article class="lesson-card"><h3>내 기능을 MCP로 연결하기</h3><p>함수 하나를 도구로 등록하고 Claude Code에서 찾아 호출합니다. 규칙을 바꾸고 같은 호출에서 바뀐 값이 돌아오는지 확인합니다.</p><a href="local.html#mcp">MCP 서버 만들기</a></article>
+        <article class="lesson-card"><h3>CPU에서 모델 실행하기</h3><p>Hugging Face에서 GGUF를 받아 내 PC에서 실행합니다. 같은 입력으로 날짜·형식·응답시간을 확인합니다.</p><a href="models.html">다운로드와 CPU 실행</a></article>
       </div>
     </section>
-    <div class="paper"><section class="wrap section" id="next">
-      <div class="split">
-        <div><p class="kicker">모델 다운로드</p><h2>같은 지시를<br>CPU에서 실행하기</h2><p>Hugging Face에서 모델을 찾고, GGUF 파일 하나를 받아 llama.cpp에서 실행합니다. 작은 첫 실습 모델부터 한국어 비교용 모델까지 파일 크기와 사용 목적을 함께 확인할 수 있습니다.</p><div class="actions"><a class="btn primary" href="models.html">모델과 실행 방법 보기</a></div></div>
-        <div><p class="kicker">전공 노트</p><h2>상자 뒤에서<br>일어나는 일</h2><p>유향 그래프와 위상 정렬, HTTP와 JSON, 토큰과 어텐션, 양자화와 메모리, RAG와 LoRA를 수업 예제와 연결해 설명합니다.</p><div class="actions"><a class="btn" href="theory.html">전공 노트 읽기</a></div></div>
+    <section class="lesson-band" id="verify">
+      <div class="wrap lesson-section">
+        <div class="section-heading"><p class="kicker">16:35–17:30 · 검증과 인계</p><h2>새 입력으로 시험하고<br>혼자 다시 실행하기</h2><p>먼저 정상 입력을 보관합니다. 그다음 조건이 다른 입력과 일부 값이 빠진 입력을 넣고, 아래에서 내 도구에 해당하는 기준을 점검합니다.</p></div>
+        <div class="verify-grid">
+          <div class="lesson-card">
+            <h3>실행 전에 예상 결과 적기</h3>
+            <div class="table-wrap"><table>
+              <thead><tr><th scope="col">입력</th><th scope="col">예상 결과</th></tr></thead>
+              <tbody><tr><td>날짜가 바뀐 공고</td><td>변경 한 건과 두 날짜, 근거가 저장됩니다.</td></tr><tr><td>두 날짜가 같은 새 공고</td><td>변경 없음이 나옵니다.</td></tr><tr><td>새 공고에 날짜 누락</td><td>고칠 파일과 항목을 알려줍니다.</td></tr><tr><td>재현용 AI 응답에 틀린 날짜</td><td>해당 항목을 검토 보류로 남깁니다.</td></tr></tbody>
+            </table></div>
+            <p>처음 값이 달라진 단계를 고친 뒤, 실패한 입력과 처음 정상 입력을 둘 다 다시 실행합니다.</p>
+          </div>
+          <figure class="lesson-shot"><a href="assets/captures/lesson-error.png"><img src="assets/captures/lesson-error.png" alt="브라우저 실습에서 날짜 누락으로 입력 확인이 실패하고 뒤 단계가 건너뛴 화면" loading="lazy"></a><figcaption><strong>실제 오류 입력 실행</strong> · 날짜 확인 단계가 멈춘 기록</figcaption></figure>
+        </div>
+        <section class="finish-card" id="finish">
+          <div><h3>수업이 끝나기 전</h3><p>도구를 다시 열어 실행합니다. 실행 방법, 시험한 입력과 결과, 다음에 추가할 기능 하나를 남겨두면 5회차에 바로 이어서 작업할 수 있습니다.</p></div>
+          <ul class="finish-check">
+            <li><label><input type="checkbox"> 내 도구와 입력 예시를 저장했다.</label></li>
+            <li><label><input type="checkbox"> 새 입력과 오류 입력의 결과를 확인했다.</label></li>
+            <li><label><input type="checkbox"> 다시 열어서 실행하고 수정할 곳을 찾았다.</label></li>
+          </ul>
+        </section>
       </div>
-    </section></div>
-    <section class="wrap section" id="finish">
-      <h2>오늘 가져갈 결과물</h2>
-      <p class="reading">먼저 브라우저에서 검색 예제를 실행합니다. PC 설치가 끝났다면 MCP와 CPU 모델까지 이어서 실습하고, 설치가 어려우면 실행 화면을 보면서 브라우저 실습과 자기 워크플로를 먼저 완성합니다.</p>
-      <ol class="lesson-steps reading">
-        <li><strong>반복하던 일 하나를 고릅니다.</strong> 예를 들어 파일 두 개의 바뀐 줄 찾기, 관심 키워드가 들어간 항목 모으기처럼 입력과 결과를 정합니다.</li>
-        <li><strong>새 입력으로 한 번 더 실행합니다.</strong> 앞 단계에서 어떤 값을 받았는지 열어보고, 결과가 예상대로 바뀌었는지 확인합니다.</li>
-        <li><strong>실행이 멈추는 상황 하나를 검사합니다.</strong> 실패한 상자와 이유를 적고, 설정이나 입력 한 곳을 바꿔 다시 실행합니다.</li>
-        <li><strong>워크플로 JSON을 저장합니다.</strong> 5회차에는 이 파일과 함께 어떤 실제 자료를 쓸지, 결과 합격 기준이 무엇인지 가져옵니다. 입력과 결과 화면이 필요하면 따로 기록합니다.</li>
-      </ol>
     </section>
   </main>
-  <footer class="bottom"><div class="wrap"><span>HUG 4회차 · AI 워크플로</span><a href="#main">맨 위로</a></div></footer>
+  <footer class="bottom"><div class="wrap"><span>HUG 실무 AI 교육 · 4회차</span><span>수업 사진은 연출 이미지입니다. 실행 캡처에는 수업용 입력을 사용했습니다.</span></div></footer>
 </body>
 </html>

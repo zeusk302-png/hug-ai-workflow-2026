@@ -1,72 +1,139 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>모델 다운로드 · HUG 4회차</title><link rel="stylesheet" href="assets/site.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="허그 4회차 CPU 로컬 모델 실습. Hugging Face에서 GGUF를 받고 Windows에서 llama.cpp로 실행합니다.">
+  <title>모델 받기 · HUG 4회차</title>
+  <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
   <a class="skip" href="#main">본문으로</a>
-  <header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a><nav aria-label="수업 메뉴"><a href="index.html">수업 안내</a><a href="workbench.html">실습실</a><a href="local.html">로컬 실습</a><a href="models.html" aria-current="page">모델 받기</a><a href="theory.html">전공 노트</a></nav></div></header>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a>
+      <nav aria-label="수업 메뉴"><a href="index.html">수업</a><a href="workbench.html">브라우저 실습</a><a href="local.html">PC 실습</a><a href="models.html" aria-current="page">모델 받기</a></nav>
+    </div>
+  </header>
   <main id="main">
-    <header class="page-title"><div class="wrap"><p class="kicker">CPU 로컬 LLM</p><h1>모델 받기부터 첫 응답까지</h1><p>모델 파일과 실행기를 각각 받은 뒤, 내 PC에 서버를 켜고 브라우저로 첫 응답을 확인합니다.</p><nav class="jump" aria-label="모델 실습 목차"><a href="#select">모델 고르기</a><a href="#download">파일 받기</a><a href="#start">Windows에서 실행</a><a href="#compare">답변 평가</a></nav></div></header>
+    <header class="page-title" id="cpu"><div class="wrap">
+      <p class="kicker">선택 실습 · CPU 로컬 모델</p>
+      <h1>내 PC에서 모델을 한 번 돌립니다</h1>
+      <p>Hugging Face에서 모델 파일을 받고, llama.cpp로 열어서 응답을 받습니다. 이전과 같은 입력을 써서 날짜와 형식을 지켰는지 비교합니다.</p>
+      <nav class="jump" aria-label="모델 실습 목차"><a href="#select">모델 고르기</a><a href="#download">파일 받기</a><a href="#start">Windows에서 실행</a><a href="#compare">응답 확인</a><a href="#request">내 프로그램에서 호출</a></nav>
+    </div></header>
+
     <section class="wrap section" id="select">
-      <p class="kicker">모델 선택</p><h2>교실에서는 Qwen3 0.6B로 시작</h2>
-      <p class="reading">웹의 Claude는 외부 서버에서 응답을 생성합니다. 이번에는 <strong>학습된 모델 파일</strong>을 내 PC에 받고 <strong>실행기</strong>로 열어 CPU에서 응답을 계산합니다. 모델은 계산에 쓸 값이 든 파일이고, 실행기는 그 값을 읽어 일하는 프로그램입니다.</p>
-      <p class="lede">아래는 Q4_K_M 파일 하나의 다운로드 크기입니다. 실행 중에는 모델 파일 외에도 프로그램과 작업 메모리가 필요합니다. 첫 실행을 확인한 뒤 비교 모델을 선택해도 됩니다.</p>
-      <div class="columns" style="margin-top:18px">
-        <article class="panel model-card"><span class="tag">수업 기본 · 실제 CPU 실행 확인</span><h3>Qwen3 0.6B</h3><p><strong>약 397 MB</strong> · Apache 2.0</p><p>이 목록에서 가장 작은 다국어 모델입니다. 다운로드와 첫 응답, 짧은 형식 지시를 확인하기 좋습니다. 한국어 설명은 원문을 보며 검증합니다.</p><p class="footnote">Alibaba Qwen의 원본 모델 · Unsloth의 Q4_K_M 변환 파일</p><a href="https://huggingface.co/Qwen/Qwen3-0.6B">공식 모델 카드</a><a href="https://huggingface.co/unsloth/Qwen3-0.6B-GGUF/blob/main/Qwen3-0.6B-Q4_K_M.gguf">GGUF 파일 페이지</a></article>
-        <article class="panel model-card"><span class="tag">같은 계열과 비교</span><h3>Qwen3 1.7B</h3><p><strong>약 1.11 GB</strong> · Apache 2.0</p><p>0.6B와 같은 계열의 더 큰 모델입니다. 양자화 유형과 프롬프트를 맞추고 두 문장 요약의 지시 준수와 속도를 비교해볼 수 있습니다.</p><p class="footnote">Alibaba Qwen의 원본 모델 · Unsloth의 Q4_K_M 변환 파일</p><a href="https://huggingface.co/Qwen/Qwen3-1.7B">공식 모델 카드</a><a href="https://huggingface.co/unsloth/Qwen3-1.7B-GGUF/blob/main/Qwen3-1.7B-Q4_K_M.gguf">GGUF 파일 페이지</a></article>
-        <article class="panel model-card"><span class="tag">한국어 비교 후보 · 조건 확인</span><h3>EXAONE 3.5 2.4B</h3><p><strong>약 1.64 GB</strong> · EXAONE 라이선스</p><p>LG AI Research가 한국어와 영어를 대상으로 개발한 지시형 모델입니다. 연구 목적 이용 조건이 있는 별도 라이선스를 파일과 함께 확인합니다.</p><p class="footnote">LG AI Research의 공식 GGUF · 수업 기본 모델과는 별도 선택</p><a href="https://huggingface.co/LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-GGUF/blob/main/LICENSE">라이선스</a><a href="https://huggingface.co/LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-GGUF/blob/main/EXAONE-3.5-2.4B-Instruct-Q4_K_M.gguf">GGUF 파일 페이지</a></article>
+      <h2>짧은 지시를 시험할 모델 하나를 고릅니다</h2>
+      <p class="reading">모델 파일에는 학습을 거쳐 얻은 <strong>가중치</strong>와 실행에 필요한 정보가 들어 있습니다. 실행기는 이 파일을 열어 입력을 토큰으로 바꾸고 CPU에서 답을 계산합니다. 아래 크기는 Hugging Face의 <code>Q4_K_M</code> 파일 기준이며, 실행할 때에는 파일 크기 외에 작업 메모리도 필요합니다.</p>
+      <div class="columns section-guide">
+        <article class="panel model-card">
+          <h3>Qwen2.5 0.5B Instruct</h3><p><strong>약 491 MB</strong> · Apache 2.0</p>
+          <p>세 후보 중 다운로드 파일이 가장 작습니다. 짧은 지시를 한 번 보내고 첫 응답을 받을 때 쓰기 좋습니다.</p>
+          <p class="source"><a href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/blob/main/qwen2.5-0.5b-instruct-q4_k_m.gguf">Hugging Face의 Q4_K_M 파일</a></p>
+        </article>
+        <article class="panel model-card">
+          <h3>Qwen2.5 1.5B Instruct</h3><p><strong>약 1.12 GB</strong> · Apache 2.0</p>
+          <p>같은 Qwen 계열에서 가중치 수가 더 많은 모델입니다. 0.5B와 같은 질문으로 한국어 지시와 출력 형식을 얼마나 잘 지키는지 비교합니다.</p>
+          <p class="source"><a href="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/blob/main/qwen2.5-1.5b-instruct-q4_k_m.gguf">Hugging Face의 Q4_K_M 파일</a></p>
+        </article>
+        <article class="panel model-card">
+          <h3>Gemma 3 1B IT</h3><p><strong>약 806 MB</strong> · Gemma 이용 조건</p>
+          <p>Google의 지시형 모델입니다. 같은 입력을 다른 모델 계열에도 주고, 응답 시간과 원문 보존을 비교할 수 있습니다.</p>
+          <p class="source"><a href="https://gemma.ai/models/gemma-3/">Google 모델 카드</a> · <a href="https://huggingface.co/ggml-org/gemma-3-1b-it-GGUF/blob/main/gemma-3-1b-it-Q4_K_M.gguf">Hugging Face의 Q4_K_M 파일</a></p>
+        </article>
       </div>
-      <p class="footnote">Qwen이 배포한 공식 GGUF의 <a href="https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/tree/main">0.6B 파일 목록</a>과 <a href="https://huggingface.co/Qwen/Qwen3-1.7B-GGUF/tree/main">1.7B 파일 목록</a>에는 Q8_0 파일이 있습니다. 수업에서는 더 작은 Q4_K_M 파일을 사용합니다. 1.7B와 EXAONE은 비교 후보로 소개합니다.</p>
     </section>
+
     <div class="paper"><section class="wrap section" id="download">
       <div class="split">
-        <div><p class="kicker">다운로드 화면</p><h2>모델 파일과 실행기를 각각 받습니다</h2>
+        <div>
+          <h2>모델 파일과 실행기를 받습니다</h2>
           <ol class="lesson-steps">
-            <li><strong>모델 파일을 받습니다.</strong> <a href="https://huggingface.co/unsloth/Qwen3-0.6B-GGUF/blob/main/Qwen3-0.6B-Q4_K_M.gguf">실습용 Hugging Face 파일 페이지</a>에서 <code>Qwen3-0.6B-Q4_K_M.gguf</code>와 약 397 MB를 확인하고 <strong>Download</strong>를 누릅니다. Hugging Face는 모델을 올리고 공유하는 저장소입니다.</li>
-            <li><strong>실행기를 받습니다.</strong> <a href="https://github.com/ggml-org/llama.cpp/releases/tag/b12387">llama.cpp b12387의 Assets</a>에서 PC에 맞는 Windows CPU ZIP을 받습니다. 일반적인 Intel·AMD 64비트 PC는 <code>llama-b12387-bin-win-cpu-x64.zip</code>이고, Windows on ARM은 <code>arm64</code> 파일입니다. Windows <strong>설정 → 시스템 → 정보 → 시스템 종류</strong>에서 확인할 수 있습니다.</li>
-            <li><strong>실행기 ZIP을 풉니다.</strong> <code>llama-server.exe</code>가 보이는 폴더에 모델 파일을 옮깁니다. ZIP 안의 다른 실행기 파일도 같은 위치에 둡니다.</li>
+            <li><strong>고른 모델의 파일 페이지에서 다운로드합니다.</strong> 페이지에 파일명이 <code>.gguf</code>로 끝나는지 확인합니다. <code>GGUF</code>는 가중치를 담는 파일 형식이고 <code>Q4_K_M</code>은 적은 메모리에 담을 수 있게 가중치의 표현 정밀도를 줄인 방식 중 하나입니다.</li>
+            <li><strong>Windows용 CPU 실행기를 받습니다.</strong> <a href="https://github.com/ggml-org/llama.cpp/releases/tag/b12387">llama.cpp b12387의 Assets</a>에서 PC에 맞는 CPU ZIP을 선택합니다. Intel·AMD 64비트 Windows PC라면 <code>llama-b12387-bin-win-cpu-x64.zip</code>을 받습니다. ARM PC에서는 <code>arm64</code>를 선택합니다. Windows <strong>설정 → 시스템 → 정보</strong>에서 시스템 종류를 확인할 수 있습니다.</li>
+            <li><strong>실행기 ZIP을 풀고 모델을 같은 폴더에 둡니다.</strong> <code>llama-server.exe</code>와 받은 <code>.gguf</code> 파일이 보이는 폴더에서 탐색기 주소 표시줄에 <code>powershell</code>을 입력합니다.</li>
           </ol>
-          <p class="note"><strong>파일 이름 읽기</strong> · <code>0.6B</code>는 모델 규모(약 6억 파라미터), <code>Q4_K_M</code>은 가중치를 더 작은 파일로 담는 양자화 방식, <code>GGUF</code>는 파일 형식입니다.</p>
         </div>
-        <figure class="screenshot"><a href="assets/captures/hugging-face.png"><img src="assets/captures/hugging-face.png" alt="Hugging Face의 Qwen3 0.6B Q4_K_M GGUF 파일명과 다운로드 표시" loading="lazy"></a><figcaption>Hugging Face 실제 파일 화면 · 파일 이름, 크기, 다운로드 위치</figcaption></figure>
+        <figure class="screenshot">
+          <a href="assets/captures/hugging-face.png"><img src="assets/captures/hugging-face.png" alt="Hugging Face에서 Qwen3 0.6B GGUF 파일 페이지를 실제로 연 화면" loading="lazy"></a>
+          <figcaption>기존 실행에 사용한 Qwen3 0.6B GGUF의 실제 다운로드 페이지입니다. 이번에는 위 목록에서 자신이 고른 <code>.gguf</code> 이름을 확인합니다.</figcaption>
+        </figure>
       </div>
+      <p class="source"><a href="https://github.com/ggml-org/ggml/blob/master/docs/gguf.md">GGUF 파일 형식</a> · <a href="https://github.com/ggml-org/llama.cpp/tree/master/tools/server">llama.cpp 서버 사용법</a></p>
     </section></div>
+
     <section class="wrap section" id="start">
+      <h2>CPU에서 서버를 켜고 첫 응답을 받습니다</h2>
+      <div class="diagram" aria-label="CPU 로컬 모델 실행 흐름"><b>내 브라우저 또는 도구</b><span aria-hidden="true">→</span><b>내 PC의 8081번 포트</b><span aria-hidden="true">→</span><b>llama.cpp와 모델 파일</b><span aria-hidden="true">→</span><b>응답</b></div>
       <div class="split">
-        <div><p class="kicker">Windows 실행</p><h2>CPU 모델 서버를 켜고 첫 질문을 보냅니다</h2>
+        <div>
           <ol class="lesson-steps">
-            <li><strong>실행기 폴더에서 PowerShell을 엽니다.</strong> 탐색기 주소 표시줄에 <code>powershell</code>을 쓰고 Enter를 누릅니다. 다음 두 줄에서 <code>True</code>가 나오는지 확인합니다.
+            <li><strong>실행기와 모델 파일이 보이는지 확인합니다.</strong> 첫 줄 결과가 <code>True</code>이고 다음 줄에서 받은 모델 파일명이 보이는지 확인합니다.
               <pre><code>Test-Path .\llama-server.exe
-Test-Path .\Qwen3-0.6B-Q4_K_M.gguf</code></pre>
+Get-ChildItem -File *.gguf</code></pre>
             </li>
-            <li><strong>아래 한 줄을 붙여넣습니다.</strong> <code>-m</code>은 열 모델, <code>-ngl 0</code>은 GPU에 올리는 레이어 수 0, <code>-c 2048</code>은 문맥 크기, <code>-t 4</code>는 CPU 스레드 설정입니다. <code>--reasoning-budget 0</code>으로 별도 추론 출력의 길이를 제한하며, 일반 답변은 생성할 수 있습니다.
-              <pre><code>.\llama-server.exe -m .\Qwen3-0.6B-Q4_K_M.gguf --host 127.0.0.1 --port 8081 -ngl 0 -c 2048 -t 4 --reasoning-budget 0</code></pre>
+            <li><strong>모델 파일 이름을 지정해 시작합니다.</strong> 아래 첫 줄은 Qwen2.5 0.5B를 골랐을 때의 예입니다. 다른 모델은 받은 파일 이름으로 교체합니다.
+              <pre><code>$modelFile = '.\qwen2.5-0.5b-instruct-q4_k_m.gguf'
+.\llama-server.exe -m $modelFile --host 127.0.0.1 --port 8081 -ngl 0 -c 2048 -t 4</code></pre>
+              <p><code>-ngl 0</code>은 GPU에 올릴 모델 레이어를 0으로 두고, <code>-c 2048</code>은 이 실습의 문맥 크기, <code>-t 4</code>는 CPU 스레드 설정입니다.</p>
             </li>
-            <li><strong>출력이 준비되면 로컬 주소를 엽니다.</strong> 터미널에 <code>listening</code>이 보이면 <a href="http://127.0.0.1:8081/">http://127.0.0.1:8081/</a>로 갑니다. <code>127.0.0.1</code>은 내 PC, <code>8081</code>은 그 PC에서 이 서버를 찾는 포트 번호입니다. 실행 창을 열어둔 채 브라우저에서 질문을 입력합니다.</li>
+            <li><strong>서버 창을 열어둔 채 로컬 주소를 엽니다.</strong> 모델 로딩이 끝나면 <a href="http://127.0.0.1:8081/">http://127.0.0.1:8081/</a>에 접속합니다. <code>127.0.0.1</code>은 내 PC를 가리킵니다. 모델을 바꾸거나 종료할 때는 실행한 PowerShell 창에서 <strong>Ctrl+C</strong>를 누릅니다.</li>
           </ol>
         </div>
-        <figure class="screenshot"><a href="assets/captures/cpu.png"><img src="assets/captures/cpu.png" alt="Qwen3 0.6B Q4_K_M을 CPU에서 실행하여 로컬 서버가 반환한 실제 답변" loading="lazy"></a><figcaption>실측 캡처 · Windows에서 Qwen3 0.6B Q4_K_M, GPU 레이어 0으로 실행한 로컬 HTTP 응답</figcaption></figure>
+        <figure class="screenshot">
+          <a href="assets/captures/llama-ui.png"><img src="assets/captures/llama-ui.png" alt="Qwen3 0.6B를 연 llama.cpp 로컬 웹 화면" loading="lazy"></a>
+          <figcaption>Windows에서 실제로 연 llama.cpp 로컬 화면입니다. 이 실행 기록에 사용한 모델은 Qwen3 0.6B입니다.</figcaption>
+        </figure>
       </div>
-      <div class="note"><p><strong>첫 질문</strong> · “제공된 사실만 사용해 한국어 한 문장으로 설명해줘. 사실: 달은 태양 빛을 반사한다.”</p></div>
-      <div class="split">
-        <figure class="screenshot"><a href="assets/captures/llama-ui.png"><img src="assets/captures/llama-ui.png" alt="Qwen3 0.6B을 연 llama.cpp 로컬 웹 화면" loading="lazy"></a><figcaption>llama.cpp 실제 로컬 화면 · 메시지 입력란과 Qwen3 0.6B 모델 표시</figcaption></figure>
-        <div><h3>HTTP 200과 좋은 답변은 따로 봅니다</h3><p>위 실행 기록에서는 한국어를 요청했는데 영어로 답했습니다. 서버가 정상적으로 응답했는지와 모델이 지시를 따랐는지를 각각 확인할 수 있는 사례입니다. 같은 원문으로 지시를 한국어로 다시 써보고 두 응답을 비교하세요.</p></div>
-      </div>
-      <p class="result-check reading"><strong>확인</strong> · 브라우저에 모델의 응답이 한 줄이라도 표시되면 연결은 성공입니다. 모델을 바꿔 실행하거나 실습을 마칠 때는 서버를 실행한 PowerShell 창에서 <strong>Ctrl+C</strong>를 누릅니다.</p>
-      <details><summary>브라우저가 연결되지 않을 때</summary><p>PowerShell에 모델 로딩이 끝났는지 봅니다. 서버가 아직 뜨지 않았다면 처음 나타난 오류를 읽습니다. 다른 프로세스가 포트를 사용한다면 <code>--port</code>와 브라우저 주소를 같은 숫자로 바꿉니다. 터미널을 닫으면 로컬 서버도 종료됩니다.</p></details>
-      <details><summary>파일이나 옵션을 찾을 수 없을 때</summary><p><code>Test-Path</code>가 <code>False</code>인 파일은 같은 폴더에 있는지, 이름과 확장자가 안내와 같은지 확인합니다. 실행 옵션 오류가 나면 이 페이지에서 연결한 b12387 버전인지와 <code>.\llama-server.exe --help</code>의 옵션을 확인합니다.</p></details>
-      <p class="source"><a href="https://github.com/ggml-org/llama.cpp/tree/master/tools/server">llama.cpp 서버 문서</a> · <a href="https://github.com/ggml-org/ggml/blob/master/docs/gguf.md">GGUF 사양</a></p>
+      <div class="note reading"><p><strong>첫 질문</strong> · “접수 마감일이 2026-12-10에서 2026-12-17로 바뀌었습니다. 두 날짜를 유지해서 한국어 안내 문장 한 줄을 써주세요.”</p></div>
+      <details class="reading"><summary>브라우저가 연결되지 않아요</summary><p>PowerShell에 모델을 찾을 수 없다는 메시지가 있는지 먼저 봅니다. 모델 이름과 확장자를 <code>Get-ChildItem</code> 출력과 대조합니다. 포트가 이미 사용 중이면 명령의 <code>--port</code> 번호와 브라우저 주소의 번호를 함께 바꿉니다.</p></details>
     </section>
-    <section class="wrap section" id="compare">
-      <h2>같은 입력으로 비교하기</h2>
-      <p>프롬프트와 원문, 출력 길이 조건을 고정합니다. 하나씩 실행해 답변을 받은 뒤 아래 항목을 기록합니다. 수업에서 캡처한 응답은 한 번의 실행 기록으로 읽습니다.</p>
-      <div class="table-wrap"><table><thead><tr><th>항목</th><th>확인 방법</th></tr></thead><tbody><tr><td>응답 시간</td><td>첫 글자가 나오기까지의 시간과 전체 완료 시간을 따로 적습니다.</td></tr><tr><td>지시 준수</td><td>한국어로 썼는지, 한 문장 제한을 지켰는지 확인합니다.</td></tr><tr><td>근거 보존</td><td>달과 태양 빛이라는 원문 사실을 보존했고 새 사실을 지어내지 않았는지 봅니다.</td></tr></tbody></table></div>
-      <p class="reading">비교 모델을 받지 않았어도 지시문은 실험할 수 있습니다. <strong>첫 질문 그대로</strong> 한 번, 같은 사실을 두고 <strong>한국어로만 작성하고 다른 사실을 추가하지 마세요</strong>라는 기준을 붙여 한 번 더 요청합니다. 한 번의 좋은 답이나 나쁜 답으로 모델 전체의 능력을 판단하기 어려우므로, 다른 짧은 원문까지 비교해봅니다.</p>
-      <div class="actions"><a class="btn primary" href="local.html#local-flow">다음 · CPU 모델을 워크플로에 붙이기</a><a class="btn" href="theory.html#models">토큰과 메모리의 원리</a></div>
+
+    <div class="paper"><section class="wrap section" id="compare">
+      <div class="split">
+        <div>
+          <h2>응답이 온 것과 내용이 맞는 것을 확인합니다</h2>
+          <p>서버가 응답하면 연결은 성공입니다. 문장이 한국어 한 줄인지와 두 날짜가 그대로 들어갔는지는 원문을 보고 확인합니다.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">확인 항목</th><th scope="col">내가 볼 것</th></tr></thead>
+              <tbody>
+                <tr><td>조건 유지</td><td>한국어 한 문장인지 확인합니다.</td></tr>
+                <tr><td>원문 근거</td><td>두 날짜가 바뀐 내용을 전달하고 있는지 확인합니다. 마감일 변경과 접수 기간은 의미가 다릅니다.</td></tr>
+                <tr><td>실행 시간</td><td>같은 입력을 보낸 뒤 첫 글자가 나타날 때와 완료된 때를 적습니다.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>한 모델로도 먼저 바꿔볼 수 있습니다. 같은 날짜를 두고 <q>기존 날짜와 변경 날짜를 각각 그대로 쓰세요.</q>를 추가해 다시 실행한 뒤 두 답을 비교합니다.</p>
+        </div>
+        <figure class="screenshot">
+          <a href="assets/captures/cpu-qwen25.png"><img src="assets/captures/cpu-qwen25.png" alt="로컬 CPU의 Qwen2.5 0.5B 실제 응답. 마감일 변경을 접수 기간으로 표현한 문장이 보입니다." width="1050" height="590" loading="lazy"></a>
+          <figcaption>Qwen2.5 0.5B를 CPU에서 실행하고 실제 HTTP 응답을 읽기 쉽게 표시한 화면입니다. 모델이 날짜 변경을 ‘12월 10일부터 12월 17일까지’라는 기간으로 표현했습니다.</figcaption>
+        </figure>
+      </div>
+      <p class="reading"><strong>지금 한 일은 추론과 설정입니다.</strong> 이미 배운 가중치로 응답을 만드는 것을 추론이라고 합니다. 지시문이나 예시를 고치면 이번 입력의 맥락이 달라집니다. 학습으로 맞춤화하는 경우에는 예시 데이터에 맞춰 가중치나 추가 어댑터를 업데이트합니다.</p>
+    </section></div>
+
+    <section class="wrap section" id="request">
+      <h2>내 프로그램이 모델로 보낼 값을 확인합니다</h2>
+      <p class="reading">브라우저에서 응답을 받은 다음, 서버를 그대로 켜두고 두 번째 PowerShell 창에서 실행합니다. 모델 단계가 받는 <code>messages</code>와 응답에서 읽을 <code>content</code>가 어디에 있는지 확인합니다.</p>
+      <pre class="reading"><code>$modelRequest = @{
+  messages = @(@{
+    role = 'user'
+    content = '접수 마감일이 2026-12-10에서 2026-12-17로 바뀌었습니다. 두 날짜를 유지해서 한국어 안내 문장 한 줄을 써주세요.'
+  })
+  temperature = 0
+  max_tokens = 80
+} | ConvertTo-Json -Depth 5
+$utf8Body = [System.Text.Encoding]::UTF8.GetBytes($modelRequest)
+$reply = Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:8081/v1/chat/completions' -ContentType 'application/json; charset=utf-8' -Body $utf8Body -TimeoutSec 120
+$reply.choices[0].message.content</code></pre>
+      <p class="result-check reading"><strong>내 도구에 적용할 때</strong> · 앞 단계가 확인한 값을 요청의 <code>content</code>에 넣고 응답 문장을 받아 결과 검사로 넘깁니다. 서버가 멈추거나 응답이 비어 있으면 호출 단계에 오류를 남기고, 이미 확인한 비교값은 보관합니다.</p>
+      <div class="actions"><a class="btn" href="local.html#local-flow">CPU 모델이 연결된 예제 보기</a><a class="btn" href="index.html">수업으로 돌아가기</a></div>
+      <p class="source"><a href="https://github.com/ggml-org/llama.cpp/tree/master/tools/server">로컬 HTTP 엔드포인트와 응답 형식</a></p>
     </section>
   </main>
-  <footer class="bottom"><div class="wrap"><span>HUG 4회차 · AI 워크플로</span><a href="theory.html#models">모델과 메모리 이론</a></div></footer>
+  <footer class="bottom"><div class="wrap"><span>HUG 4회차 · 실무 AI 교육</span><a href="index.html">수업</a></div></footer>
 </body>
 </html>

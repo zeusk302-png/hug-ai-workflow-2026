@@ -1,0 +1,11 @@
+{
+  "name": "공고 변경 검토",
+  "field_label": "접수 마감",
+  "nodes": [
+    {"id": "load", "label": "자료 읽기", "depends_on": []},
+    {"id": "compare", "label": "마감일 비교", "depends_on": ["load"]},
+    {"id": "draft", "label": "AI 초안 작성", "depends_on": ["compare"]},
+    {"id": "verify", "label": "근거와 날짜 확인", "depends_on": ["compare", "draft"]},
+    {"id": "save", "label": "검토 결과 저장", "depends_on": ["verify"]}
+  ]
+}

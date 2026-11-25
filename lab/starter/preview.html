@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HUG 4회차 · 공고 변경 검토 로컬 스타터</title>
+  <style>
+    :root{color-scheme:light;--ink:#142b47;--soft:#edf4fd;--line:#dce3ee;--blue:#1550a1}
+    *{box-sizing:border-box}
+    body{margin:0;background:#f4f6fa;color:var(--ink);font-family:system-ui,"Malgun Gothic",sans-serif;line-height:1.55}
+    main{max-width:72rem;margin:auto;padding:30px 22px 48px}
+    h1{margin:0;font-size:clamp(1.65rem,4vw,2.25rem)}
+    p{margin:.4rem 0 .75rem}
+    section{padding:18px;margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:12px}
+    form{display:flex;flex-wrap:wrap;align-items:end;gap:12px}
+    label{display:grid;gap:4px;font-size:.89rem;font-weight:700}
+    select,button{font:inherit;padding:.5rem .65rem;min-height:42px;border-radius:7px;border:1px solid #a8b8ce}
+    button{background:var(--blue);border:1px solid var(--blue);color:#fff;font-weight:700;cursor:pointer}
+    button:disabled{opacity:.65;cursor:wait}
+    .summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .summary div{background:var(--soft);padding:10px 13px;border-radius:8px}
+    .summary strong{display:block}
+    .source{padding:0 0 0 1.2rem;margin:12px 0 0}
+    .stages{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+    .stages details{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+    .stages summary{padding:.65rem .75rem;cursor:pointer;font-weight:700}
+    .stages summary span{float:right;color:#314d70;font-size:.85rem}
+    .stages details[data-state="확인 보류"],.stages details[data-state="실패"]{border-color:#b97148;background:#fff6f1}
+    pre{margin:0;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:.7rem .75rem;border-top:1px solid var(--line);background:#f8fafc;color:#173350;font-size:.86rem}
+    .wait{color:#4c607b}
+    .note{font-size:.87rem;color:#435978}
+    :focus-visible{outline:3px solid #255fae;outline-offset:3px}
+    @media(max-width:480px){main{padding:18px 12px 28px}section{padding:14px}.summary{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>공고 변경 검토</h1>
+    <p>교육용 공고의 마감일을 비교하고 각 단계에서 남긴 근거를 확인합니다.</p>
+    <section aria-label="실행 설정과 판정">
+      <form id="run">
+        <label>비교 자료
+          <select id="case"><option value="changed">마감일 변경</option><option value="same">마감일 동일</option><option value="missing">개정 후 날짜 없음</option></select>
+        </label>
+        <label>AI 초안
+          <select id="ai"><option value="off">사용 안 함</option><option value="simulate">다른 날짜를 쓴 모의 응답</option></select>
+        </label>
+        <button id="submit">워크플로 실행</button>
+      </form>
+      <div class="summary" aria-live="polite">
+        <div>변경 판정<strong id="change">실행 대기</strong></div>
+        <div>검증 판정<strong id="verify">실행 대기</strong></div>
+      </div>
+      <p id="message" role="status" class="wait">교육용 자료 사례를 고르고 실행하세요.</p>
+      <ul id="sources" class="source"></ul>
+    </section>
+    <section aria-labelledby="stages-heading">
+      <h2 id="stages-heading">단계별 실행 기록</h2>
+      <ol class="stages" id="stages"></ol>
+    </section>
+    <p class="note">워크플로 이름과 비교 기준은 <code>workflow.json</code>에서 바꿀 수 있습니다. 수정 뒤 새로고침하고 다시 실행하세요.</p>
+  </main>
+  <script>
+    const el = id => document.getElementById(id);
+    const statuses = ['change', 'verify'];
+
+    function append(parent, tag, value) {
+      const node = document.createElement(tag);
+      node.textContent = value;
+      parent.append(node);
+      return node;
+    }
+
+    function showSteps(steps) {
+      el('stages').replaceChildren();
+      for (const step of steps) {
+        const item = append(el('stages'), 'li', '');
+        const detail = append(item, 'details', '');
+        detail.dataset.state = step.status;
+        const summary = append(detail, 'summary', step.label);
+        append(summary, 'span', step.status);
+        append(detail, 'pre', typeof step.detail === 'string' ? step.detail : JSON.stringify(step.detail, null, 2));
+        detail.open = step.status === '확인 보류' || step.status === '실패';
+      }
+    }
+
+    async function request(path, options) {
+      const response = await fetch(path, options);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || '요청에 실패했습니다.');
+      return data;
+    }
+
+    request('/workflow').then(workflow => {
+      document.querySelector('h1').textContent = workflow.name;
+      showSteps(workflow.nodes.map(step => ({
+        label: step.label,
+        status: '실행 대기',
+        detail: '선행 단계: ' + (step.depends_on.join(', ') || '없음')
+      })));
+    }).catch(error => { el('message').textContent = error.message; });
+
+    el('run').addEventListener('submit', async event => {
+      event.preventDefault();
+      el('submit').disabled = true;
+      el('message').textContent = '실행 중입니다.';
+      try {
+        const run = await request('/run', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({case: el('case').value, ai: el('ai').value})
+        });
+        el('change').textContent = run.change;
+        el('verify').textContent = run.verification.status;
+        el('message').textContent = run.verification.reason + ' 저장: outputs/latest.md, outputs/latest.json';
+        el('sources').replaceChildren();
+        for (const record of [run.before, run.after]) {
+          const line = record.line ? ' ' + record.line + '행' : '';
+          append(el('sources'), 'li', record.source + line + ' · ' + (record.date || record.status));
+        }
+        showSteps(run.steps);
+      } catch (error) {
+        for (const id of statuses) el(id).textContent = '실행 오류';
+        el('message').textContent = error.message;
+        el('sources').replaceChildren();
+        el('stages').replaceChildren();
+      } finally {
+        el('submit').disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -2,10 +2,13 @@ const elements = Object.fromEntries([
   'preset', 'load', 'graph', 'kind', 'add', 'runner', 'input', 'second',
   'keyword', 'mode', 'status', 'result', 'node-title', 'in', 'out',
   'export', 'import', 'json-file', 'second-field', 'filter-field', 'mode-field', 'run',
+  'input-field', 'deadline-fields', 'deadline-before', 'deadline-after', 'clear-deadline',
 ].map(id => [id, document.getElementById(id)]));
 
 const definitions = new Map([
   ['input', '입력'],
+  ['validateDeadlines', '날짜 확인'],
+  ['compareDeadlines', '마감일 비교'],
   ['nasa', 'NASA 사진 검색'],
   ['compare', '두 문서 비교'],
   ['filter', '관심 단어만 남기기'],
@@ -13,6 +16,7 @@ const definitions = new Map([
   ['display', '결과 표시'],
 ]);
 const presets = {
+  deadline: { nodes: ['input', 'validateDeadlines', 'compareDeadlines', 'display'], before: '2026-12-10', after: '2026-12-17' },
   nasa: { nodes: ['input', 'nasa', 'hasRows', 'display'], input: 'moon' },
   diff: { nodes: ['input', 'compare', 'hasRows', 'display'], input: '개회 13:00\n휴식 14:30', second: '개회 13:00\n휴식 14:45' },
   list: { nodes: ['input', 'filter', 'hasRows', 'display'], input: '회의 자료\n공개 자료 조사\n모델 비교', keyword: '자료' },
@@ -22,7 +26,15 @@ const moon = {
   title: 'Nearside of the Moon', nasa_id: 'PIA12235',
   credit: 'ISRO/NASA/JPL-Caltech/Brown Univ.', image: 'assets/moon.jpg',
 };
-const graph = { nodes: [...presets.nasa.nodes], steps: [], selected: 0, running: false };
+const graph = { nodes: [...presets.deadline.nodes], steps: [], selected: 0, running: false };
+
+function usesDates() {
+  return graph.nodes.includes('validateDeadlines') || graph.nodes.includes('compareDeadlines');
+}
+
+function usesText() {
+  return !usesDates() || ['nasa', 'compare', 'filter'].some(kind => graph.nodes.includes(kind));
+}
 
 function el(tag, text, css) {
   const result = document.createElement(tag);
@@ -87,7 +99,9 @@ function renderGraph() {
   elements['mode-field'].hidden = !graph.nodes.includes('nasa');
   elements['second-field'].hidden = !graph.nodes.includes('compare');
   elements['filter-field'].hidden = !graph.nodes.includes('filter');
-  for (const key of ['run', 'load', 'add', 'import', 'export']) elements[key].disabled = graph.running;
+  elements['deadline-fields'].hidden = !usesDates();
+  elements['input-field'].hidden = !usesText();
+  for (const key of ['run', 'load', 'add', 'import', 'export', 'clear-deadline']) elements[key].disabled = graph.running;
   inspect(graph.selected);
 }
 
@@ -140,11 +154,40 @@ function compareLines(before, after) {
   })).filter(row => row.before !== row.after);
 }
 
+function validateDeadlines(dates) {
+  const fields = [['before', '기존 마감일'], ['after', '변경 마감일']];
+  const missing = fields.filter(([key]) => !dates[key]).map(([, label]) => label);
+  if (missing.length) throw new Error(missing.join(', ') + '을(를) 입력하세요.');
+
+  for (const [key, label] of fields) {
+    const date = new Date(dates[key]);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dates[key]) || !Number.isFinite(date.valueOf()) || date.toISOString().slice(0, 10) !== dates[key]) {
+      throw new Error(label + '을(를) 유효한 날짜로 입력하세요.');
+    }
+  }
+  return { ...dates, valid: true };
+}
+
+function deadlineSummary(result) {
+  if (result.differenceDays === 0) return '마감일 그대로';
+  const action = result.differenceDays > 0 ? '연장' : '앞당겨짐';
+  return Math.abs(result.differenceDays) + '일 ' + action;
+}
+
 function showResult(data) {
   elements.result.hidden = false;
   elements.result.replaceChildren();
   if (data.message) {
     elements.result.append(el('p', data.message));
+    return;
+  }
+  if (data.deadlineResult) {
+    const result = data.deadlineResult;
+    const dates = el('dl', '', 'deadline-result');
+    for (const [label, value] of [['기존 마감일', result.before], ['변경 마감일', result.after]]) {
+      dates.append(el('dt', label), el('dd', value));
+    }
+    elements.result.append(el('h3', deadlineSummary(result)), dates);
     return;
   }
   if (!data.rows) {
@@ -176,6 +219,18 @@ function showResult(data) {
   elements.result.append(el('p', '결과 ' + data.rows.length + '건'), list);
 }
 
+function receive(kind, data, form) {
+  switch (kind) {
+    case 'nasa': return { q: data.text, mode: form.mode };
+    case 'compare': return { first: data.text, second: form.other };
+    case 'filter': return { text: data.text, keyword: form.keyword };
+    case 'validateDeadlines': return data.deadlines;
+    case 'compareDeadlines': return data.validatedDeadlines ?? null;
+    case 'display': return data.deadlineResult ?? data;
+    default: return data;
+  }
+}
+
 async function execute() {
   graph.running = true;
   graph.steps = [];
@@ -183,20 +238,30 @@ async function execute() {
   elements.status.textContent = '워크플로 실행 중…';
   renderGraph();
   const form = { text: elements.input.value, other: elements.second.value, keyword: elements.keyword.value.trim(), mode: elements.mode.value };
-  let data = { text: form.text };
+  let data = usesText() ? { text: form.text } : {};
+  if (usesDates()) data.deadlines = { before: elements['deadline-before'].value, after: elements['deadline-after'].value };
   let stopped = '';
   let focus = 0;
 
   for (const [index, kind] of graph.nodes.entries()) {
-    const input = kind === 'nasa' ? { q: data.text, mode: form.mode }
-      : kind === 'compare' ? { first: data.text, second: form.other }
-      : kind === 'filter' ? { text: data.text, keyword: form.keyword } : data;
     if (stopped) {
       graph.steps.push({ state: 'skipped', input: null, output: { message: '실행 경로에서 건너뜀' } });
       continue;
     }
+    const input = receive(kind, data, form);
     focus = index;
     try {
+      let output;
+      if (kind === 'validateDeadlines') {
+        output = validateDeadlines(input);
+        data = { ...data, validatedDeadlines: output };
+      }
+      if (kind === 'compareDeadlines') {
+        if (!input) throw new Error('날짜 확인 노드를 비교 앞에 연결하세요.');
+        const differenceDays = (Date.parse(input.after) - Date.parse(input.before)) / 86400000;
+        output = { before: input.before, after: input.after, changed: differenceDays !== 0, differenceDays };
+        data = { ...data, deadlineResult: output };
+      }
       if (kind === 'nasa') data = { ...data, rows: await searchNasa(data.text.trim(), form.mode) };
       if (kind === 'compare') data = { ...data, rows: compareLines(data.text, form.other) };
       if (kind === 'filter') {
@@ -211,8 +276,11 @@ async function execute() {
           showResult(data);
         }
       }
-      if (kind === 'display') showResult(data);
-      graph.steps.push({ state: stopped ? 'branch' : 'done', input, output: data });
+      if (kind === 'display') {
+        showResult(data);
+        output = data.deadlineResult ?? data;
+      }
+      graph.steps.push({ state: stopped ? 'branch' : 'done', input, output: output ?? data });
     } catch (error) {
       const message = error.name === 'TimeoutError' ? '연결 시간이 초과되었습니다.' : error.message;
       graph.steps.push({ state: 'error', input, output: { error: message } });
@@ -236,10 +304,12 @@ for (const [key, value] of definitions) {
 elements.load.addEventListener('click', () => {
   const preset = presets[elements.preset.value];
   graph.nodes = [...preset.nodes];
-  elements.input.value = preset.input;
+  elements.input.value = preset.input || '';
   elements.second.value = preset.second || '';
   elements.keyword.value = preset.keyword || '';
   elements.mode.value = 'sample';
+  elements['deadline-before'].value = preset.before || '';
+  elements['deadline-after'].value = preset.after || '';
   resetResult('예제를 열었습니다.');
 });
 elements.add.addEventListener('click', () => {
@@ -249,6 +319,10 @@ elements.add.addEventListener('click', () => {
   }
   graph.nodes.push(elements.kind.value);
   resetResult('노드를 추가했습니다.', graph.nodes.length - 1);
+});
+elements['clear-deadline'].addEventListener('click', () => {
+  elements['deadline-after'].value = '';
+  elements['deadline-after'].focus();
 });
 elements.runner.addEventListener('submit', event => {
   event.preventDefault();
