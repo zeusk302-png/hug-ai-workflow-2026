@@ -10,7 +10,7 @@
 python -m http.server 8080 --bind 127.0.0.1 --directory docs
 ```
 
-브라우저에서 `http://127.0.0.1:8080/`을 엽니다. [본문](docs/index.html)에서 수업 순서와 실행 구조를 읽고, [브라우저 실습](docs/workbench.html), [PC 실습](docs/local.html), [CPU 모델](docs/models.html)로 이동합니다.
+브라우저에서 `http://127.0.0.1:8080/`을 엽니다. [본문](docs/index.html)에서 이론과 실행 구조를 읽고, [통합 실습](docs/index.html#practice)에서는 직접 고른 입력으로 노드와 실행 기록을 확인합니다. [연결 안내](docs/local.html)와 [CPU 모델](docs/models.html)에는 연결에 필요한 명령이 있습니다.
 
 ## GitHub Pages
 

@@ -57,12 +57,16 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("click", (event) => {
-  if (deckControls.hidden) return;
   const link = event.target.closest('a[href^="#"]');
   if (!link) return;
   const target = document.getElementById(link.hash.slice(1));
+  if (target instanceof HTMLDetailsElement) target.open = true;
+  if (deckControls.hidden) return;
   const slide = target?.closest("[data-slide]");
-  if (!slide) return;
+  if (!slide) {
+    if (target) stopDeck();
+    return;
+  }
   event.preventDefault();
   goToSlide(slides.indexOf(slide));
   if (target !== slide) target.scrollIntoView({ behavior: "instant" });

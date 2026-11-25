@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="허그 4회차 Windows 개인 실습. 공고 비교 도구를 실행하고 Claude Code, 공개 API, 직접 만든 MCP를 연결합니다.">
+  <meta name="description" content="허그 4회차 개인 실습. 내 작업 폴더에서 Claude Code를 실행하고 필요한 API 또는 MCP를 연결합니다.">
   <title>내 도구 실행과 연결 · HUG 4회차</title>
   <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -18,38 +18,20 @@
   <main id="main">
     <header class="page-title"><div class="wrap">
       <p class="kicker">Windows 개인 실습</p>
-      <h1>내 PC에서 첫 실행까지</h1>
-      <p>준비된 파일로 결과를 한 번 저장한 뒤, Claude Code로 자기 업무에 맞게 바꿉니다. 외부 자료나 도구가 필요하면 연결 실습 하나를 골라 진행합니다.</p>
+      <h1>내 도구 실행과 연결</h1>
+      <p>직접 고른 입력을 처리하고, 결과에 필요한 경우 Claude Code, 공개 API, MCP를 연결합니다.</p>
       <nav class="jump" aria-label="실행과 연결 목차"><a href="#start">첫 실행</a><a href="#claude">Claude 연결</a><a href="#api">공개 API</a><a href="#mcp">MCP 도구</a><a href="models.html#cpu">CPU 모델</a></nav>
     </div></header>
 
     <section class="wrap section" id="start">
-      <p class="kicker">공통 실습</p>
-      <h2>결과를 한 번 저장해봅니다</h2>
-      <p class="reading">공고 두 개에서 마감일을 찾아 비교하는 작은 도구입니다. 첫 실행을 마치면 내 업무의 입력을 써서 바꿀 부분을 Claude Code에 설명할 수 있습니다.</p>
-      <div class="actions"><a class="btn primary" href="downloads/hug4-starter.zip" download>개인 도구 시작 파일 받기</a><a class="btn" href="workbench.html">브라우저에서 따라하기</a></div>
+      <h2>내 작업 폴더에서 시작합니다</h2>
       <ol class="lesson-steps reading" id="prepare">
-        <li><strong>받은 ZIP을 풉니다.</strong> 탐색기에서 <strong>모두 압축 풀기</strong>를 선택합니다. <code>runner.py</code>와 <code>workflow.json</code>이 보이는 폴더를 엽니다. 탐색기 주소 표시줄에 <code>powershell</code>을 입력하고 Enter를 누릅니다.</li>
-        <li><strong>폴더 위치와 Python을 확인합니다.</strong> 첫 명령의 결과가 <code>True</code>이고 다음 명령에서 Python 3.10 이상이 보이면 실행할 준비가 된 것입니다.
-          <pre><code>Test-Path .\runner.py
-py -3 --version</code></pre>
-          <p><code>py</code>가 없으면 <code>python --version</code>을 확인하고 이후의 <code>py -3</code>을 <code>python</code>으로 바꿉니다.</p>
-        </li>
-        <li><strong>마감일이 바뀐 예시를 실행합니다.</strong> <code>samples</code> 안의 텍스트 파일 두 개를 읽어 <code>outputs/latest.md</code>에 결과를 씁니다.
-          <pre><code>py -3 runner.py --case changed</code></pre>
-          <p><code>outputs/latest.md</code>를 열어 <code>2026-12-10</code>에서 <code>2026-12-17</code>로 바뀐 날짜와 근거 위치를 확인합니다. <code>outputs/runs/</code>에는 실행마다 처리한 단계와 결과가 별도로 남습니다.</p>
-        </li>
-        <li><strong>날짜가 같은 경우와 빠진 경우를 차례로 실행합니다.</strong> 매번 <code>latest.md</code>를 열고, 앞선 결과와 비교합니다.
-          <pre><code>py -3 runner.py --case same
-py -3 runner.py --case missing</code></pre>
-          <p>날짜가 같으면 변경이 없고, 새 파일에 날짜가 없으면 입력을 검토해야 합니다. <code>samples/after_same.txt</code>와 <code>samples/after_missing.txt</code>를 열어 화면의 판정을 원문과 대조합니다.</p>
-        </li>
+        <li><strong>탐색기에서 작업 폴더를 엽니다.</strong> 주소 표시줄에 <code>powershell</code>을 입력한 뒤 아래 명령으로 현재 위치를 확인합니다.
+          <pre><code>Get-Location</code></pre></li>
+        <li><strong>입력과 기대 결과를 준비합니다.</strong> 직접 고른 공개 자료나 가상 텍스트를 필요하면 <code>input.txt</code>로 저장합니다. 어떤 값이 어떤 형식으로 나와야 성공인지 적어둡니다.</li>
+        <li><strong>실행 결과를 원문과 대조합니다.</strong> 값이 다르면 실행 기록에서 입력 확인, 처리, 저장 중 어느 단계에서 달라졌는지 먼저 찾습니다.</li>
       </ol>
-      <h3>PC에서 실행 기록을 화면으로 확인합니다</h3>
-      <p class="reading">같은 폴더에서 아래 명령을 실행한 다음 <a href="http://127.0.0.1:8765/">http://127.0.0.1:8765/</a>에 접속합니다. 예시와 AI 모드를 선택해 실행한 뒤 단계별 기록을 펼칩니다. 미리보기에서는 오프라인과 모의 응답을 실행할 수 있습니다. 미리보기 창을 종료할 때는 PowerShell에서 <strong>Ctrl+C</strong>를 누릅니다.</p>
-      <pre class="reading"><code>py -3 preview.py</code></pre>
-      <div class="result-check reading"><strong>다음으로 갈 기준</strong> · 원문에 찍힌 두 날짜를 결과에서 직접 대조할 수 있습니다. 이제 작업 폴더를 Claude Code로 연 뒤, 내 업무의 입력·처리·저장할 결과를 전달합니다.</div>
-      <details class="reading"><summary>PowerShell에서 파일을 찾지 못했어요</summary><p><code>Get-Location</code>을 실행해 현재 위치를 확인합니다. ZIP을 풀지 않았거나 부모 폴더를 연 경우에는 <code>runner.py</code>가 보이는 폴더에서 창을 다시 엽니다. Python 설치가 제한되면 <a href="index.html#practice">본문에서 예제 실행</a>을 계속할 수 있습니다.</p></details>
+      <p class="reading"><a href="index.html#practice">수업의 워크플로우 실습 열기</a></p>
     </section>
 
     <div class="paper"><section class="wrap section" id="claude">
@@ -64,8 +46,11 @@ claude auth status --text</code></pre>
           </li>
           <li><strong>도구를 만들 때는 작업 폴더에서 <code>claude</code>를 엽니다.</strong> 입력, 처리, 결과 세 줄을 설명하고 바뀐 파일과 실행 방법을 확인합니다.</li>
           <li><strong>도구가 모델을 부를 때는 한 번 요청하고 결과를 받습니다.</strong>
-            <pre><code>claude -p '마감일이 2026-12-10에서 2026-12-17로 변경됐다. 두 날짜를 그대로 써서 안내 문장 한 줄을 작성해줘.' --output-format json</code></pre>
-            <p><code>-p</code>는 답을 한 번 출력하고 종료합니다. <code>--output-format json</code>을 쓰면 프로그램에서 읽을 수 있는 형태로 응답을 받습니다. 이 PC의 Claude Code 연결을 해제하려면 <code>claude auth logout</code>을 실행합니다.</p>
+            <pre><code>$sourceText = Get-Content -LiteralPath .\input.txt -Raw -Encoding UTF8
+$instruction = Read-Host '이 입력으로 만들 결과를 적으세요'
+$taskPrompt = $instruction + [Environment]::NewLine + $sourceText
+claude -p $taskPrompt --output-format json</code></pre>
+            <p><code>-p</code>는 답을 한 번 출력하고 종료합니다. JSON 응답에서 <code>result</code>와 <code>is_error</code>를 확인합니다. 이 PC의 Claude Code 연결을 해제하려면 <code>claude auth logout</code>을 실행합니다.</p>
           </li>
         </ol>
         <div>
@@ -73,29 +58,21 @@ claude auth status --text</code></pre>
             <a href="assets/captures/claude.png"><img src="assets/captures/claude.png" alt="Claude Code 버전과 미로그인 상태를 표시한 실제 명령 출력" loading="lazy"></a>
             <figcaption>CLI 버전 확인과 미로그인 상태를 확인한 실제 화면입니다.</figcaption>
           </figure>
-          <figure class="screenshot">
-            <a href="assets/captures/claude-team.png"><img src="assets/captures/claude-team.png" alt="본인 Team 계정을 Claude Code에 연결하는 Anthropic 도움말" loading="lazy"></a>
-            <figcaption>Claude Code에 Team 계정을 연결하는 Anthropic 공식 안내입니다. 자기 계정의 연결 여부는 터미널에서 확인합니다.</figcaption>
-          </figure>
         </div>
       </div>
-      <h3>같은 입력에 AI 단계를 붙여 비교합니다</h3>
-      <p class="reading">시작 파일에서 <code>--ai simulate</code>를 주면 개정 전 날짜인 <code>2026-12-10</code>을 돌려주는 모의 응답이 AI 단계로 들어갑니다. 첫 실행 결과와 비교해 어떤 단계가 <strong>확인 보류</strong>로 판정하는지 살핍니다.</p>
-      <pre class="reading"><code>py -3 runner.py --case changed --ai simulate</code></pre>
-      <p class="reading">실제 응답까지 받아보고 싶다면 Team 연결과 짧은 요청을 확인한 뒤 아래 명령을 실행합니다. 이 모드는 수업용 공고 한 쌍에서 추출한 변경 정보로 공식 CLI를 호출합니다.</p>
-      <pre class="reading"><code>py -3 runner.py --case changed --ai claude</code></pre>
-      <div class="result-check reading"><strong>확인할 곳</strong> · <code>outputs/latest.md</code>에서 코드가 비교한 두 날짜와 AI 초안의 상태를 봅니다. 초안이 없거나 날짜가 다르면 실행 기록에서 모델 호출과 검사 단계의 결과를 각각 찾아봅니다.</div>
-      <details class="reading"><summary>로그인은 됐는데 모델 응답이 없어요</summary><p>먼저 <code>claude -p</code>의 오류에서 Team 계정·조직, 사용량, 네트워크 중 무엇이 막혔는지 확인합니다. <code>--ai simulate</code>로는 잘못된 모델 응답을 처리하는 검증 흐름을 계속 실습할 수 있습니다.</p></details>
+      <p class="result-check reading"><strong>확인할 곳</strong> · <code>claude auth status</code>로 계정 연결을 확인한 뒤 실제 요청도 한 번 보냅니다. 응답이 오면 원문과 기대 결과에 맞는지 확인합니다. 오류가 나오면 응답에 표시된 계정, 사용량, 네트워크 상태를 살펴봅니다.</p>
     </section></div>
 
     <section class="wrap section" id="api">
       <p class="kicker">선택 실습 · 외부에서 값을 받기</p>
       <h2>공개 API에서 받은 한 값을 내 도구에 넣습니다</h2>
-      <p class="reading">현장 방문 준비 도구에 시간대별 강수확률을 붙여봅니다. Open-Meteo의 <strong>API</strong>는 어떤 값으로 예보를 요청하고 어떤 항목을 받을지 정합니다. <strong>HTTP</strong>로 요청을 전달하면 예보가 <strong>JSON</strong> 형식으로 돌아옵니다. 이 실습에서는 부산 근처의 위도·경도와 강수확률 항목을 보냅니다.</p>
+      <p class="reading">Open-Meteo의 <strong>API</strong>는 어떤 값으로 예보를 요청하고 어떤 항목을 받을지 정합니다. 위도·경도와 받고 싶은 항목을 <strong>HTTP</strong>로 보내면 예보가 <strong>JSON</strong> 형식으로 돌아옵니다.</p>
       <div class="diagram" aria-label="공개 API 실습 흐름"><b>좌표와 요청 항목 지정</b><span aria-hidden="true">→</span><b>공개 API</b><span aria-hidden="true">→</span><b>JSON에서 필요한 값 선택</b><span aria-hidden="true">→</span><b>도구의 입력으로 전달</b></div>
       <ol class="lesson-steps reading">
         <li><strong>PowerShell에서 한 번 요청합니다.</strong> <code>Invoke-RestMethod</code>는 응답 JSON을 PowerShell에서 읽을 수 있는 값으로 바꿉니다.
-          <pre><code>$forecastUrl = 'https://api.open-meteo.com/v1/forecast?latitude=35.18&amp;longitude=129.08&amp;hourly=precipitation_probability&amp;timezone=Asia%2FSeoul&amp;forecast_days=1'
+          <pre><code>$latitude = Read-Host '위도'
+$longitude = Read-Host '경도'
+$forecastUrl = "https://api.open-meteo.com/v1/forecast?latitude=$latitude&amp;longitude=$longitude&amp;hourly=precipitation_probability&amp;timezone=Asia%2FSeoul&amp;forecast_days=1"
 $weather = Invoke-RestMethod -Uri $forecastUrl -TimeoutSec 15 -ErrorAction Stop
 $weather.hourly.time[0]
 $weather.hourly.precipitation_probability[0]</code></pre>
@@ -103,8 +80,6 @@ $weather.hourly.precipitation_probability[0]</code></pre>
         <li><strong>입력 형식을 정합니다.</strong> 첫 줄은 예보 시각, 둘째 줄은 같은 시각의 강수확률입니다. 자신의 도구에서 쓰려면 <code>time</code>과 <code>precipitation_probability</code> 중 필요한 항목을 정하고, 어떤 단계가 그 값을 사용할지 연결합니다.</li>
         <li><strong>같은 구조로 다른 좌표를 넣습니다.</strong> 결과에서 시각과 값이 같은 순번으로 짝지어지는지 확인합니다. 비어 있는 데이터는 값 없음으로, 명령에 연결 오류가 나오면 요청 실패로 기록합니다. 강수확률 <code>0</code>은 정상적으로 받은 숫자입니다.</li>
       </ol>
-      <p class="reading">내 도구에 붙일 때는 아래처럼 작업 범위를 좁혀 Claude Code에 요청합니다.</p>
-      <blockquote class="reading">강수확률을 가져오는 단계 하나를 연결해줘. 입력은 위도·경도이고, 결과는 첫 예보 시각과 그 시각의 강수확률이야. 요청 실패와 예보 값 없음은 서로 다른 상태로 남기고, 강수확률이 0인 예시도 시험해줘.</blockquote>
     </section>
 
     <div class="paper"><section class="wrap section" id="mcp">
@@ -118,19 +93,18 @@ $weather.hourly.precipitation_probability[0]</code></pre>
             <pre><code>py -3 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt</code></pre>
           </li>
-          <li><strong>독자 유형을 바꿔 두 번 호출합니다.</strong>
-            <pre><code>.\.venv\Scripts\python.exe call_style.py children
-.\.venv\Scripts\python.exe call_style.py exhibit</code></pre>
+          <li><strong>서버의 도구를 한 번 호출합니다.</strong>
+            <pre><code>.\.venv\Scripts\python.exe call_style.py children</code></pre>
             <p><code>tools/list</code> 아래에서 도구 이름과 <code>audience</code> 허용값을 찾습니다. <code>tools/call</code> 다음의 <code>rule</code>이 호출 결과입니다.</p>
           </li>
-          <li><strong>코드 한 줄을 고친 다음 같은 요청을 보냅니다.</strong> <code>style_server.py</code>를 열고 <code>"children"</code>에 해당하는 규칙 문장을 <code>Use one short sentence.</code>로 바꿉니다. 저장하고 어린이용·전시용 호출을 각각 다시 실행합니다.</li>
+          <li><strong>내가 고른 규칙으로 바꿉니다.</strong> <code>style_server.py</code>의 <code>"children"</code> 값을 자신의 규칙 문장으로 수정한 뒤 같은 요청을 다시 보냅니다.</li>
         </ol>
         <figure class="screenshot">
           <a href="assets/captures/mcp.png"><img src="assets/captures/mcp.png" alt="MCP 서버에 연결해 tools/list와 tools/call을 수행한 실제 실행 로그" loading="lazy"></a>
           <figcaption><code>inputSchema</code>에는 클라이언트가 넣을 값의 형식, <code>rule</code>에는 서버가 실제로 돌려준 값이 보입니다.</figcaption>
         </figure>
       </div>
-      <p class="result-check reading"><strong>확인</strong> · 어린이용 호출에서 새 규칙을 받습니다. 전시용 호출은 앞서 받은 규칙과 비교합니다. 자신의 업무에 도구를 붙일 때도 입력값 하나와 기대 출력 하나를 먼저 정합니다.</p>
+      <p class="result-check reading"><strong>확인</strong> · <code>rule</code>이 내가 지정한 문장인지 확인합니다. 새 함수를 등록할 때는 입력값과 기대 출력을 먼저 정합니다.</p>
 
       <h3>같은 서버를 Claude Code에서 호출합니다</h3>
       <p class="reading">Python 호출이 끝났다면, 같은 MCP 서버를 Claude Code에 연결합니다. <code>--scope local</code>은 현재 작업 폴더의 개인 설정에 등록합니다.</p>
@@ -143,25 +117,13 @@ claude mcp get hug-card</code></pre>
     </section></div>
 
     <section class="wrap section" id="local-flow">
-      <h2>여러 연결을 한 흐름으로 읽어보기</h2>
-      <p class="reading">사진 카드 예제는 NASA 검색 결과, MCP에서 읽은 문체 규칙, CPU 모델의 초안을 순서대로 저장합니다. 실제 실행에서 어느 단계의 값이 다음 단계로 전달됐는지 살펴봅니다. 이 흐름의 전체 실행은 연결을 개별로 확인한 뒤 시도할 수 있습니다.</p>
-      <div class="split">
-        <div>
-          <ol class="lesson-steps">
-            <li><strong><a href="models.html#start">CPU 서버</a>를 8081 포트에서 시작합니다.</strong> 서버 창을 열어두고, MCP를 실습한 폴더의 별도 PowerShell 창에서 실행합니다.
-              <pre><code>.\.venv\Scripts\python.exe local_workflow.py moon --audience children</code></pre>
-            </li>
-            <li><strong>검색과 도구 호출 결과를 읽습니다.</strong> <code>NASA search</code>에서 자료 건수, <code>MCP get_card_style</code>에서 어린이용 규칙을 확인합니다. 검색 0건이면 모델 호출과 새 파일 저장은 건너뜁니다.</li>
-            <li><strong>초안을 원자료와 대조합니다.</strong> 저장이 완료되면 <code>outputs/photo-card.json</code>을 엽니다. <code>title</code>과 <code>source_credit</code>은 검색에서 온 값이고 <code>model_draft</code>는 모델이 쓴 문장입니다.</li>
-          </ol>
-        </div>
-        <figure class="screenshot">
-          <a href="assets/captures/local-flow.png"><img src="assets/captures/local-flow.png" alt="NASA 검색, MCP 호출, CPU 모델 응답과 파일 저장을 실제 실행한 로그" loading="lazy"></a>
-          <figcaption>실제 실행에서 저장까지 완료됐습니다. 모델의 초안에는 한국어 지시와 원문 근거에서 벗어난 부분이 있어 별도로 확인합니다.</figcaption>
-        </figure>
-      </div>
-      <p class="reading">자기 도구에도 같은 기준을 적용합니다. 앞 단계가 내보낸 근거와 문장 생성 단계의 결과를 함께 기록해두면 잘못된 말이 어느 과정에서 들어왔는지 찾을 수 있습니다.</p>
-      <div class="actions"><a class="btn" href="models.html#start">CPU 서버 실행 순서</a><a class="btn" href="index.html">수업으로 돌아가기</a></div>
+      <h2>내 도구에서 연결을 확인합니다</h2>
+      <ol class="lesson-steps reading">
+        <li>연결한 단계에 실제로 들어간 값과 나온 값을 각각 확인합니다.</li>
+        <li>같은 입력으로 실행한 뒤 예상 출력과 대조합니다. 외부 요청이 실패한 경우 어느 단계에 기록이 남는지도 확인합니다.</li>
+        <li>다른 입력을 넣고 같은 실행 순서로 처리되는지 확인합니다.</li>
+      </ol>
+      <div class="actions"><a class="btn" href="models.html#request">CPU 모델 호출하기</a><a class="btn" href="index.html#practice">수업 실습으로 돌아가기</a></div>
     </section>
     <div class="wrap">
       <details class="sources-drawer">

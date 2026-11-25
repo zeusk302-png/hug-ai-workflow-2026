@@ -397,6 +397,10 @@
   white-space: pre;
 }
 
+.lab-embedded .result-text {
+  white-space: pre-wrap;
+}
+
 .lab-embedded .lab-extra {
   margin-top: 12px;
   padding: 8px 0 0;

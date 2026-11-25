@@ -2,8 +2,8 @@
 
 ## 발표 화면의 수학 도표
 
-- `assets/math/riemann-zeroes.webp`는 mpmath의 `zetazero(n)`으로 처음 열 양의 허수부 영점 좌표를 계산해 Matplotlib으로 그린 도표입니다. 실수부 0.5를 표시하고, 계산한 각 점에 제타 함수를 다시 대입해 값이 0에 근접하는지 확인했습니다. [Odlyzko의 영점 표](https://www-users.cse.umn.edu/~odlyzko/zeta_tables/)
-- `assets/math/lean-rh-spine.svg`는 2026년 11월 20일 공개 Lean 소스의 정적 선언 인덱스에서 주 경로 8개와 주요 갈래 8개를 뽑아 그린 수업용 그림입니다. 각 갈래 수는 정적 인덱스에서 그 갈래를 통해서만 도달하는 선언 수입니다. [Tam Nguyen의 데이터](https://riemann.tamnd.com/code/) · [Mirza의 증명 탐색기](https://bosnadev.com/lab/riemann/app)
+- `docs/assets/math/empetrisor-riemann-zeta-detail.png`는 Empetrisor의 복소평면 제타 함수 시각화입니다. TomFryers의 고해상도 판본을 수정 없이 게시했습니다. [Wikimedia Commons 원본과 CC BY-SA 4.0](https://commons.wikimedia.org/wiki/File:Riemann-Zeta-Detail.png)
+- `docs/assets/math/epstein-lean-proof-spine.svg`는 Jonathan Epstein이 작성한 Lean 증명 상위 의존성 지도입니다. 수정 없이 게시했으며 원본의 Apache 2.0 라이선스 전문을 같은 폴더에 포함했습니다. [Wikimedia Commons 원본과 라이선스](https://commons.wikimedia.org/wiki/File:EpsteinSpineOfAlpogeProofOfRH.svg)
 
 ## 2026년 11월 25일 개편
 
@@ -11,6 +11,7 @@ Windows에서 Chrome으로 실습을 실행하고 캡처했습니다. 로그 뷰
 
 | 파일 | 데이터와 재현 순서 |
 |---|---|
+| `lesson-text-workflow.png` | 최신 본문 실습기에 확인용 텍스트를 입력하고 필터 노드를 추가해 결과를 확인했습니다. 필터를 선택해 실제 입력과 출력 기록을 같은 화면에 표시했습니다. |
 | `lesson-workflow.png` | 브라우저 실습의 공고 마감일 비교에서 `2026-12-10`과 `2026-12-17`을 넣고 실행했습니다. 비교 단계에서 `differenceDays: 7`이 나온 화면입니다. |
 | `lesson-error.png` | 변경 마감일을 비우고 실행했습니다. 날짜 확인 단계가 실패하고 뒤 단계가 건너뛴 화면입니다. |
 | `lesson-tree.png` | 배포 ZIP에서 경로를 읽고, 로컬 실습의 `changed` 실행으로 저장된 기록에서 두 날짜와 판정을 읽어 뷰어에 함께 표시했습니다. |

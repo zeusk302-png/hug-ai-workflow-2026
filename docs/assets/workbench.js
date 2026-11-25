@@ -15,6 +15,10 @@ const definitions = new Map([
   ['hasRows', '결과가 있는가?'],
   ['display', '결과 표시'],
 ]);
+const textWorkbench = elements.runner.dataset.workbench === 'text';
+const allowedKinds = textWorkbench
+  ? new Set(['input', 'filter', 'compare', 'hasRows', 'display'])
+  : new Set(definitions.keys());
 const presets = {
   deadline: { nodes: ['input', 'validateDeadlines', 'compareDeadlines', 'display'], before: '2026-12-10', after: '2026-12-17' },
   nasa: { nodes: ['input', 'nasa', 'hasRows', 'display'], input: 'moon' },
@@ -26,7 +30,12 @@ const moon = {
   title: 'Nearside of the Moon', nasa_id: 'PIA12235',
   credit: 'ISRO/NASA/JPL-Caltech/Brown Univ.', image: 'assets/moon.jpg',
 };
-const graph = { nodes: [...presets.deadline.nodes], steps: [], selected: 0, running: false };
+const graph = {
+  nodes: textWorkbench ? ['input', 'display'] : [...presets.deadline.nodes],
+  steps: [],
+  selected: 0,
+  running: false,
+};
 
 function usesDates() {
   return graph.nodes.includes('validateDeadlines') || graph.nodes.includes('compareDeadlines');
@@ -96,12 +105,14 @@ function renderGraph() {
     return node;
   });
   elements.graph.replaceChildren(...rows);
-  elements['mode-field'].hidden = !graph.nodes.includes('nasa');
+  if (elements['mode-field']) elements['mode-field'].hidden = !graph.nodes.includes('nasa');
   elements['second-field'].hidden = !graph.nodes.includes('compare');
   elements['filter-field'].hidden = !graph.nodes.includes('filter');
-  elements['deadline-fields'].hidden = !usesDates();
+  if (elements['deadline-fields']) elements['deadline-fields'].hidden = !usesDates();
   elements['input-field'].hidden = !usesText();
-  for (const key of ['run', 'load', 'add', 'import', 'export', 'clear-deadline']) elements[key].disabled = graph.running;
+  for (const key of ['run', 'load', 'add', 'import', 'export', 'clear-deadline']) {
+    if (elements[key]) elements[key].disabled = graph.running;
+  }
   inspect(graph.selected);
 }
 
@@ -191,7 +202,7 @@ function showResult(data) {
     return;
   }
   if (!data.rows) {
-    elements.result.append(el('p', data.text || '입력 값이 비어 있습니다.'));
+    elements.result.append(el('p', data.text || '입력 값이 비어 있습니다.', 'result-text'));
     return;
   }
   const photo = data.rows[0];
@@ -237,7 +248,12 @@ async function execute() {
   elements.result.hidden = true;
   elements.status.textContent = '워크플로 실행 중…';
   renderGraph();
-  const form = { text: elements.input.value, other: elements.second.value, keyword: elements.keyword.value.trim(), mode: elements.mode.value };
+  const form = {
+    text: elements.input.value,
+    other: elements.second.value,
+    keyword: elements.keyword.value.trim(),
+    mode: elements.mode?.value,
+  };
   let data = usesText() ? { text: form.text } : {};
   if (usesDates()) data.deadlines = { before: elements['deadline-before'].value, after: elements['deadline-after'].value };
   let stopped = '';
@@ -294,14 +310,14 @@ async function execute() {
   renderGraph();
 }
 
-for (const [key, value] of definitions) {
+for (const key of allowedKinds) {
   if (key === 'input') continue;
-  const option = el('option', value);
+  const option = el('option', definitions.get(key));
   option.value = key;
   elements.kind.append(option);
 }
 
-elements.load.addEventListener('click', () => {
+elements.load?.addEventListener('click', () => {
   const preset = presets[elements.preset.value];
   graph.nodes = [...preset.nodes];
   elements.input.value = preset.input || '';
@@ -317,10 +333,13 @@ elements.add.addEventListener('click', () => {
     elements.status.textContent = '실습실에서는 노드를 12개까지 연결할 수 있습니다.';
     return;
   }
-  graph.nodes.push(elements.kind.value);
-  resetResult('노드를 추가했습니다.', graph.nodes.length - 1);
+  const index = textWorkbench && graph.nodes.at(-1) === 'display'
+    ? graph.nodes.length - 1
+    : graph.nodes.length;
+  graph.nodes.splice(index, 0, elements.kind.value);
+  resetResult('노드를 추가했습니다.', index);
 });
-elements['clear-deadline'].addEventListener('click', () => {
+elements['clear-deadline']?.addEventListener('click', () => {
   elements['deadline-after'].value = '';
   elements['deadline-after'].focus();
 });
@@ -347,12 +366,14 @@ elements['json-file'].addEventListener('change', async () => {
     const json = JSON.parse(await file.text());
     const nodes = json?.nodes;
     if (json?.version !== 1 || !Array.isArray(nodes) || nodes[0] !== 'input' ||
-        nodes.length > 12 || nodes.slice(1).some(node => node === 'input' || !definitions.has(node))) throw new Error();
+        nodes.length > 12 || nodes.slice(1).some(node => node === 'input' || !allowedKinds.has(node))) throw new Error();
     if (graph.running) return;
     graph.nodes = nodes;
     resetResult('워크플로를 불러왔습니다. 새 입력을 넣고 실행하세요.');
   } catch {
-    elements.status.textContent = '이 실습실에서 저장한 워크플로 JSON을 선택하세요.';
+    elements.status.textContent = textWorkbench
+      ? '텍스트 실습에서 지원하는 단계로 저장한 워크플로 JSON을 선택하세요.'
+      : '이 실습실에서 저장한 워크플로 JSON을 선택하세요.';
   }
 });
 renderGraph();
