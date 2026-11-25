@@ -7,7 +7,7 @@
   <title>PC 실습 · HUG 4회차</title>
   <link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
+<body class="guide-page">
   <a class="skip" href="#main">본문으로</a>
   <header class="top">
     <div class="wrap">
@@ -50,7 +50,6 @@ py -3 runner.py --case missing</code></pre>
       <pre class="reading"><code>py -3 preview.py</code></pre>
       <div class="result-check reading"><strong>다음으로 갈 기준</strong> · 원문에 찍힌 두 날짜를 결과에서 직접 대조할 수 있습니다. 이제 작업 폴더를 Claude Code로 연 뒤, 내 업무의 입력·처리·저장할 결과를 전달합니다.</div>
       <details class="reading"><summary>PowerShell에서 파일을 찾지 못했어요</summary><p><code>Get-Location</code>을 실행해 현재 위치를 확인합니다. ZIP을 풀지 않았거나 부모 폴더를 연 경우에는 <code>runner.py</code>가 보이는 폴더에서 창을 다시 엽니다. Python 설치가 제한된 PC에서는 <a href="workbench.html">브라우저 실습</a>에서 먼저 실행 흐름을 따라갈 수 있습니다.</p></details>
-      <p class="source"><a href="https://www.python.org/downloads/windows/">Python 공식 Windows 다운로드</a></p>
     </section>
 
     <div class="paper"><section class="wrap section" id="claude">
@@ -66,7 +65,7 @@ claude auth status --text</code></pre>
           <li><strong>도구를 만들 때는 작업 폴더에서 <code>claude</code>를 엽니다.</strong> 입력, 처리, 결과 세 줄을 설명하고 바뀐 파일과 실행 방법을 확인합니다.</li>
           <li><strong>도구가 모델을 부를 때는 한 번 요청하고 결과를 받습니다.</strong>
             <pre><code>claude -p '마감일이 2026-12-10에서 2026-12-17로 변경됐다. 두 날짜를 그대로 써서 안내 문장 한 줄을 작성해줘.' --output-format json</code></pre>
-            <p><code>-p</code>는 응답을 출력한 뒤 종료합니다. JSON 응답을 받아 날짜와 문장을 확인할 수 있습니다. 실습을 마치고 이 PC의 Claude Code 연결을 해제해야 할 때는 <code>claude auth logout</code>을 사용합니다.</p>
+            <p><code>-p</code>는 답을 한 번 출력하고 종료합니다. <code>--output-format json</code>을 쓰면 프로그램에서 읽을 수 있는 형태로 응답을 받습니다. 이 PC의 Claude Code 연결을 해제하려면 <code>claude auth logout</code>을 실행합니다.</p>
           </li>
         </ol>
         <div>
@@ -87,13 +86,12 @@ claude auth status --text</code></pre>
       <pre class="reading"><code>py -3 runner.py --case changed --ai claude</code></pre>
       <div class="result-check reading"><strong>확인할 곳</strong> · <code>outputs/latest.md</code>에서 코드가 비교한 두 날짜와 AI 초안의 상태를 봅니다. 초안이 없거나 날짜가 다르면 실행 기록에서 모델 호출과 검사 단계의 결과를 각각 찾아봅니다.</div>
       <details class="reading"><summary>로그인은 됐는데 모델 응답이 없어요</summary><p>먼저 <code>claude -p</code>의 오류에서 Team 계정·조직, 사용량, 네트워크 중 무엇이 막혔는지 확인합니다. <code>--ai simulate</code>로는 잘못된 모델 응답을 처리하는 검증 흐름을 계속 실습할 수 있습니다.</p></details>
-      <p class="source"><a href="https://code.claude.com/docs/en/quickstart">Claude Code 설치</a> · <a href="https://code.claude.com/docs/en/headless">프로그램에서 호출하기</a> · <a href="https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan">Team 계정 공식 안내</a></p>
     </section></div>
 
     <section class="wrap section" id="api">
       <p class="kicker">선택 실습 · 외부에서 값을 받기</p>
       <h2>공개 API에서 받은 한 값을 내 도구에 넣습니다</h2>
-      <p class="reading">현장 방문 준비 도구라면 지역 좌표로 시간대별 강수확률을 받아 일정에 붙일 수 있습니다. API 문서에서 보내야 할 값과 돌아오는 값의 이름을 확인합니다. 이 예에서는 부산 근처 위도·경도와 필요한 항목 이름을 전달합니다.</p>
+      <p class="reading">현장 방문 준비 도구에 시간대별 강수확률을 붙여봅니다. Open-Meteo의 <strong>API</strong>는 어떤 값으로 예보를 요청하고 어떤 항목을 받을지 정합니다. <strong>HTTP</strong>로 요청을 전달하면 예보가 <strong>JSON</strong> 형식으로 돌아옵니다. 이 실습에서는 부산 근처의 위도·경도와 강수확률 항목을 보냅니다.</p>
       <div class="diagram" aria-label="공개 API 실습 흐름"><b>좌표와 요청 항목 지정</b><span aria-hidden="true">→</span><b>공개 API</b><span aria-hidden="true">→</span><b>JSON에서 필요한 값 선택</b><span aria-hidden="true">→</span><b>도구의 입력으로 전달</b></div>
       <ol class="lesson-steps reading">
         <li><strong>PowerShell에서 한 번 요청합니다.</strong> <code>Invoke-RestMethod</code>는 응답 JSON을 PowerShell에서 읽을 수 있는 값으로 바꿉니다.
@@ -107,13 +105,12 @@ $weather.hourly.precipitation_probability[0]</code></pre>
       </ol>
       <p class="reading">내 도구에 붙일 때는 아래처럼 작업 범위를 좁혀 Claude Code에 요청합니다.</p>
       <blockquote class="reading">강수확률을 가져오는 단계 하나를 연결해줘. 입력은 위도·경도이고, 결과는 첫 예보 시각과 그 시각의 강수확률이야. 요청 실패와 예보 값 없음은 서로 다른 상태로 남기고, 강수확률이 0인 예시도 시험해줘.</blockquote>
-      <p class="source"><a href="https://open-meteo.com/en/docs">Open-Meteo 예보 API 요청 항목과 응답 형식</a></p>
     </section>
 
     <div class="paper"><section class="wrap section" id="mcp">
       <p class="kicker">선택 실습 · 내 기능을 도구로 공개하기</p>
       <h2>내가 바꾼 규칙을 MCP로 호출합니다</h2>
-      <p class="reading">찾아준 자료를 어떤 방식으로 설명할지, 독자 유형에 따라 규칙을 돌려주는 MCP 서버입니다. <code>style_server.py</code>가 도구를 제공하고 <code>call_style.py</code>가 목록을 읽어 도구를 호출합니다.</p>
+      <p class="reading">독자 유형에 따라 글쓰기 규칙을 돌려주는 MCP 서버입니다. <code>style_server.py</code>가 도구를 제공하고 <code>call_style.py</code>가 그 도구를 호출합니다. <code>tools/list</code>는 도구 이름과 입력 스키마를 반환합니다. 스키마에서 <code>audience</code>에 어떤 값을 넣을 수 있는지 확인한 뒤, <code>tools/call</code>로 값을 보내 실제 규칙을 받습니다.</p>
       <div class="diagram" aria-label="MCP 실습에서 일어나는 일"><b>클라이언트 실행</b><span aria-hidden="true">→</span><b>서버 시작</b><span aria-hidden="true">→</span><b>도구 이름과 입력 규칙 받기</b><span aria-hidden="true">→</span><b>도구 호출</b></div>
       <div class="split">
         <ol class="lesson-steps">
@@ -143,7 +140,6 @@ claude mcp add --transport stdio --scope local hug-card -- "$mcpPython" "$mcpSer
 claude mcp get hug-card</code></pre>
       <p class="reading">이 폴더에서 <code>claude</code>를 열고 <code>/mcp</code>로 연결을 확인합니다. <q>get_card_style 도구를 audience=children으로 호출해서 rule 값을 보여줘.</q>라고 입력한 뒤, 호출 표시와 Python 실행에서 받은 규칙을 대조합니다. 등록을 해제하려면 같은 폴더에서 <code>claude mcp remove --scope local hug-card</code>를 실행합니다.</p>
       <details class="reading"><summary>도구 목록이 나오기 전에 멈췄어요</summary><p><code>Test-Path .\.venv\Scripts\python.exe</code>의 결과를 확인합니다. <code>No module named mcp</code>가 보이면 설치와 실행 모두 같은 가상환경 Python을 사용했는지 봅니다. 규칙 수정 직후의 오류라면 <code>style_server.py</code>의 따옴표와 쉼표를 확인합니다.</p></details>
-      <p class="source"><a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 공식 아키텍처</a> · <a href="https://code.claude.com/docs/en/mcp">Claude Code에서 MCP 연결하기</a></p>
     </section></div>
 
     <section class="wrap section" id="local-flow">
@@ -167,6 +163,16 @@ claude mcp get hug-card</code></pre>
       <p class="reading">자기 도구에도 같은 기준을 적용합니다. 앞 단계가 내보낸 근거와 문장 생성 단계의 결과를 함께 기록해두면 잘못된 말이 어느 과정에서 들어왔는지 찾을 수 있습니다.</p>
       <div class="actions"><a class="btn" href="models.html#start">CPU 서버 실행 순서</a><a class="btn" href="index.html">수업으로 돌아가기</a></div>
     </section>
+    <div class="wrap">
+      <details class="sources-drawer">
+        <summary>공식 문서와 설치 안내</summary>
+        <ul>
+          <li>설치 및 계정 연결 · <a href="https://www.python.org/downloads/windows/">Windows용 Python</a> · <a href="https://code.claude.com/docs/en/quickstart">Claude Code 설치</a> · <a href="https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan">Team 계정 연결</a></li>
+          <li>프로그램 호출 · <a href="https://code.claude.com/docs/en/headless">Claude Code 명령형 실행</a> · <a href="https://open-meteo.com/en/docs">Open-Meteo 예보 API</a></li>
+          <li>도구 연결 · <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 아키텍처</a> · <a href="https://code.claude.com/docs/en/mcp">Claude Code의 MCP 연결</a></li>
+        </ul>
+      </details>
+    </div>
   </main>
   <footer class="bottom"><div class="wrap"><span>HUG 4회차 · 실무 AI 교육</span><a href="index.html">수업</a></div></footer>
 </body>

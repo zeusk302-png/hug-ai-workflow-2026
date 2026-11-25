@@ -125,6 +125,19 @@ th{background:var(--paper);font-size:.92rem}
 details{padding:12px 0;border-bottom:1px solid var(--rule)}
 summary{cursor:pointer;font-weight:750}
 details p{margin-top:7px}
+.sources-drawer{padding:12px 0;border-top:1px solid #d6e1e8;border-bottom:0;color:#425869;font-size:.91rem}
+.sources-drawer summary{color:#24475f}
+.sources-drawer ul{margin:9px 0;padding-left:1.25em}
+.sources-drawer li+li{margin-top:4px}
+.guide-page .page-title{padding:27px 0 22px;background:#f0f5f9}
+.guide-page .page-title h1{font-size:clamp(1.85rem,3.6vw,2.8rem);margin:5px 0 7px;color:#122e49}
+.guide-page .page-title p{color:#385064}
+.guide-page .jump{gap:3px 15px;margin-top:11px}
+.guide-page .jump a{background:transparent;border:0;border-radius:0;padding:3px 0;text-decoration:underline;text-underline-offset:.22em}
+.guide-page .section{padding:34px 0;scroll-margin-top:16px}
+.guide-page .section h2{font-size:clamp(1.55rem,3vw,2.22rem);margin-bottom:9px}
+.guide-page .paper{background:#f4f7fa}
+.guide-page pre{background:#edf3f8;color:#163c59;border:1px solid #d6e1e8}
 .bottom{border-top:1px solid var(--rule);background:var(--paper);padding:25px 0 36px;color:var(--muted);font-size:.87rem}
 .bottom .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 @media(max-width:860px){
