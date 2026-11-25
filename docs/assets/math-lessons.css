@@ -29,10 +29,6 @@
 .proof-spine-key div { border-top: 1px solid #ded8e7; padding: .62rem 0; }
 .proof-spine-key dt { color: #57277a; font-weight: 750; }
 .proof-spine-key dd { margin: .1rem 0 0; }
-.proof-spine-credit { margin: 0 0 .75rem; font-size: .9rem; }
-.proof-spine-frame summary { width: fit-content; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
-.proof-spine-frame a { display: block; width: fit-content; max-width: 100%; margin-top: .6rem; cursor: zoom-in; }
-.proof-spine-frame img { display: block; height: auto; max-width: 100%; }
 
 @media (max-width: 720px) {
   .proof-spine { grid-template-columns: minmax(0, 1fr); }

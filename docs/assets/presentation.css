@@ -73,7 +73,6 @@
 .pnp-nested b { margin-inline: auto; }
 .pnp-set-figure figcaption { margin-top: 6px; color: var(--chapter-muted); font-size: .9rem; }
 .visual-slide .lesson-shot { max-width: 940px; margin-inline: auto; }
-.lesson .lab-embedded { min-width: 0; }
 .lesson .course-nav button { background: #0f567e; color: #fff; border-color: #0f567e; }
 .lesson .course-nav button:hover { background: #12466a; border-color: #12466a; }
 .deck-controls {

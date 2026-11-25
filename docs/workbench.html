@@ -1,109 +1,16 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>워크플로 실습실 · HUG 4회차</title>
-  <link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/workbench.css">
-  <script src="assets/workbench.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>워크플로우에서 값이 흐르는 순서 | HUG 실무 AI 교육</title>
+  <link rel="canonical" href="index.html#practice">
+  <meta http-equiv="refresh" content="0; url=index.html#practice">
+  <link rel="stylesheet" href="assets/site.css">
 </head>
-<body class="guide-page">
-  <a class="skip" href="#main">본문으로</a>
-  <header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a><nav aria-label="수업 메뉴"><a href="index.html">수업</a><a href="index.html#practice">실습</a><a href="models.html">모델 받기</a></nav></div></header>
-  <main id="main">
-    <header class="page-title" id="first-run"><div class="wrap">
-      <h1>워크플로 실습실</h1>
-      <p>가상 공고의 마감일을 비교하고, 어느 단계에서 결과가 나왔는지 확인합니다.</p>
-    </div></header>
-    <section class="section wrap lab" id="bench" aria-label="워크플로 편집기">
-      <p class="lab-intro">기본 날짜로 <strong>워크플로 실행</strong>을 누르면 <strong>7일 연장</strong>이 나옵니다. 이어서 <strong>마감일 비교</strong>를 눌러 받은 값과 내보낸 값을 확인하세요.</p>
-      <div class="bench">
-        <div class="panel lab-controls">
-          <h2>실행 준비</h2>
-          <div class="options"><label for="preset">시작 예제</label><select id="preset"><option value="deadline">공고 마감일 비교</option><option value="nasa">NASA 사진 카드</option><option value="diff">두 문서의 줄 비교</option><option value="list">관심 단어로 목록 거르기</option><option value="blank">빈 흐름</option></select><button class="btn" id="load" type="button">예제 열기</button></div>
-          <form id="runner">
-            <div class="fields">
-              <fieldset class="date-fields" id="deadline-fields">
-                <legend>비교할 공고 날짜</legend>
-                <label>기존 마감일<input type="date" id="deadline-before" value="2026-12-10"></label>
-                <label>변경 마감일<input type="date" id="deadline-after" value="2026-12-17"></label>
-                <button class="btn" id="clear-deadline" type="button">변경 마감일 비우기</button>
-              </fieldset>
-              <label id="input-field" hidden>입력<textarea id="input" rows="2" maxlength="8000"></textarea></label>
-              <label id="second-field" hidden>비교할 문서<textarea id="second" rows="2" maxlength="8000"></textarea></label>
-              <label id="filter-field" hidden>찾을 단어<input id="keyword" maxlength="100"></label>
-              <label id="mode-field" hidden>NASA 검색 방식<select id="mode"><option value="sample">저장된 샘플 1건</option><option value="live">실시간 NASA API</option><option value="empty">실습용 0건 응답</option><option value="failure">실습용 연결 실패</option></select></label>
-            </div>
-            <button class="btn primary" id="run" type="submit">워크플로 실행</button>
-          </form>
-        </div>
-        <div class="panel lab-results">
-          <h2>실행 결과</h2>
-          <p class="status" id="status" role="status">실행 버튼을 누르면 각 단계의 상태를 볼 수 있습니다.</p>
-          <div id="result" class="result-card" hidden></div>
-          <div id="inspect">
-            <strong id="node-title">입력</strong>
-            <div class="io"><div><h3>받은 값</h3><pre id="in">실행 전</pre></div><div><h3>내보낸 값</h3><pre id="out">실행 전</pre></div></div>
-          </div>
-          <div class="lab-storage">
-            <div class="row-buttons">
-              <button class="btn" id="export" type="button">워크플로 JSON 저장</button><button class="btn" id="import" type="button">워크플로 JSON 열기</button><input type="file" id="json-file" accept=".json,application/json" hidden>
-            </div>
-            <p class="lab-help">저장 파일에는 상자 이름과 실행 순서가 담깁니다. 입력값과 결과는 따로 기록할 수 있습니다.</p>
-          </div>
-        </div>
-        <div class="panel lab-sequence">
-          <h2>실행 순서</h2>
-          <p class="lab-help">위에서 아래로 실행합니다. 상자를 누르면 실행 결과에서 그 단계가 주고받은 값을 볼 수 있습니다.</p>
-          <ol class="graph" id="graph" aria-label="노드 실행 순서"></ol>
-          <div class="options"><label for="kind">추가할 노드</label><select id="kind"></select><button class="btn" id="add" type="button">노드 추가</button></div>
-        </div>
-      </div>
-    </section>
-    <section class="section wrap" id="diagnose">
-      <h2>같은 날짜와 빠진 날짜 테스트</h2>
-      <p class="reading">기존 마감일은 <code>2026-12-10</code>으로 두고 변경 마감일만 바꿉니다. 각 경우에 어느 상자까지 실행되는지 비교하세요.</p>
-      <div class="table-wrap"><table><thead><tr><th scope="col">입력과 예상 결과</th><th scope="col">실행 경로</th><th scope="col">기록에서 확인할 값</th></tr></thead><tbody>
-        <tr><td><code>2026-12-17</code> · 7일 연장</td><td>입력 → 날짜 확인 → 마감일 비교 → 결과 표시</td><td>마감일 비교에서 <code>changed: true</code>, <code>differenceDays: 7</code></td></tr>
-        <tr><td><code>2026-12-10</code> · 마감일 그대로</td><td>네 단계 모두 완료</td><td>마감일 비교에서 <code>changed: false</code>, <code>differenceDays: 0</code></td></tr>
-        <tr><td><strong>변경 마감일 비우기</strong> · 안내 문구</td><td>날짜 확인에서 실패. 비교와 결과 표시는 건너뜀</td><td>날짜 확인에서 입력 안내를 담은 <code>error</code></td></tr>
-      </tbody></table></div>
-      <p class="reading">날짜 확인 단계가 두 값이 유효한지 검사한 뒤 일수를 계산합니다. 누락 안내를 받았다면 날짜를 입력하고 다시 실행합니다. 비교 상자의 <code>changed</code>는 변경 여부이고 <code>differenceDays</code>는 일수 차이입니다.</p>
-      <details><summary>한 걸음 더 · NASA 공개 API에서 0건과 연결 실패 구분하기</summary>
-        <ol class="lesson-steps">
-          <li><strong>시작 예제 → NASA 사진 카드 → 예제 열기</strong>를 누릅니다. 기본 샘플 <code>moon</code>으로 실행해 사진 검색의 받은 값 <code>q</code>와 출력의 <code>rows</code>를 읽습니다.</li>
-          <li>검색 방식을 <strong>실습용 0건 응답</strong>으로 바꿉니다. 검색은 완료되고, <code>rows</code>가 빈 목록이어서 결과 확인 상자가 안내 경로를 선택합니다.</li>
-          <li><strong>실습용 연결 실패</strong>에서는 검색 상자가 실패하고 이후 상자는 건너뜁니다. <strong>실시간 NASA API</strong>로 바꾸고 <code>saturn</code>을 넣으면 실제로 검색합니다. 최대 세 건을 받아 첫 사진을 표시합니다.</li>
-        </ol><div class="split">
-        <figure class="screenshot"><a href="assets/captures/workflow-empty.png"><img src="assets/captures/workflow-empty.png" loading="lazy" alt="샘플 응답 0건을 받아 안내 경로를 실행한 실습실 화면"></a><figcaption>0건 · 검색 완료 뒤 조건 노드에서 안내</figcaption></figure>
-        <figure class="screenshot"><a href="assets/captures/workflow-error.png"><img src="assets/captures/workflow-error.png" loading="lazy" alt="연결 실패를 재현하여 NASA 검색에서 멈춘 실습실 화면"></a><figcaption>연결 실패 · API 단계에서 멈추고 다음 단계는 건너뜀</figcaption></figure>
-      </div></details>
-      <details><summary>순서를 바꿔서 생긴 오류도 확인하기</summary><p><strong>공고 마감일 비교</strong> 예제를 다시 연 뒤 <strong>마감일 비교</strong> 옆의 <strong>위</strong>를 누르고 실행합니다. 날짜 확인보다 먼저 실행된 비교 단계에서 필요한 값을 못 받아 실패합니다. 같은 상자를 <strong>아래</strong>로 내려 원래 순서를 복구합니다.</p></details>
-    </section>
-    <section class="section wrap" id="build-own">
-      <h2>내 워크플로 만들기</h2>
-      <p class="reading">반복하는 일 하나를 고릅니다. <strong>어떤 값을 넣는지, 어떤 규칙으로 처리하는지, 무엇을 확인하는지</strong>를 한 줄씩 적습니다.</p>
-      <ol class="lesson-steps reading">
-        <li><strong>구성합니다.</strong> 시작 예제에서 날짜 비교, 문서 줄 비교, 목록 필터를 고르거나 <strong>빈 흐름</strong>을 열어 상자를 추가합니다.</li>
-        <li><strong>두 번 실행합니다.</strong> 예시 입력 두 개에 대한 예상 결과를 적습니다. 각각 실행한 뒤 예상과 실제가 맞는지 확인합니다.</li>
-        <li><strong>저장하고 확인합니다.</strong> <strong>워크플로 JSON 저장</strong>으로 <code>hug-workflow.json</code>을 받습니다. 다른 예제를 열었다가 <strong>워크플로 JSON 열기</strong>로 저장한 파일을 선택합니다. 불러온 상자 순서를 확인하고 값을 다시 입력해 실행합니다.</li>
-      </ol>
-      <details>
-        <summary>예시 · 회의 메모에서 관심 항목 모으기</summary>
-        <p class="reading"><strong>입력 → 관심 단어만 남기기 → 결과 표시</strong>로 구성합니다. 아래 세 줄을 입력합니다. 찾을 단어를 <code>자료</code>로 지정하면 첫째·셋째 줄이, <code>일정</code>으로 바꾸면 둘째 줄이 표시됩니다.</p>
-        <pre><code>회의 자료 정리
-일정 변경 공지
-교육 자료 확인</code></pre>
-      </details>
-      <div class="actions"><a class="btn primary" href="#bench">예제 다시 실행</a><a class="btn" href="index.html#prepare">내 도구 만들기</a></div>
-    </section>
-    <aside class="wrap lab-reference" aria-label="실습 참고 자료">
-      <details class="sources-drawer">
-        <summary>참고 자료</summary>
-        <p><a href="https://images.nasa.gov/docs/images.nasa.gov_api_docs.pdf">NASA 이미지·동영상 라이브러리 API 문서</a></p>
-        <p>실시간 NASA 검색을 선택하면 검색어가 공개 API로 전송됩니다. 날짜 비교, 문서 비교, 목록 필터에는 실습용 값을 사용합니다.</p>
-      </details>
-    </aside>
+<body>
+  <main class="wrap section"><h1>워크플로우에서 값이 흐르는 순서</h1>
+    <p><a href="index.html#practice">메일 두 통이 읽기 목록 한 줄이 되기까지</a>에서 이어집니다.</p>
   </main>
-  <footer class="bottom"><div class="wrap"><span>HUG 4회차 · AI 워크플로</span></div></footer>
 </body>
 </html>

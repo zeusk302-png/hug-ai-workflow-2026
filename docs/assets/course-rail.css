@@ -1,0 +1,78 @@
+.has-course-rail {
+  --rail-width: clamp(206px, 17.2vw, 254px);
+  --rail-ink: #171f34;
+  --rail-glow: #bbdaff;
+  --mobile-bar: 54px;
+}
+html:has(.has-course-rail) { scroll-behavior: auto; }
+.course-rail {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 15;
+  inset: 0 auto 0 0;
+  width: var(--rail-width);
+  height: 100dvh;
+  background: var(--rail-ink);
+  color: #fff;
+  font: 500 .94rem/1.45 var(--sans);
+}
+.rail-mast { padding: 33px 22px 22px; margin: 0 6px; border-bottom: 1px solid #465065; }
+.rail-brand, .rail-mobile-brand { display: inline-flex; align-items: center; text-decoration: none; }
+.rail-brand img { width: min(100%, 170px); height: auto; filter: brightness(0) invert(1); }
+.rail-course { display: block; margin-top: 1.3rem; color: #fafbff; font-size: clamp(.98rem,1.26vw,1.14rem); font-weight: 700; letter-spacing: -.045em; }
+.rail-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #515f75 transparent; padding: 1rem 13px; }
+.rail-nav-label { color: #a7b4c8; font-size: .75rem; font-weight: 660; margin: .4rem .85rem .6rem; }
+.rail-nav-label:not(:first-child) { border-top: 1px solid #394458; padding-top: 1.1rem; margin-top: 1.1rem; }
+.rail-scroll a { display: flex; align-items: center; min-height: 34px; padding: .43rem .85rem; color: #dfe5ee; font-weight: 520; text-decoration: none; border-inline-start: 2px solid transparent; }
+.rail-scroll a:hover, .rail-scroll a:focus-visible { background: #26344b; color: white; }
+.rail-scroll a[aria-current="location"] { background: #2d3a56; border-inline-start-color: #9fc8ff; color: #fff; font-weight: 720; }
+.rail-bottom { margin: 0 19px; padding: 13px 0 20px; border-top: 1px solid #465065; }
+.rail-present { display: flex; align-items: center; gap: .68rem; padding: .6rem .45rem; width: 100%; color: #fff; border: 0; background: transparent; font: inherit; }
+.rail-present:hover { color: var(--rail-glow); }
+.rail-screen { width: 16px; height: 11px; position: relative; border: 1.5px solid currentColor; border-radius: 2px; }
+.rail-screen::after { content: ""; position: absolute; width: 8px; border-top: 1.5px solid; left: 2.5px; bottom: -4px; }
+.rail-mobile, .rail-close, .rail-scrim { display: none; }
+.has-course-rail:not(.presenting) > :is(main,.bottom) { margin-inline-start: var(--rail-width); }
+.has-course-rail .skip:focus { z-index: 50; }
+.has-course-rail.presenting .course-rail, .has-course-rail.presenting .rail-mobile, .has-course-rail.presenting .rail-scrim { display: none; }
+.has-course-rail.lecture-edition:not(.presenting) .maker-cover .editorial-cover { width: min(calc(100% - 76px),1160px); gap: clamp(22px,3vw,58px); padding-block: clamp(46px,6vw,95px); grid-template-columns: minmax(0,.89fr) minmax(0,1.11fr); }
+.has-course-rail .cover-date { padding-block-start: 1.25rem; border-top: 1px solid #c9cbd0; }
+.has-course-rail.lecture-edition:not(.presenting) .lesson-layout { width: min(1150px,calc(100% - 72px)); }
+@media (min-width: 960px) and (max-height: 940px) {
+  .rail-mast { padding-block: 24px 16px; }
+  .rail-course { margin-top: .8rem; }
+  .rail-scroll { padding-block: .55rem; }
+  .rail-scroll a { min-height: 29px; padding-block: .28rem; }
+  .rail-nav-label { margin-bottom: .35rem; }
+  .rail-nav-label:not(:first-child) { margin-top: .65rem; padding-top: .65rem; }
+  .rail-bottom { padding-block: 8px 12px; }
+}
+@media (max-width: 959px) {
+  .has-course-rail:not(.presenting) > :is(main,.bottom) { margin-inline-start: 0; }
+  .course-rail { position: static; width: 100%; height: auto; }
+  .rail-scroll { max-height: 56vh; }
+  .rail-mobile { align-items: center; justify-content: space-between; height: var(--mobile-bar); padding-inline: 17px; background: #fffefa; border-bottom: 1px solid #cdd0d3; }
+  .rail-mobile-brand { gap: 10px; color: #27374c; font-size: .84rem; font-weight: 650; }
+  .rail-mobile-brand img { width: 133px; }
+  .rail-toggle, .rail-close { color: inherit; border: 0; background: transparent; padding: .5rem .25rem .5rem .5rem; font: 650 .9rem/1.4 var(--sans); }
+  .rail-toggle { display: inline-flex; align-items: center; gap: .45rem; }
+  .rail-toggle i { display: inline-block; height: 10px; width: 16px; border-block: 1.5px solid; position: relative; }
+  .rail-toggle i::after { content:""; position:absolute; inset: 3px 0 auto; border-top: 1px solid; }
+  .rail-enhanced .rail-mobile { display: flex; position: sticky; top: 0; z-index: 12; }
+  .rail-enhanced .course-rail { position: fixed; width: min(292px,84vw); height: 100dvh; visibility: hidden; transform: translateX(-100%); }
+  .rail-enhanced .rail-scroll { max-height: none; }
+  .rail-open { overflow: hidden; }
+  .rail-open .course-rail { transform: none; visibility: visible; }
+  .rail-open .rail-scrim { display: block; position: fixed; inset: 0; background: rgb(14 24 38 / .47); z-index: 14; }
+  .rail-open .rail-close { display: block; position: absolute; right: 12px; top: 7px; color: #e4eafa; font-size: 1.35rem; }
+  .has-course-rail:not(.presenting) main :is([id], [data-slide]) { scroll-margin-block-start: calc(var(--mobile-bar) + 10px); }
+}
+@media (max-width: 760px) {
+  .has-course-rail.lecture-edition:not(.presenting) .maker-cover .editorial-cover { grid-template-columns: 1fr; width: calc(100% - 36px); padding-block: 30px; }
+  .has-course-rail.lecture-edition:not(.presenting) .lesson-layout { width: calc(100% - 36px); }
+}
+@media print {
+  .has-course-rail .course-rail, .has-course-rail .rail-mobile, .has-course-rail .rail-scrim { display: none; }
+  .has-course-rail:not(.presenting) > :is(main,.bottom) { margin: 0; }
+}

@@ -1,0 +1,37 @@
+연결 실습 실행 기록 · my_program.py --connected
+
+첫 실행 | 입력 8766 · 모델 8081 실행 중
+[입력] HTTP GET /input · 3줄
+[기존 규칙] 빈 줄과 중복 제거 · 2줄
+Processing request of type CallToolRequest
+Processing request of type ListToolsRequest
+[MCP] tools/call read_review_rules · 검토 기준 수신
+기존 결과의 항목 이름과 숫자를 그대로 적고 빠뜨리지 마세요.
+한 문장으로 작성하세요.
+[CPU] POST /v1/chat/completions · 확인용 초안 수신
+[저장] output/connected.json
+종료 코드 0
+
+두 번째 실행 | 입력 API 그대로 · 모델 서버 종료
+GET /input → ok
+접수 문서 4건
+검토 대기 5건
+접수 문서 4건
+
+[입력] HTTP GET /input · 3줄
+[기존 규칙] 빈 줄과 중복 제거 · 2줄
+Processing request of type CallToolRequest
+Processing request of type ListToolsRequest
+[MCP] tools/call read_review_rules · 검토 기준 수신
+기존 결과의 항목 이름과 숫자를 그대로 적고 빠뜨리지 마세요.
+한 문장으로 작성하세요.
+[CPU 모델] 8081번 포트에 연결하지 못했습니다. 해당 서버 창을 확인하세요.
+이번 실행은 결과를 저장하지 않았습니다. 기존 파일은 전 실행 결과입니다.
+종료 코드 1
+
+남은 output/connected.json의 rows
+접수 문서 3건
+검토 대기 5건
+실패 전 SHA-256  57a49a90683d7632a0ecd02f59210166e33b4a39687d0097dd1bdeab03576a28
+실패 후 SHA-256  57a49a90683d7632a0ecd02f59210166e33b4a39687d0097dd1bdeab03576a28
+파일 수정 시각 동일

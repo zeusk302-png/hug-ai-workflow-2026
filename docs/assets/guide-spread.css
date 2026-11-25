@@ -1,0 +1,132 @@
+.guide-spread {
+  --guide-ink: #19263c;
+  --guide-accent: #283eaa;
+  --guide-rule: #d9d8d2;
+  --guide-paper: #f7f5ee;
+  background: #fffefa;
+  color: var(--guide-ink);
+}
+.guide-spread .top {
+  border: 0;
+  border-bottom: 1px solid var(--guide-rule);
+  background: #fffefa;
+}
+.guide-spread .top nav a { padding-inline: .35rem; border-radius: 0; }
+.guide-spread .top nav a[aria-current], .guide-spread .top nav a:hover {
+  color: var(--guide-accent);
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: .34em;
+}
+.guide-spread .page-title {
+  padding: clamp(2.4rem, 5.5vw, 5rem) 0;
+  border-bottom: 1px solid var(--guide-rule);
+  background: var(--guide-paper);
+}
+.guide-cover {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.06fr);
+  align-items: center;
+  gap: clamp(2rem, 7vw, 6rem);
+}
+.guide-spread .guide-cover h1 {
+  max-width: 10em;
+  margin: .35em 0;
+  color: var(--guide-ink);
+  font-size: clamp(2.55rem, 5.8vw, 4.9rem);
+  line-height: 1.13;
+  letter-spacing: -.065em;
+}
+.guide-spread .guide-cover .kicker { color: var(--guide-accent); }
+.guide-spread .guide-cover-copy > p:last-child {
+  max-width: 35em;
+  color: #38465b;
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+}
+.guide-cover-figure img {
+  width: 100%;
+  max-height: 23rem;
+  object-fit: contain;
+}
+.guide-cover-figure figcaption, .guide-spread .screenshot figcaption,
+.guide-spread .course-example figcaption {
+  padding: .65rem 0 0;
+  color: #4b5668;
+  font-size: .94rem;
+  line-height: 1.55;
+}
+.guide-spread .paper { background: #f6f5f0; }
+.guide-spread .section { border-color: var(--guide-rule); padding-block: clamp(2.6rem, 5vw, 4.7rem); }
+.guide-spread .section:has(> .guide-column) {
+  display: grid;
+  grid-template-columns: minmax(13rem, .76fr) minmax(0, 1.95fr);
+  align-items: start;
+  gap: clamp(1.6rem, 5vw, 4.2rem);
+}
+.guide-spread .section:has(> .guide-column) > h2 {
+  position: sticky;
+  top: 1.2rem;
+  margin: 0;
+  color: var(--guide-ink);
+  font-size: clamp(1.6rem, 3.2vw, 2.65rem);
+  line-height: 1.28;
+}
+.guide-column { min-width: 0; }
+.guide-column > :first-child { margin-top: 0; }
+.guide-column > .course-example, .guide-column > .principle-plate { margin: 1.6rem 0; }
+.guide-spread .guide-column .principle-plate {
+  grid-template-columns: minmax(0, 1fr);
+  gap: .65rem;
+  padding: 1rem 0;
+  border-color: var(--guide-rule);
+}
+.guide-spread .section .screenshot img, .guide-spread .course-example img,
+.guide-spread .principle-plate a { border-radius: 0; }
+.guide-spread .section .table-wrap { border-inline: 0; }
+.guide-spread .diagram { column-gap: .6rem; }
+.guide-spread .diagram b { border: 0; border-radius: 0; padding: 0; background: transparent; color: var(--guide-accent); }
+.guide-spread .diagram span { color: #667080; }
+.guide-spread .lesson-steps { padding-left: 1.35em; }
+.guide-spread .lesson-steps li { padding-left: .4rem; }
+.guide-spread .lesson-steps li::marker { color: var(--guide-accent); }
+.guide-spread pre {
+  border: 0;
+  border-left: 3px solid #71848b;
+  border-radius: 0;
+  background: #eeefe9;
+  color: #223446;
+}
+.guide-spread :not(pre) > code { border-radius: 0; background: #efece4; }
+.guide-spread .actions { margin-block: .8rem 1.2rem; }
+.guide-spread .guide-column a.btn {
+  min-height: auto;
+  justify-content: start;
+  padding: .12rem 0;
+  border: 0;
+  border-radius: 0;
+  color: var(--guide-accent);
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: .23em;
+}
+.guide-spread .guide-sources {
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--guide-rule);
+}
+.guide-sources h2 { margin: 0 0 .6rem; font-size: 1.25rem; }
+.guide-sources { padding-bottom: 2.5rem; color: #39475b; }
+.guide-sources ul { padding-left: 1.25rem; margin: 0; }
+.guide-spread .bottom { border-color: var(--guide-rule); background: var(--guide-paper); }
+@media (max-width: 780px) {
+  .guide-cover, .guide-spread .section:has(> .guide-column) { grid-template-columns: minmax(0, 1fr); gap: 1.3rem; }
+  .guide-cover-figure img { width: auto; max-height: 19rem; }
+  .guide-spread .section:has(> .guide-column) > h2 { position: static; }
+  .guide-spread .guide-column .split { grid-template-columns: minmax(0, 1fr); }
+  .guide-spread .guide-cover h1 { max-width: 13em; }
+}
+@media print {
+  .guide-cover, .guide-spread .section:has(> .guide-column) { display: block; }
+  .guide-spread .section:has(> .guide-column) > h2 { position: static; }
+  .guide-cover-figure img { max-height: 12rem; }
+}

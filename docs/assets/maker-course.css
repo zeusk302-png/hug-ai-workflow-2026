@@ -1,0 +1,20 @@
+.course-editorial .maker-cover { background: #f6f3ed; border-color: #dcd8d0; }
+.maker-cover .editorial-cover { grid-template-columns: minmax(0,1fr) minmax(0,1.08fr); gap: clamp(20px,4vw,54px); padding-block: clamp(32px,5.8vw,80px); }
+.maker-cover .cover-copy h1 { font-size: clamp(2.8rem,5.4vw,4.8rem); line-height: 1.11; letter-spacing: -.07em; }
+.maker-cover h1 em { font-style: normal; color: #243eac; }
+.maker-cover .cover-summary { word-break: keep-all; line-height: 1.65; margin-block: 1.1rem 1.45rem; }
+.maker-cover-art { margin: 0; }
+.maker-cover-art img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; border-radius: 3px; }
+.maker-plan { margin-block: 1.2rem 1.6rem; padding: clamp(16px,3vw,32px); border: 1px solid #c8d1e6; border-top: 3px solid #394fa5; background: #f4f6fc; border-radius: .4rem; }
+#maker-plan-result { margin-top: 1.4rem; }
+.maker-lab-links { margin: 1rem 0; display: flex; align-items: center; gap: .7rem 1.2rem; flex-wrap: wrap; }
+.maker-downloads { padding: 1rem 1.25rem; background: #f4f6fa; border-inline-start: 3px solid #495fa1; }
+.maker-downloads :is(p,h3) { margin: .3rem 0; }
+@media(max-width:760px) {
+  .maker-cover .editorial-cover { grid-template-columns: minmax(0,1fr); }
+  .maker-cover-art img { max-height: 260px; object-fit: cover; }
+}
+@media print {
+  .maker-cover .editorial-cover { padding-block: 16px; }
+  .maker-cover-art img { max-height: 180px; object-fit: contain; }
+}

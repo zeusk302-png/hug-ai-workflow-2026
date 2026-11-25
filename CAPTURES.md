@@ -1,10 +1,29 @@
 # 수업 사이트 캡처 출처
 
+## CPU 응답 측정
+
+강의 본문의 0.193초와 0.407초는 Intel Core i7-12700K에서 llama.cpp b12387을 CPU 4스레드, 컨텍스트 2,048로 실행해 얻은 단일 관측값입니다. [측정 스크립트](docs/downloads/measure_cpu.py)는 대화 형식을 적용한 뒤 생성 요청 전송부터 첫 토큰 ID 수신과 종료 응답 수신까지를 각각 잽니다. 모델을 이미 불러온 상태에서 Qwen2.5 0.5B Instruct Q4_K_M에 합주 시간을 다시 물었고, 응답 직후 Windows에서 읽은 서버 프로세스의 작업 집합은 505 MiB였습니다.
+
+## 개인 AI 프로그램의 자료 조회
+
+- `docs/assets/captures/connected-model-offline.png`는 연결 키트의 실제 두 번째 실행 로그를 브라우저에서 연 화면입니다. [전체 기록](docs/assets/captures/connected-model-offline.txt)에 앞뒤 실행의 출력·종료 코드·파일 지문이 있습니다. Windows의 임시 폴더에 배포 ZIP을 풀고 Python 3.12.7, MCP 1.26.0, 수업용 llama.cpp CPU 실행기와 Qwen2.5 0.5B Instruct Q4_K_M으로 직접 검증했습니다. 입력 8766, 모델 8081을 이 실험용으로 실행하고 `my_program.py --connected`의 첫 성공(종료 코드 0)을 확인했습니다. 접수 문서 3건 두 곳을 4건으로 고친 뒤 모델 프로세스만 종료했습니다. 8766은 두 번째 실행에서도 새 원문을 반환했고 MCP 기준을 받은 뒤 8081에서 종료 코드 1로 실패했습니다. 성공 파일의 SHA-256과 수정 시각은 두 번째 실행 전후 동일했습니다. PNG는 그 실행의 표준 출력·오류를 합친 원문을 Edge에서 확대 캡처했습니다.
+
+- `docs/assets/captures/maker-inspect.png`(1116×391)는 Windows 명령 프롬프트에서 `lab/ai-maker`를 작업 폴더로 열고, Python 3.12와 MCP 1.26.0 환경에서 `python maker.py inspect`를 실행한 실제 터미널 화면입니다. 종료 코드 0과 원자료의 수치를 대조했습니다. Python 검사기가 로컬 MCP 서버에 도구 목록을 묻고, ‘소리 지도’로 검색한 뒤 `SOUND-2` 본문을 요청하는 고정 순서입니다. 자료는 키트에 포함된 가상 예시이며 이 명령은 Claude 모델을 호출하지 않습니다.
+
 ## 발표 화면의 수학 도표
 
-- 리만 가설 도입의 보라색 증명 지도는 Takens Theorem의 [원 게시물](https://x.com/takenstheorem/status/2124603523115684067)에서 [작가가 게시한 전체 그림](https://pbs.twimg.com/media/HXwboNtagAAVb46.jpg?name=orig)을 불러옵니다. 한국어 해설은 그림 왼쪽 아래 범례를 옮긴 것입니다. `docs/assets/math/riemann-proof-spine-frame.png`는 강의자가 제공한 한국어 영상 캡처(255×360)이며, 전체 그림을 불러올 수 없을 때도 표시됩니다.
+- 리만 가설 도입의 보라색 증명 지도는 Takens Theorem의 [원 게시물](https://x.com/takenstheorem/status/2124603523115684067)에 실린 [작가의 전체 그림](https://pbs.twimg.com/media/HXwboNtagAAVb46.jpg?name=orig)을 원본 호스트에서 표시합니다. 본문의 한국어 해설은 그림 왼쪽 아래 범례를 바탕으로 작성했습니다.
+
 - `docs/assets/math/empetrisor-riemann-zeta-detail.png`는 Empetrisor의 복소평면 제타 함수 시각화입니다. TomFryers의 고해상도 판본을 수정 없이 게시했습니다. [Wikimedia Commons 원본과 CC BY-SA 4.0](https://commons.wikimedia.org/wiki/File:Riemann-Zeta-Detail.png)
 - `docs/assets/math/epstein-lean-proof-spine.svg`는 Jonathan Epstein이 작성한 Lean 증명 상위 의존성 지도입니다. 수정 없이 게시했으며 원본의 Apache 2.0 라이선스 전문을 같은 폴더에 포함했습니다. [Wikimedia Commons 원본과 라이선스](https://commons.wikimedia.org/wiki/File:EpsteinSpineOfAlpogeProofOfRH.svg)
+
+## 내부망과 외부망 삽화
+
+[장비 위치 모형](docs/assets/lesson/network-workshop.webp)은 내장 ImageGen으로 생성한 1536×1024 삽화입니다. 모델의 배치와 사진의 질감에는 아래 프롬프트를 사용했습니다. 수업 코드에 대응하는 주소·포트·전송 방식은 본문 도해에 따로 표기했습니다.
+
+```text
+Wide landscape 3:2 high-end editorial photograph, physical scale model built by an architectural model maker for a Korean public institute's lecture about network boundaries. In one continuous composition on a warm ivory plinth, from left to right are a real-looking open deep graphite laptop on a simple miniature office desk, a small local server standing inside a translucent teal room, and a much larger distant external data center building with cobalt-blue server racks inside a cutaway facade. The three objects are distinctly separated by clean gaps between the constructed physical zones. No people. Shot isometric three-quarter from a modest height, sharp fine details, bright neutral daylight and long crisp shadows, warm alabaster and ultramarine and teal accents, compositional unity and tactile finely grained paper and painted metal materials. Quiet museum publication quality, entire objects in frame with a little breathing room, crop tight enough to see laptop and servers. Absolutely no typography, no letterforms, no captions, no labels, no arrows, no numbers or lines overlay. Output an actual art-directed photograph of a constructed architectural maquette, not a software UI, not stock neon cloud clipart.
+```
 
 ## 2026년 11월 25일 개편
 
@@ -36,6 +55,10 @@ Windows에서 Chrome으로 실습을 실행하고 캡처했습니다. 로그 뷰
 본문의 ‘접수 문서 3건’ 토큰 그림은 같은 모델의 `/tokenize` 응답에서 조각과 ID를 읽어 구성했습니다. 후보 막대는 별도 `/v1/chat/completions` 호출의 첫 출력 토큰에서 반환된 로그 확률을 백분율로 바꿔 소수점 한 자리로 반올림했습니다. 사용자 메시지는 ‘업무 현황은 접수 문서 3건, 검토 대기 5건입니다. 접수 문서는 몇 건인가요? 숫자 하나만 쓰세요.’였고, `temperature=0`, `max_tokens=6`, `logprobs=true`, `top_logprobs=4`를 사용했습니다. 응답 본문은 ‘3건’이었습니다. 웹 화면은 내장 채팅의 기본 설정으로 별도 실행한 결과입니다.
 
 ### 도입부 사진
+
+제작 사례의 `atlas-mail.webp`(같은 빗길 사진을 담은 두 봉투)와 `atlas-sound.webp`(빗길에서 발걸음과 문 소리를 채집하는 녹음기)는 ImageGen으로 만든 강의용 연출 이미지입니다.
+
+`docs/assets/lesson/maker-studio.webp`는 ImageGen으로 새로 만든 강의 표지 삽화입니다. 편지, 데이터, 소리 파형과 주사위를 한 작업대에 배치해 서로 다른 프로젝트의 재료를 표현했습니다.
 
 두 사진은 OpenAI 기본 제공 이미지 생성 도구로 만든 연출 이미지입니다. 게시용 WebP 파일은 `docs/assets/lesson/`에 있습니다.
 
@@ -178,3 +201,13 @@ A wide landscape 16:9 professional educational editorial illustration for an adu
 ```
 
 </details>
+
+## ComfyUI 인페인팅 사례
+
+공식 [인페인팅 예제](https://comfyanonymous.github.io/ComfyUI_examples/inpaint/)의 고양이 예제와 [ComfyUI 기술 문서](https://docs.comfy.org/tutorials/basic/inpaint)를 2026년 11월 25일 확인했다. 입력 PNG의 알파 채널에서 투명 영역을 마스크로 읽고, 출력 PNG의 `workflow`와 `prompt`에서 사용한 연결과 설정을 직접 확인했다.
+
+| 자료 | 원본과 확인 내용 |
+| --- | --- |
+| 공식 입력과 결과 | [입력 PNG](https://raw.githubusercontent.com/comfyanonymous/ComfyUI_examples/f9431bb000ce792094ff345446e22cac1ea6cef3/inpaint/yosemite_inpaint_example.png) 1024×769 RGBA, 완전히 투명한 픽셀 86,803개. [결과 PNG](https://raw.githubusercontent.com/comfyanonymous/ComfyUI_examples/f9431bb000ce792094ff345446e22cac1ea6cef3/inpaint/inpain_model_cat.png) 1024×768 RGB, 산 앞에 메인쿤 고양이가 생긴 예시. 결과 PNG의 SHA-256은 `2194fe1be03106091dbe6cc9b8b1cb6018b2938b6576c3a68bfa01b488106d70`이다. 교재는 고정 커밋의 원격 원본을 표시한다. |
+| [워크플로우](docs/assets/projects/comfy-inpaint-workflow.json) | 공식 결과 PNG에서 추출한 JSON, 노드 8개, 연결 12개. 원본 파일의 `workflow` 객체와 동일한 내용으로 들여쓰기만 정리했다. [예제 저장소의 워크플로우 이용 조건](https://github.com/comfyanonymous/ComfyUI_examples/blob/f9431bb000ce792094ff345446e22cac1ea6cef3/LICENSE)은 복제·수정·배포를 허용한다. [라이선스 사본](docs/assets/projects/LICENSE-comfy-workflows.txt)을 포함했다. |
+| [교재 연결도](docs/assets/projects/comfy-inpaint-map.svg) | 워크플로우에서 `LoadImage`의 IMAGE·MASK 두 출력이 `VAEEncodeForInpaint`에 닿는 연결, `KSampler`의 20단계, `VAEDecode`와 `SaveImage`로 이어지는 경로를 뽑아 자체 도식화했다. 원본 모델은 `512-inpainting-ema.safetensors`이다. 위의 두 사진은 재실행 캡처가 아닌 공식 제작자 출력이다. 요세미티 풍경의 별도 재배포 허락은 확인되지 않아 교재 저장소에 사진 사본을 포함하지 않았다. |

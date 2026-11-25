@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="292" viewBox="0 0 760 292" role="img" aria-labelledby="title desc">
+  <title id="title">ComfyUI 인페인팅 예제의 실제 연결 일부</title>
+  <desc id="desc">LoadImage는 원본 픽셀과 마스크를 서로 다른 선으로 VAEEncodeForInpaint에 전달한다. 여기서 만든 잠재 표현과 글 조건이 KSampler에서 합쳐진다. 20단계 후 VAEDecode가 이미지를 복원하고 SaveImage가 PNG를 저장한다.</desc>
+  <defs>
+    <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#345061"/></pattern>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="5.4" refY="3.5" orient="auto"><path d="M1 1l4 2.5L1 6" fill="none" stroke="#a9bdce" stroke-width="1.2"/></marker>
+  </defs>
+  <style>
+    text{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;fill:#e9f0ee}
+    .name{font-size:21px;font-weight:700}.meta{font:14px Consolas,monospace;fill:#bbd1da}.wire{fill:none;stroke-width:3}.port{stroke:#152a39;stroke-width:2}
+  </style>
+  <rect width="760" height="292" fill="#192d3c"/><rect width="760" height="292" fill="url(#dots)"/>
+  <text x="22" y="31" fill="#cce3df" font-size="17" font-weight="700">공식 PNG의 워크플로우 · 핵심 연결</text>
+  <g class="wire">
+    <path d="M178 99C214 99 217 94 248 94" stroke="#a3c9fa"/>
+    <path d="M178 151C214 151 217 140 248 140" stroke="#85dbad"/>
+    <path d="M447 118C481 118 487 112 515 112" stroke="#f4bd72"/>
+    <path d="M470 56H561Q571 56 571 66V76" stroke="#c9a6e3"/>
+    <path d="M695 115Q730 115 730 148V203Q730 220 710 220H688" stroke="#f4bd72" marker-end="url(#arrow)"/>
+    <path d="M500 221H412" stroke="#a3c9fa" marker-end="url(#arrow)"/>
+  </g>
+  <g>
+    <rect x="22" y="75" width="155" height="99" rx="6" fill="#203e4e" stroke="#718a94"/>
+    <text class="name" x="36" y="105">이미지 읽기</text><text class="meta" x="36" y="130">LoadImage</text>
+    <text x="36" y="157" font-size="15" fill="#85dbad">픽셀 + 마스크</text>
+    <circle class="port" cx="178" cy="99" r="5" fill="#a3c9fa"/><circle class="port" cx="178" cy="151" r="5" fill="#85dbad"/>
+    <rect x="249" y="75" width="198" height="99" rx="6" fill="#203e4e" stroke="#718a94"/>
+    <text class="name" x="263" y="106">수정 영역 인코딩</text><text class="meta" x="263" y="131">VAEEncodeForInpaint</text>
+    <text x="263" y="157" font-size="15" fill="#f4bd72">모델이 쓸 수치로 변환</text>
+    <circle class="port" cx="248" cy="94" r="5" fill="#a3c9fa"/><circle class="port" cx="248" cy="140" r="5" fill="#85dbad"/>
+    <circle class="port" cx="447" cy="118" r="5" fill="#f4bd72"/>
+    <rect x="516" y="76" width="179" height="98" rx="6" fill="#384552" stroke="#dcb781"/>
+    <text class="name" x="531" y="106">20단계 생성</text><text class="meta" x="531" y="131">KSampler</text>
+    <text x="531" y="157" font-size="15" fill="#f4bd72">조건에 맞춰 세부 묘사</text>
+    <circle class="port" cx="515" cy="112" r="5" fill="#f4bd72"/><circle class="port" cx="571" cy="76" r="5" fill="#c9a6e3"/>
+    <circle class="port" cx="695" cy="115" r="5" fill="#f4bd72"/>
+    <text x="357" y="61" font-size="15" fill="#dbc3ed">메인쿤 고양이</text>
+    <rect x="500" y="196" width="186" height="51" rx="5" fill="#203e4e" stroke="#718a94"/>
+    <text x="513" y="217" font-size="16" font-weight="700">이미지로 복원</text><text x="513" y="237" class="meta">VAEDecode</text>
+    <rect x="249" y="196" width="159" height="51" rx="5" fill="#203e4e" stroke="#718a94"/>
+    <text x="263" y="217" font-size="16" font-weight="700">PNG 저장</text><text x="263" y="237" class="meta">SaveImage</text>
+  </g>
+  <circle cx="31" cy="271" r="4" fill="#a3c9fa"/><text x="42" y="276" font-size="14">이미지</text>
+  <circle cx="112" cy="271" r="4" fill="#85dbad"/><text x="123" y="276" font-size="14">수정 영역</text>
+  <circle cx="221" cy="271" r="4" fill="#f4bd72"/><text x="232" y="276" font-size="14">모델 안의 표현</text>
+  <circle cx="363" cy="271" r="4" fill="#c9a6e3"/><text x="374" y="276" font-size="14">글 조건</text>
+</svg>

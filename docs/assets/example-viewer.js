@@ -1,15 +1,16 @@
 (() => {
-  const artworkLink = document.querySelector("[data-original-artwork]");
-  if (artworkLink) {
-    const original = new Image();
-    original.addEventListener("load", () => {
-      const preview = artworkLink.querySelector("img");
-      preview.src = original.src;
-      preview.width = original.naturalWidth;
-      preview.height = original.naturalHeight;
-      artworkLink.href = original.src;
-    }, {once: true});
-    original.src = artworkLink.dataset.originalArtwork;
+  const artworkLink = document.querySelector(".proof-spine-art");
+  for (const figure of document.querySelectorAll("[data-remote-figure]")) {
+    const group = figure.querySelector("[data-remote-images]");
+    const note = figure.querySelector("[data-image-note]");
+    function showOfflineFigure() {
+      group.hidden = true;
+      note.hidden = false;
+    }
+    for (const thumbnail of group.querySelectorAll("img")) {
+      thumbnail.addEventListener("error", showOfflineFigure, {once: true});
+      if (thumbnail.complete && !thumbnail.naturalWidth) showOfflineFigure();
+    }
   }
 
   if (typeof HTMLDialogElement === "undefined" || !HTMLDialogElement.prototype.showModal) return;

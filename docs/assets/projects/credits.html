@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>프로젝트 사례 출처 · HUG 실무 AI 교육</title>
+  <link rel="stylesheet" href="../site.css">
+  <style>
+    body{background:#faf8f2;color:#1b2b3f;font-family:system-ui,sans-serif}main{width:min(100% - 40px,780px);margin:3rem auto 6rem}header,section{margin-bottom:2.2rem}section{border-top:1px solid #cbcfc9;padding:1.2rem 0 0}h1,h2{line-height:1.2;letter-spacing:-.045em}p{line-height:1.75;word-break:keep-all;overflow-wrap:anywhere}a{color:#2346a0;text-underline-offset:.2em}code{font-size:1em}small{color:#48576a}
+  </style>
+</head>
+<body><main>
+  <header><a href="../../index.html#project-atlas">강의 본문으로 돌아가기</a><h1>프로젝트 사례의 그림과 실행 기록</h1><p>스타 수는 2026년 11월 25일 GitHub REST API에서 확인했습니다. 앞의 세 저장소는 12:37 UTC, ComfyUI는 12:40 UTC 기준입니다.</p></header>
+  <section id="research"><h2>scikit-learn · 생태지도</h2>
+    <p><strong>지도</strong>는 scikit-learn 1.9.1 공식 예제 “Species distribution modeling”의 결과 그림을 그대로 실었습니다. 데이터는 Phillips, Anderson, Schapire(2006)에서 제공한 두 포유류의 분포 자료입니다. 공식 예제는 관찰 자료로 OneClassSVM을 학습했습니다. 그림 © The scikit-learn developers, BSD 3-Clause. <a href="https://scikit-learn.org/1.9/auto_examples/applications/plot_species_distribution_modeling.html">공식 예제</a> · <a href="https://github.com/scikit-learn/scikit-learn/blob/866c0f51e7560ef0303cbcc5f159df5382ea9e3f/examples/applications/plot_species_distribution_modeling.py">예제 원본 코드</a> · <a href="COPYING-scikit-learn.txt">라이선스 전문</a></p>
+    <p><strong>관찰 대상 사진</strong>은 Melissa McMasters(cricketsblog)의 “Brown-throated three-toed sloth”입니다. 2022년 코스타리카 라셀바 생물학 연구소에서 촬영한 같은 종의 사진입니다. 강의 페이지에서 원본을 축소하고 WebP로 변환했으며 화면 폭에 따라 가장자리를 잘라 표시합니다. <a href="https://www.flickr.com/photos/132545975@N04/51850313103/">사진가의 원본</a> · <a href="https://commons.wikimedia.org/wiki/File:Brown-throated_three-toed_sloth.jpg">작품 정보</a> · <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></p>
+    <p><small>조회 시각의 스타 68,325개. <a href="https://api.github.com/repos/scikit-learn/scikit-learn">GitHub 저장소 정보</a></small></p><a href="../../index.html#project-atlas">생태지도 사례로 돌아가기</a>
+  </section>
+  <section id="audio"><h2>whisper.cpp · 공식 웹 데모 실행</h2>
+    <p>2026년 11월 25일에 공식 웹 데모 빌드 <code>c8cbc3ed</code>에서 저장소의 <code>samples/jfk.wav</code>와 영어용 양자화 모델 <code>ggml-tiny.en-q5_1.bin</code>을 불러와 전사를 실행했습니다. 16 kHz 모노, 176,000개 샘플의 11초 녹음입니다. 출력된 첫 구간은 0–7.740초, 다음 구간은 7.740–10.580초였습니다. <a href="https://ggml.ai/whisper.cpp/">공식 브라우저 데모</a> · <a href="whisper-live-full.png">실행 직후 전체 화면</a> · <a href="https://huggingface.co/ggerganov/whisper.cpp/blob/main/ggml-tiny.en-q5_1.bin">사용한 모델</a></p>
+    <p>연설자는 존 F. 케네디입니다. 본문의 원음은 공식 저장소에서 배포한 1961년 미국 대통령 취임 연설 발췌입니다. 파형은 이 파일의 실제 진폭을 그렸고, 출력 이미지는 전체 화면의 전사 부분을 잘랐습니다. 브라우저 데모 소프트웨어 © The ggml authors, MIT. <a href="https://github.com/ggml-org/whisper.cpp/tree/c8cbc3eda7afdbc4bda5381a544350a5272a9ecd/samples">샘플 원본</a> · <a href="https://www.archives.gov/milestone-documents/president-john-f-kennedys-inaugural-address">미국 국립문서기록관리청 연설 기록</a> · <a href="LICENSE-whisper-cpp.txt">라이선스 전문</a></p>
+    <p><small>조회 시각의 스타 55,509개. <a href="https://api.github.com/repos/ggml-org/whisper.cpp">GitHub 저장소 정보</a></small></p><a href="../../index.html#atlas-case-audio">음성 전사 사례로 돌아가기</a>
+  </section>
+  <section id="archive"><h2>Paperless-ngx · 공식 검색 화면</h2>
+    <p>개발팀이 공개한 <code>docs/assets/screenshots/search-preview.png</code>를 원본 그대로 실었습니다. 화면의 자료와 입력어는 공식 예제에 들어 있는 내용입니다. 강의용 공연 기록실은 이 구조를 응용한 설계 아이디어입니다. 이미지와 프로젝트 문서 출처는 Paperless-ngx contributors, 저장소 배포 라이선스는 GPL-3.0입니다. <a href="https://github.com/paperless-ngx/paperless-ngx/blob/faa6f09f289bad52fe8dce9d97ab9e121ae37e6b/docs/assets/screenshots/search-preview.png">원본 화면</a> · <a href="https://github.com/paperless-ngx/paperless-ngx/blob/faa6f09f289bad52fe8dce9d97ab9e121ae37e6b/docs/usage.md">프로그램 처리 과정</a> · <a href="LICENSE-paperless-ngx.txt">라이선스 전문</a></p>
+    <p><small>조회 시각의 스타 48,605개. <a href="https://api.github.com/repos/paperless-ngx/paperless-ngx">GitHub 저장소 정보</a></small></p><a href="../../index.html#atlas-case-archive">자료 검색 사례로 돌아가기</a>
+  </section>
+  <section id="image"><h2>ComfyUI · 사진의 일부 다시 그리기</h2>
+    <p>입력과 결과 사진은 제작자가 공개한 판본을 원본 저장소에서 표시합니다. 본문의 연결도는 출력 PNG에 담긴 8개 노드와 12개 연결을 직접 읽고 이미지·마스크의 경로를 골라 그렸습니다. <a href="https://comfyanonymous.github.io/ComfyUI_examples/inpaint/">공식 인페인팅 예제</a> · <a href="https://github.com/comfyanonymous/ComfyUI_examples/tree/f9431bb000ce792094ff345446e22cac1ea6cef3/inpaint">사용한 판본</a> · <a href="LICENSE-comfy-workflows.txt">워크플로우 이용 조건</a></p>
+    <p><small>조회 시각의 스타 148,554개. <a href="https://api.github.com/repos/Comfy-Org/ComfyUI">GitHub 저장소 정보</a></small></p><a href="../../index.html#atlas-case-image">이미지 제작 사례로 돌아가기</a>
+  </section>
+</main></body>
+</html>

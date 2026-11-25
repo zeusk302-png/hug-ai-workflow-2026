@@ -9,26 +9,44 @@
   <link rel="stylesheet" href="assets/example-figures.css">
   <link rel="stylesheet" href="assets/principles.css">
   <script src="assets/example-viewer.js" defer></script>
+  <link rel="stylesheet" href="assets/guide-spread.css">
+  <link rel="stylesheet" href="assets/course-rail.css">
+  <script src="assets/course-rail.js" defer></script>
 </head>
-<body class="guide-page">
+<body class="has-course-rail guide-page guide-spread">
   <a class="skip" href="#main">본문으로</a>
-  <header class="top">
-    <div class="wrap">
-      <a class="brand" href="index.html"><img src="assets/brand/hug-logo.png" alt="HUG 주택도시보증공사" width="209" height="32"><span><strong>실무 AI 교육</strong><small>4회차 교재</small></span></a>
-      <nav aria-label="수업 메뉴"><a href="index.html">수업</a><a href="index.html#practice">실습</a><a href="models.html">모델 받기</a></nav>
-    </div>
-  </header>
+  <header class="rail-mobile"><a class="rail-mobile-brand" href="index.html"><img src="assets/brand/hug-logo.png" width="209" height="32" alt="HUG 주택도시보증공사"><span>실무 AI 교육</span></a><button type="button" class="rail-toggle" id="rail-toggle" aria-controls="course-rail" aria-expanded="false"><i aria-hidden="true"></i>목차</button></header>
+  <aside class="course-rail" id="course-rail" aria-label="연결 실습 목차">
+    <div class="rail-mast"><a class="rail-brand" href="index.html"><img src="assets/brand/hug-logo.png" width="209" height="32" alt="HUG 주택도시보증공사"></a><span class="rail-course">실무 AI 교육 · 4회차</span><button type="button" class="rail-close" id="rail-close" aria-label="목차 닫기">×</button></div>
+    <nav class="rail-scroll" aria-label="연결 실습 목차">
+      <p class="rail-nav-label">연결 실습 목차</p>
+      <a href="#install">도구 설치</a>
+      <a href="#start">실습 파일 준비</a>
+      <a href="#claude">Claude Code 로그인</a>
+      <a href="#api">API로 원문 읽기</a>
+      <a href="#mcp">MCP 도구 연결</a>
+      <a href="#local-flow">CPU 모델 실행</a>
+      <a href="#local-rag">문서 검색과 RAG</a>
+      <a href="#apply-to-project">내 프로그램에 연결</a>
+      <p class="rail-nav-label">수업 자료</p>
+      <a href="index.html#setup">강의 본문</a>
+      <a href="models.html">CPU 모델 안내</a>
+    </nav>
+  </aside>
+  <div class="rail-scrim" aria-hidden="true"></div>
   <main id="main">
-    <header class="page-title"><div class="wrap">
-      <p class="kicker">4회차 · 연결 실습 실행 안내</p>
+    <header class="page-title"><div class="wrap guide-cover"><div class="guide-cover-copy">
+      <p class="kicker">연결 실습 · 로컬 참조 교재</p>
       <h1>내 도구 실행과 연결</h1>
       <p>‘접수 문서 3건, 검토 대기 5건’을 한 문장으로 정리하려면 원문과 작성 기준이 필요합니다. 내가 만든 프로그램이 두 자료를 가져와 문장 초안을 받아보는 과정을 따라갑니다.</p>
-      <nav class="jump" aria-label="실행과 연결 목차"><a href="#install">설치</a><a href="#start">작업 폴더</a><a href="#claude">Claude Code</a><a href="#api">HTTP API</a><a href="#mcp">MCP</a><a href="models.html#cpu">CPU 모델</a><a href="#local-rag">RAG</a><a href="#apply-to-project">내 도구에 붙이기</a></nav>
+    </div>
+      <figure class="guide-cover-figure"><img src="assets/principles/files.webp" width="1280" height="853" alt="큰 프로젝트 폴더의 작은 폴더와 실행 문서 가운데 손이 문서 한 장을 꺼내 작업대로 옮깁니다."><figcaption>내 PC의 실행기는 파일을 읽고 처리 결과를 새 파일에 씁니다.</figcaption></figure>
     </div></header>
 
     <section class="wrap section" id="install">
       <h2>수업 전에 Python과 Claude Code를 설치합니다</h2>
-      <p class="reading">Python은 <code>.py</code> 파일에 적힌 명령을 실행합니다. Claude Code는 내가 설명한 업무에 맞춰 그 파일을 작성하거나 수정하는 도구입니다. Windows 시작 메뉴에서 <strong>PowerShell</strong>을 열면 명령을 입력할 창이 나옵니다. 글자로 명령을 입력해 프로그램을 쓰는 방식을 <strong>CLI</strong>라고 합니다.</p>
+      <div class="guide-column">
+      <p class="reading">Python은 <code>.py</code> 파일에 적힌 명령을 실행합니다. Claude Code는 내가 설명한 목적에 맞춰 파일을 작성하고, 프로그램 실행 중에도 지시와 자료를 받아 판단하거나 도구를 호출합니다. Windows 시작 메뉴에서 <strong>PowerShell</strong>을 열면 명령을 입력할 창이 나옵니다. 글자로 명령을 입력해 프로그램을 쓰는 방식을 <strong>CLI</strong>라고 합니다.</p>
       <p class="reading"><code>py -3.12 --version</code>과 <code>claude --version</code>으로 설치 여부를 확인합니다. 없는 도구는 Windows 패키지 설치 도구인 <code>winget</code>으로 설치합니다.</p>
       <pre class="reading"><code>winget --version
 winget install --id Python.Python.3.12 --exact --source winget
@@ -36,12 +54,14 @@ winget install --id Anthropic.ClaudeCode --exact --source winget</code></pre>
       <p class="reading">Git으로 변경 이력을 보거나 Claude Code에서 Git Bash가 필요하면 <code>winget install --id Git.Git --exact --source winget</code>으로 Git for Windows를 설치합니다. 그 뒤 PowerShell을 다시 열고 아래 결과에서 버전을 확인합니다.</p>
       <pre class="reading"><code>py -3.12 --version
 claude --version</code></pre>
-      <p class="reading">WinGet을 사용할 수 없다면 <a href="index.html#setup">교재의 실제 Python 설치 화면</a>을 따라 설치합니다. <a href="models.html#download">Windows CPU 실행기와 Qwen2.5 0.5B GGUF</a>도 수업 전에 받습니다.</p>
+      <p class="reading">WinGet을 사용할 수 없다면 <a href="index.html#setup-windows">교재의 실제 Python 설치 화면</a>을 따라 설치합니다. <a href="models.html#download">Windows CPU 실행기와 Qwen2.5 0.5B GGUF</a>도 수업 전에 받습니다. 대표 PC에서 로그인과 파일 저장까지 확인하는 순서는 <a href="index.html#setup">교실 PC 점검</a>에서 볼 수 있습니다.</p>
       <figure class="course-example"><a href="assets/captures/python-312-installer.png"><img src="assets/captures/python-312-installer.png" width="656" height="405" alt="검증 PC에서 실제 실행한 Windows용 Python 3.12 설치 화면. 이미 설치된 버전의 업데이트 메뉴가 보입니다." loading="lazy"></a><figcaption>Windows 설치 프로그램을 연 화면입니다. 이 PC에는 기존 버전이 있어 업데이트 메뉴가 보입니다. 설치가 끝나면 새 PowerShell에서 버전을 확인합니다.</figcaption></figure>
+      </div>
     </section>
 
     <section class="wrap section" id="start">
       <h2>연결 실습 파일과 내 입력을 준비합니다</h2>
+      <div class="guide-column">
       <div class="actions"><a class="btn primary" href="downloads/hug4-connections.zip" download>연결 실습 ZIP 받기</a></div>
       <ol class="lesson-steps reading" id="prepare">
         <li>ZIP을 풀어 <code>api_server.py</code>와 <code>input.txt</code>가 있는 <code>hug4-connections</code> 폴더를 엽니다. 탐색기 주소 표시줄에 <code>powershell</code>을 입력합니다.</li>
@@ -51,10 +71,12 @@ claude --version</code></pre>
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt</code></pre></li>
       </ol>
       <figure class="course-example"><a href="assets/captures/example-early-folder.png" target="_blank" rel="noopener"><img src="assets/captures/example-early-folder.png" width="858" height="364" alt="압축을 푼 hug4-connections에서 input.txt와 requirements.txt, evidence 안의 기준 문서 두 개를 확인하고 전용 Python을 실행한 Windows 화면." loading="lazy"></a><figcaption>실습 ZIP을 새 폴더에 풀고 전용 환경을 만든 화면입니다. <code>requirements.txt</code>와 <code>input.txt</code>가 함께 보이는 위치에서 작업합니다. 마지막 줄은 이 폴더의 Python 버전입니다.</figcaption></figure>
+      </div>
     </section>
 
     <div class="paper"><section class="wrap section" id="claude">
       <h2>Claude Code에 로그인하고 실제 응답을 확인합니다</h2>
+      <div class="guide-column">
       <figure class="principle-plate">
         <a href="assets/principles/account.webp" aria-label="로그인과 파일 수정은 서로 다른 확인을 거칩니다 그림 확대"><img src="assets/principles/account.webp" width="1320" height="676" loading="lazy" decoding="async" alt="왼쪽은 계정 카드를 확인하는 서비스이고, 오른쪽은 작업 폴더의 잠금 장치를 여는 손입니다."></a>
         <figcaption><small>AI 생성 원리 삽화</small> <strong>로그인과 파일 수정은 서로 다른 확인을 거칩니다</strong>
@@ -76,7 +98,7 @@ claude -p --output-format json --max-turns 2 -- "$taskPrompt"</code></pre>
           </li>
         </ol>
         <figure class="screenshot">
-          <a href="assets/captures/claude.png"><img src="assets/captures/claude.png" alt="Claude Code 버전과 미로그인 상태를 표시한 실제 명령 출력" loading="lazy"></a>
+          <a href="assets/captures/claude.png"><img width="1040" height="415" src="assets/captures/claude.png" alt="Claude Code 버전과 미로그인 상태를 표시한 실제 명령 출력" loading="lazy"></a>
           <figcaption>CLI 설치 여부와 계정 연결 상태를 출력에서 각각 확인합니다.</figcaption>
         </figure>
       </div>
@@ -88,10 +110,12 @@ claude -p --output-format json --max-turns 2 -- "$taskPrompt"</code></pre>
         <tr><td><code>--max-turns 2</code></td><td>한 요청에서 에이전트가 이어서 작업할 수 있는 턴 수를 제한합니다.</td></tr>
       </tbody></table></div>
       <p class="result-check reading">상태 검사에 연결이 표시돼도 실제 요청의 응답까지 확인합니다. 오류가 나오면 메시지와 종료 상태를 읽습니다.</p>
+      </div>
     </section></div>
 
     <section class="wrap section" id="api">
       <h2>API로 업무 원문을 요청합니다</h2>
+      <div class="guide-column">
       <p class="reading">평소에는 내가 파일을 열고 문장을 복사했습니다. 이번에는 내 프로그램이 다른 프로그램에 “현재 원문을 주세요”라고 요청합니다. <strong>어떤 기능을 어떻게 요청하면 어떤 결과를 받는지 정해 둔 약속</strong>을 API라고 합니다. 이 실습은 HTTP라는 통신 규칙으로 요청을 보냅니다.</p>
       <p class="reading">요청을 보내는 프로그램이 <strong>클라이언트</strong>, 요청을 기다렸다가 처리해 주는 프로그램이 <strong>서버</strong>입니다. 여기서는 둘 다 내 PC에서 실행합니다. 요청을 받을 프로그램을 첫 창에서 계속 켜 두고, 둘째 창에서 요청을 보냅니다.</p>
       <figure class="principle-plate">
@@ -109,10 +133,12 @@ claude -p --output-format json --max-turns 2 -- "$taskPrompt"</code></pre>
         <li><code>input.txt</code> 한 줄을 바꾼 뒤 다시 요청해 <code>text</code>가 바뀌는지 봅니다. 원문을 보관한 뒤 파일을 비우면 <code>HTTP 200</code>과 <code>status: empty</code>가 함께 나옵니다. 서버는 요청에 응답했고, 응답의 내용은 “파일이 비었습니다”입니다. 다음 단계 전에 원문을 복구합니다.</li>
       </ol>
       <figure class="course-example"><a href="assets/captures/example-api.png"><img src="assets/captures/example-api.png" width="1066" height="286" alt="입력 API가 반환한 JSON에 status ok와 접수 문서 3건, 검토 대기 5건, 반복된 접수 문서 3건이 들어 있습니다." loading="lazy"></a><figcaption>실제 <code>GET /input</code> 응답입니다. <code>status</code>에서 파일을 읽었는지 보고 <code>text</code>에서 내용을 확인합니다. 화면의 <code>\n</code>은 원래 파일의 줄바꿈입니다. 중복 줄도 이 단계까지는 그대로 들어옵니다.</figcaption></figure>
+      </div>
     </section>
 
     <div class="paper"><section class="wrap section" id="mcp">
       <h2>MCP로 검토 기준을 읽는 도구를 찾아 씁니다</h2>
+      <div class="guide-column">
       <p class="reading">이번에는 “항목 이름과 숫자를 그대로 적으세요”라는 검토 기준이 필요합니다. 이 기준을 찾아 읽는 기능을 Claude Code와 내 프로그램이 함께 쓰게 해보겠습니다. <strong>MCP(Model Context Protocol)</strong>는 프로그램들이 사용 가능한 도구의 이름과 사용법을 알아보고, 정해진 형식으로 도구 실행을 요청할 수 있게 해 주는 공통 규칙입니다.</p>
       <figure class="principle-plate">
         <a href="assets/principles/mcp.webp" aria-label="도구 목록에서 하는 일을 고르고 결과를 받습니다 그림 확대"><img src="assets/principles/mcp.webp" width="1280" height="853" loading="lazy" decoding="async" alt="도구 목록에서 책 모양을 고르면 같은 표식의 도구가 보관된 기준 문서에 연결됩니다."></a>
@@ -137,10 +163,12 @@ claude mcp add --transport stdio --scope local hug4-input -- "$mcpPython" "$mcpS
 claude mcp get hug4-input</code></pre>
       <p class="reading"><code>claude</code>를 열고 <code>/mcp</code>에서 연결 상태를 확인합니다. <code>read_input</code> 도구를 인수 없이 호출해 결과를 보여달라고 요청합니다. 입력 파일과 응답을 대조합니다. 등록을 해제할 때는 <code>claude mcp remove --scope local hug4-input</code>을 실행합니다.</p>
       <figure class="course-example"><a href="assets/captures/example-mcp.png"><img src="assets/captures/example-mcp.png" width="1222" height="442" alt="도구 목록에 이름 세 개가 있고, 아래에는 원문을 읽는 호출과 검토 기준을 읽는 호출의 서로 다른 응답이 보입니다." loading="lazy"></a><figcaption>실제 검사기 출력에서 도구 이름과 반환한 글만 추려 보았습니다. <code>tools/list</code> 아래에서 이름을 찾고, <code>tools/call read_review_rules</code> 아래에서 모델에 보낼 작성 기준을 읽습니다.</figcaption></figure>
+      </div>
     </section></div>
 
     <section class="wrap section" id="local-flow">
       <h2>CPU 모델에 같은 입력을 보내고 결과를 비교합니다</h2>
+      <div class="guide-column">
       <ol class="lesson-steps reading">
         <li><a href="models.html#start">CPU 모델 서버를 시작합니다.</a> API와 CPU 모델 서버 창을 열어둔 채 연결 실습 폴더에서 실행합니다.
           <pre><code>py -3.12 run_cpu.py</code></pre></li>
@@ -151,9 +179,11 @@ claude mcp get hug4-input</code></pre>
       </ol>
       <p class="reading"><a href="index.html#connection-check">전후 워크플로우 그림과 실제 결과 보기</a></p>
       <figure class="course-example"><a href="assets/captures/integration-before-after.png"><img src="assets/captures/integration-before-after.png" width="1560" height="897" alt="같은 업무 규칙을 파일 입력과 API 입력으로 실행한 전후 결과입니다." loading="lazy"></a><figcaption>두 실행 모두 업무 결과는 접수 문서 3건과 검토 대기 5건입니다. 연결 실행에 추가된 초안은 항목명과 기한을 원문과 대조해야 합니다.</figcaption></figure>
+      </div>
     </section>
     <div class="paper"><section class="wrap section" id="local-rag">
       <h2>질문에 맞는 문단을 찾아 같은 CPU 모델에 보냅니다</h2>
+      <div class="guide-column">
       <p class="reading">앞에서는 언제나 같은 검토 기준을 읽었습니다. 기준이 여러 파일에 나뉘어 있으면, 질문과 관련된 부분을 먼저 골라 이번 요청에 붙일 수 있습니다. 이렇게 찾아온 자료로 답을 쓰는 방식을 RAG(검색 증강 생성)라고 합니다. <a href="index.html#rag">질문을 바꿔 검색 결과 비교하기</a></p>
       <figure class="principle-plate">
         <a href="assets/principles/rag.webp" aria-label="질문과 함께 보낸 두 문단이 초안의 근거가 됩니다 그림 확대"><img src="assets/principles/rag.webp" width="1672" height="941" loading="lazy" decoding="async" alt="원문 가운데 청록색과 노란색 문단 두 개가 선택됩니다. 두 발췌문과 질문 카드가 모델에 함께 들어가고 오른쪽 초안에서 같은 색으로 출처를 추적합니다."></a>
@@ -169,9 +199,11 @@ Get-Content -LiteralPath .\output\rag.json -Encoding UTF8</code></pre></li>
       </ol>
       <p class="reading"><a href="index.html#rag-lab">다른 질문과 실제 실행 화면으로 대조하기</a></p>
       <figure class="course-example"><a href="assets/captures/rag-terminal.png"><img src="assets/captures/rag-terminal.png" width="949" height="338" alt="접수 문서를 찾은 실제 콘솔에서 2점과 1점인 문단이 모델로 전달되고 초안이 저장됩니다." loading="lazy"></a><figcaption>도구 이름 <code>search_evidence</code> 다음에 파일명·문단·일치 점수가 나옵니다. <code>output/rag.json</code>을 열어 모델이 받은 문단과 최종 초안을 대조합니다.</figcaption></figure>
+      </div>
     </section></div>
     <section class="wrap section" id="apply-to-project">
       <h2>앞에서 만든 내 프로그램에 붙입니다</h2>
+      <div class="guide-column">
       <p class="reading">서버는 켜 둔 채 <code>workflow_links.py</code>와 <code>local_http.py</code>를 내가 만든 실행 파일 옆으로 복사합니다. 실습 폴더의 <code>evidence/</code>에 내 작성 기준을 넣습니다. 내 프로그램에서 업무 값을 계산한 직후 문단 검색을 호출하고, 찾은 문단과 그 업무 값으로 초안을 작성해 함께 저장합니다.</p>
       <p class="reading"><a class="btn primary" href="index.html#integrate">내 파일 트리에서 연결할 위치 찾기</a></p>
       <figure class="principle-plate">
@@ -181,16 +213,17 @@ Get-Content -LiteralPath .\output\rag.json -Encoding UTF8</code></pre></li>
         </figcaption>
       </figure>
       <figure class="course-example"><a href="assets/captures/example-rag-transfer.png"><img src="assets/captures/example-rag-transfer.png" width="1248" height="545" alt="창구별 7건, 5건, 3건을 집계하는 개인 앱과 작성 기준을 둔 실습 폴더. 전체 15건 옆에 검색 근거가 함께 저장됩니다." loading="lazy"></a><figcaption>창구 집계 도구를 선택한 경우의 배치입니다. 왼쪽 폴더에서 연결 함수 파일 두 개를 오른쪽으로 복사하고, 작성 기준은 왼쪽 <code>evidence/</code>에 둡니다. 다른 주제를 고른 경우에도 같은 위치에서 검색을 연결합니다.</figcaption></figure>
+      </div>
     </section>
     <div class="wrap">
-      <details class="sources-drawer">
-        <summary>공식 문서와 설치 안내</summary>
+      <section class="guide-sources">
+        <h2>공식 문서와 설치 안내</h2>
         <ul>
           <li>설치 · <a href="https://www.python.org/downloads/windows/">Windows용 Python</a> · <a href="https://docs.python.org/3.12/library/venv.html">Python 전용 실행 환경</a> · <a href="https://git-scm.com/install/windows">Git for Windows</a></li>
           <li>Claude Code · <a href="https://code.claude.com/docs/en/setup">Windows 설치</a> · <a href="https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan">Team 계정 연결</a> · <a href="https://code.claude.com/docs/en/cli-reference">CLI 명령과 옵션</a></li>
           <li>프로그램 연결 · <a href="https://developer.mozilla.org/en-US/docs/Glossary/API">API의 뜻</a> · <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP의 구성과 도구 호출</a> · <a href="https://code.claude.com/docs/en/mcp">Claude Code의 MCP 연결</a></li>
         </ul>
-      </details>
+      </section>
     </div>
   </main>
   <footer class="bottom"><div class="wrap"><span>HUG 4회차 · 실무 AI 교육</span><a href="index.html">수업</a></div></footer>

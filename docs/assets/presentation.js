@@ -19,18 +19,20 @@ function goToSlide(index) {
 }
 
 function startDeck() {
-  const anchor = document.getElementById(window.location.hash.slice(1));
-  const anchorSlide = anchor?.closest("[data-slide]") || anchor?.querySelector("[data-slide]");
+  const readingLine = Math.min(120, window.innerHeight / 4);
+  const current = slides.findLastIndex(slide => slide.getBoundingClientRect().top <= readingLine);
   deckControls.hidden = false;
   document.body.classList.add("presenting");
-  goToSlide(anchorSlide ? slides.indexOf(anchorSlide) : 0);
+  goToSlide(current < 0 ? 0 : current);
   closeDeck.focus({ preventScroll: true });
 }
 
 function stopDeck() {
   deckControls.hidden = true;
   document.body.classList.remove("presenting");
-  openDeck.focus({ preventScroll: true });
+  const returnControl = openDeck.getClientRects().length && getComputedStyle(openDeck).visibility !== "hidden"
+    ? openDeck : document.getElementById("rail-toggle");
+  returnControl.focus({ preventScroll: true });
   slides[position].scrollIntoView({ behavior: "instant" });
 }
 
@@ -60,7 +62,6 @@ document.addEventListener("click", (event) => {
   const link = event.target.closest('a[href^="#"]');
   if (!link) return;
   const target = document.getElementById(link.hash.slice(1));
-  if (target instanceof HTMLDetailsElement) target.open = true;
   if (deckControls.hidden) return;
   const slide = target?.closest("[data-slide]");
   if (!slide) {
